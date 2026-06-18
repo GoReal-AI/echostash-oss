@@ -87,8 +87,17 @@ This is an early, in-progress build. Milestones:
 | **M5** | CI gate + GitHub App | 🔜 open |
 | **M6** | Docker images + seed + demo | 🔜 open |
 
-Want to contribute? **M2–M6 are wide open** — see [docs/ROADMAP.md](docs/ROADMAP.md) and
-[CONTRIBUTING.md](CONTRIBUTING.md).
+### Contributing — start here
+
+**M2–M6 are wide open** and sliced into issues you can pick up independently:
+
+- 🟢 [**Good first issues**](https://github.com/GoReal-AI/echostash-oss/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) — the easiest way in
+- 📋 [**All open issues**](https://github.com/GoReal-AI/echostash-oss/issues) · grouped by [**milestone**](https://github.com/GoReal-AI/echostash-oss/milestones)
+- 📖 [docs/ROADMAP.md](docs/ROADMAP.md) — each task with files-to-create + acceptance checks
+- 🛠️ [CONTRIBUTING.md](CONTRIBUTING.md) — setup, conventions, how to claim work
+
+Workflow: branch off `main`, open a PR (the template guides you), get CI green + one review.
+`main` is protected — no direct pushes.
 
 ## Quickstart (current state)
 
