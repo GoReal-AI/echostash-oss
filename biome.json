@@ -12,7 +12,8 @@
       "node_modules/**",
       "**/*.gen.ts",
       ".turbo/**",
-      "apps/server/src/db/migrations/**"
+      "apps/server/src/db/migrations/**",
+      "**/test/fixtures/**"
     ]
   },
   "organizeImports": {

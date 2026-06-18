@@ -1,6 +1,8 @@
 import cors from '@fastify/cors'
 import Fastify, { type FastifyInstance } from 'fastify'
 import type { Database, PgClient } from './db/client'
+import { ingestRoutes } from './modules/ingest/routes'
+import { promptRoutes } from './modules/prompts/routes'
 
 export interface AppDeps {
   db: Database
@@ -40,8 +42,9 @@ export async function buildApp({ db, sql }: AppDeps): Promise<FastifyInstance> {
     }
   })
 
-  // Milestone routes (M2+) register under /api here.
-  // app.register(promptsModule, { prefix: '/api' })
+  // M2 — awareness: scan ingestion + the prompt registry.
+  await app.register(ingestRoutes, { prefix: '/api' })
+  await app.register(promptRoutes, { prefix: '/api' })
 
   return app
 }
