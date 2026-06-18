@@ -19,7 +19,8 @@
   "dependencies": {
     "@echostash/analyzer": "workspace:*",
     "@echostash/runner": "workspace:*",
-    "@echostash/shared": "workspace:*"
+    "@echostash/shared": "workspace:*",
+    "typescript": "^5.7.2"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

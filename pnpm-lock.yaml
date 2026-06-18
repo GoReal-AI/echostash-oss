@@ -94,13 +94,16 @@ importers:
       '@echostash/shared':
         specifier: workspace:*
         version: link:../shared
-    devDependencies:
-      tsup:
-        specifier: ^8.3.5
-        version: 8.5.1(postcss@8.5.15)(tsx@4.22.4)(typescript@5.9.3)
       typescript:
         specifier: ^5.7.2
         version: 5.9.3
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.2
+        version: 22.19.21
+      tsup:
+        specifier: ^8.3.5
+        version: 8.5.1(postcss@8.5.15)(tsx@4.22.4)(typescript@5.9.3)
       vitest:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@22.19.21)
@@ -116,6 +119,9 @@ importers:
       '@echostash/shared':
         specifier: workspace:*
         version: link:../shared
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
     devDependencies:
       '@types/node':
         specifier: ^22.10.2
@@ -123,9 +129,6 @@ importers:
       tsup:
         specifier: ^8.3.5
         version: 8.5.1(postcss@8.5.15)(tsx@4.22.4)(typescript@5.9.3)
-      typescript:
-        specifier: ^5.7.2
-        version: 5.9.3
       vitest:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@22.19.21)

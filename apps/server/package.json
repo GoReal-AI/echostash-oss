@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
-    "build": "tsup && cp -r src/db/migrations dist/migrations",
+    "build": "tsup && mkdir -p dist/migrations && cp -r src/db/migrations/. dist/migrations/",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
     "db:generate": "drizzle-kit generate",
