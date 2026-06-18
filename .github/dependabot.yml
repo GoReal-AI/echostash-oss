@@ -1,10 +1,15 @@
 version: 2
+# Version-update PRs are PAUSED while we build out the foundation (M2+).
+# `open-pull-requests-limit: 0` keeps the config but stops Dependabot from
+# opening version-bump PRs. Security updates still flow (repo setting:
+# "Dependabot security updates" is enabled separately).
+# To resume routine updates later, raise the limits below (e.g. to 10).
 updates:
   - package-ecosystem: npm
     directory: "/"
     schedule:
       interval: weekly
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 0
     groups:
       dev-dependencies:
         dependency-type: development
@@ -12,3 +17,4 @@ updates:
     directory: "/"
     schedule:
       interval: weekly
+    open-pull-requests-limit: 0
