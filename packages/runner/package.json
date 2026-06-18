@@ -1,0 +1,24 @@
+{
+  "name": "@echostash/runner",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Stateless eval executor (data plane): provider layer + matrix execution + scorers. Runs as a worker, GitHub Action, or CLI command. (M3/M4/M5)",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@echostash/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "@echostash/cli",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Echostash CLI: scan | eval | ci | init.",
+  "bin": {
+    "echostash": "./src/cli.ts"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@echostash/analyzer": "workspace:*",
+    "@echostash/runner": "workspace:*",
+    "@echostash/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

@@ -1,0 +1,24 @@
+name: Feature request
+description: Propose a new capability or improvement
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+      description: What are you trying to do that's hard or impossible today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: false
+  - type: input
+    id: milestone
+    attributes:
+      label: Related milestone (if any)
+      placeholder: "e.g. M3 — runner + sandbox (see docs/ROADMAP.md)"
+    validations:
+      required: false

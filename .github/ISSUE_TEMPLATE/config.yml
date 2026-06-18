@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Roadmap & milestones
+    url: https://github.com/GoReal-AI/echostash-oss/blob/main/docs/ROADMAP.md
+    about: See what's planned and find a milestone to pick up.
+  - name: Architecture
+    url: https://github.com/GoReal-AI/echostash-oss/blob/main/docs/ARCHITECTURE.md
+    about: How Echostash works and why.

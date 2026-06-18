@@ -1,0 +1,28 @@
+{
+  "name": "echostash",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Agentless prompt change intelligence + eval. Watches the prompts in your codebase and lets you eval them with zero setup.",
+  "type": "module",
+  "packageManager": "pnpm@10.27.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "typecheck": "turbo run typecheck",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "test": "turbo run test",
+    "db:generate": "pnpm --filter @echostash/server db:generate",
+    "db:migrate": "pnpm --filter @echostash/server db:migrate",
+    "clean": "turbo run clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "@echostash/server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Echostash control plane: API + registry + datasets + eval results.",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "build": "tsup && cp -r src/db/migrations dist/migrations",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@echostash/shared": "workspace:*",
+    "@fastify/cors": "^10.0.1",
+    "@paralleldrive/cuid2": "^2.2.2",
+    "drizzle-orm": "^0.38.2",
+    "fastify": "^5.2.0",
+    "pino-pretty": "^13.0.0",
+    "postgres": "^3.4.5",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "drizzle-kit": "^0.30.1",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

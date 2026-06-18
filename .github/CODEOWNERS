@@ -1,0 +1,6 @@
+# Default owners for everything in the repo.
+# Update these as the team grows (use @GoReal-AI/<team> once teams exist).
+*       @YoadElkayam
+
+/packages/shared/   @YoadElkayam
+/apps/server/       @YoadElkayam

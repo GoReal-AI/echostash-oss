@@ -1,0 +1,35 @@
+# Local infrastructure for Echostash.
+# M1 ships Postgres + Redis; the server/web/runner images arrive in M6.
+# Run the server locally meanwhile: `pnpm --filter @echostash/server dev`.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: echostash
+      POSTGRES_PASSWORD: echostash
+      POSTGRES_DB: echostash
+    ports:
+      - "5432:5432"
+    volumes:
+      - echostash_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U echostash -d echostash"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - echostash_redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  echostash_pgdata:
+  echostash_redisdata:

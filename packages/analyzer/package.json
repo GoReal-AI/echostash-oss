@@ -1,0 +1,24 @@
+{
+  "name": "@echostash/analyzer",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Agentless static analyzer: detect LLM call sites and resolve prompt content/model/params from source. (M2)",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@echostash/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
