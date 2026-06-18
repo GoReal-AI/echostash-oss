@@ -71,7 +71,10 @@ the app:
 
 The **runner** is stateless and LLM-bound; it talks to the server only over HTTP. CI runs
 use *the project's own keys* from CI secrets, so one noisy project can't exhaust a shared
-quota. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design.
+quota.
+
+**📐 Want the full product picture — every screen + the v1 scope?** See
+[docs/PRODUCT.md](docs/PRODUCT.md). For architecture/design, [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Status
 

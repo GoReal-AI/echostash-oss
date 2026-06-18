@@ -19,11 +19,13 @@ describe('eval protocol', () => {
         },
       ],
       cases: [{ id: 'c_1', datasetId: 'd_1', name: 'case 1', expected: null }],
-      scorers: [{ id: 's_1', name: 'contains hi', type: 'deterministic' }],
+      scorers: [{ id: 's_1', name: 'contains hi', family: 'string', op: 'contains' }],
       allowedProviders: ['openai'],
     })
     expect(spec.sampleCount).toBe(1)
     expect(spec.variants[0]?.params).toEqual({})
+    expect(spec.scorers[0]?.weight).toBe(1)
+    expect(spec.scorers[0]?.target).toBe('response')
   })
 
   it('parses a result payload', () => {
