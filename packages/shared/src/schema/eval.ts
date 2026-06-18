@@ -2,34 +2,87 @@ import { z } from 'zod'
 import { Id, Provider, Timestamp } from './common'
 import { Message, ModelParams } from './prompt'
 
-/** Assertion operators a scorer can apply. */
+/** Every assertion operator, grouped by family. See docs/EVAL.md. */
 export const AssertionOp = z.enum([
+  // string / regex
   'contains',
   'not_contains',
   'equals',
   'matches',
+  'starts_with',
+  'ends_with',
   'length',
   'word_count',
+  // structural
   'json_valid',
   'json_schema',
-  'tool_called',
-  'tool_args',
-  'llm_judge',
+  'yaml_valid',
+  // operational
+  'latency',
+  'token_count',
+  'cost',
+  // llm-judge
+  'judge',
+  // deferred families (forward-compat; engines land per backlog)
   'similar_to',
   'sentiment',
+  'self_consistency',
+  'tool_called',
+  'tool_not_called',
+  'tool_call_count',
+  'tool_args',
+  'tool_call_order',
 ])
 export type AssertionOp = z.infer<typeof AssertionOp>
 
+export const ScorerFamily = z.enum([
+  'string',
+  'structural',
+  'operational',
+  'llm_judge',
+  // deferred
+  'similarity',
+  'sentiment',
+  'self_consistency',
+  'tool',
+])
+export type ScorerFamily = z.infer<typeof ScorerFamily>
+
+/** Coarse legacy type retained for the scorers DB column; aligns to family at M4. */
 export const ScorerType = z.enum(['deterministic', 'llm_judge', 'semantic', 'code', 'human'])
 export type ScorerType = z.infer<typeof ScorerType>
 
+export const ScorerTarget = z.enum(['response']) // later: 'tools' | 'render'
+export type ScorerTarget = z.infer<typeof ScorerTarget>
+
+/** A single check applied to an output. See docs/EVAL.md. */
 export const Scorer = z.object({
   id: Id,
   name: z.string(),
-  type: ScorerType,
+  family: ScorerFamily,
+  op: AssertionOp,
   config: z.record(z.unknown()).default({}),
+  target: ScorerTarget.default('response'),
+  weight: z.number().default(1),
+  /** pass cutoff for scored (0..1) scorers */
+  threshold: z.number().optional(),
+  /** invert pass/fail — e.g. "must NOT leak confidential info" */
+  negate: z.boolean().default(false),
 })
 export type Scorer = z.infer<typeof Scorer>
+
+export const ScorerStatus = z.enum(['pass', 'fail', 'error'])
+export type ScorerStatus = z.infer<typeof ScorerStatus>
+
+/** What the scoring engine returns for one scorer against one output. */
+export const ScorerResult = z.object({
+  scorerId: Id,
+  status: ScorerStatus,
+  /** 0..1; boolean scorers report 1 or 0 */
+  score: z.number(),
+  reason: z.string().optional(),
+})
+export type ScorerResult = z.infer<typeof ScorerResult>
 
 /** The shared atom: a (prompt content x model x params) combination. */
 export const Variant = z.object({
@@ -50,6 +103,9 @@ export const DatasetCase = z.object({
   datasetId: Id,
   name: z.string(),
   input: z.record(z.unknown()).default({}),
+  /** optional mocked conversation prepended before the model responds (test a turn in isolation) */
+  messages: z.array(Message).optional(),
+  /** gold output for judge / similarity scorers */
   expected: z.unknown().nullable(),
   source: z.enum(['manual', 'import']).default('manual'),
   position: z.number().int().default(0),

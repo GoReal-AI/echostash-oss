@@ -12,6 +12,7 @@
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
+    "@echostash/scoring": "workspace:*",
     "@echostash/shared": "workspace:*",
     "@tanstack/react-query": "^5.62.7",
     "react": "^18.3.1",

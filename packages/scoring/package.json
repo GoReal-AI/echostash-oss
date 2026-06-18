@@ -1,0 +1,26 @@
+{
+  "name": "@echostash/scoring",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The scorer engine: deterministic (string/structural/operational) + LLM-judge. Pure & isomorphic — used by the runner and previewed in the web.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@echostash/shared": "workspace:*",
+    "ajv": "^8.17.1",
+    "yaml": "^2.6.1"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
