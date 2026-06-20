@@ -1,12 +1,9 @@
 {
-  "name": "@echostash/cli",
+  "name": "@echostash/discovery",
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Echostash CLI: scan | eval | ci | init.",
-  "bin": {
-    "echostash": "./src/cli.ts"
-  },
+  "description": "Agentic, language-agnostic prompt discovery. The model analyzes the project and drives read-only tools (tree/grep/read) to locate prompts; we extract the verbatim text from disk.",
   "exports": {
     ".": "./src/index.ts"
   },
@@ -17,18 +14,9 @@
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "^1.2.12",
-    "@ai-sdk/google": "^1.2.19",
-    "@ai-sdk/google-vertex": "^2.2.24",
-    "@ai-sdk/openai": "^1.3.23",
-    "@echostash/analyzer": "workspace:*",
-    "@echostash/discovery": "workspace:*",
     "@echostash/llm": "workspace:*",
-    "@echostash/runner": "workspace:*",
-    "@echostash/scan": "workspace:*",
     "@echostash/shared": "workspace:*",
     "ai": "^4.3.19",
-    "typescript": "^5.7.2",
     "zod": "^3.24.1"
   },
   "devDependencies": {

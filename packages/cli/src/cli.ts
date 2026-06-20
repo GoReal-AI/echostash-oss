@@ -17,6 +17,7 @@ function printHelp(): void {
     '  --scan-model <p:m>  classifier model for gray-zone strings (env ECHOSTASH_SCAN_MODEL)',
   )
   console.log('  --no-llm         deterministic only (definite-tier prompts; no model calls)')
+  console.log('  --agent          language-agnostic agentic scan (the model explores via tools)')
   console.log('  --track          diff against the stored manifest (.echostash/) and print changes')
   console.log('  --dry-run        analyze and print; do not post')
 }
