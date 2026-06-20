@@ -26,6 +26,8 @@ export interface DiscoverOptions {
   spec?: string
   role?: ModelRole
   maxSteps?: number
+  /** If set, examine only these files (incremental re-scan of what changed). */
+  scopeFiles?: string[]
 }
 
 export async function discover(
@@ -34,11 +36,15 @@ export async function discover(
   const found: PromptLocation[] = []
   const tools = makeTools(opts.root, found)
 
+  const task = opts.scopeFiles?.length
+    ? `Only these files changed since the last scan — examine ONLY them (read each) and report any prompts they contain:\n${opts.scopeFiles.map((f) => `- ${f}`).join('\n')}`
+    : 'Start by inspecting the structure, then find the prompts.'
+
   const result = await runAgent({
     role: opts.role ?? 'scan',
     spec: opts.spec,
     system: OBJECTIVE,
-    prompt: `Repository root: ${opts.root}\nStart by inspecting the structure, then find the prompts.`,
+    prompt: `Repository root: ${opts.root}\n${task}`,
     tools,
     maxSteps: opts.maxSteps ?? 30,
   })

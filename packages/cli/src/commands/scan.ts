@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process'
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { basename, join, relative, resolve } from 'node:path'
 import { DEFAULT_EXCLUDE, extractFile, listSourceFiles, scanReport } from '@echostash/analyzer'
 import { discover, extractLocations } from '@echostash/discovery'
@@ -143,6 +143,106 @@ function git(args: string[], cwd: string): string | null {
   }
 }
 
+const gitLines = (args: string[], cwd: string): string[] =>
+  (git(args, cwd) ?? '').split('\n').filter(Boolean)
+
+function fileEntryFrom(root: string, relPath: string, prompts: DiscoveredPrompt[]): FileEntry {
+  let fileHash = ''
+  try {
+    fileHash = sha256(readFileSync(join(root, relPath)))
+  } catch {
+    // unreadable
+  }
+  return {
+    relPath,
+    fileHash,
+    prompts: prompts.map((p) => ({
+      name: p.name,
+      promptHash: promptHashOf(p),
+      line: p.line,
+      model: p.model,
+    })),
+  }
+}
+
+/**
+ * Agentic discovery + change-tracking. Incremental on a git repo: only files changed since the
+ * last scan are sent to the agent; the rest carry forward from the manifest.
+ */
+async function runAgentTrack(
+  root: string,
+  source: string,
+  spec: string | undefined,
+): Promise<void> {
+  const store = new LocalStore(join(root, '.echostash'))
+  const prev = await store.load(source)
+  const headSha = git(['rev-parse', 'HEAD'], root)
+
+  let scope: string[] | undefined
+  if (prev?.gitSha && headSha) {
+    const changed = new Set<string>(
+      [
+        ...gitLines(['diff', '--name-only', prev.gitSha, headSha], root),
+        ...gitLines(['ls-files', '--others', '--exclude-standard'], root),
+      ].filter((f) => !f.startsWith('.echostash/')), // our own manifest must not trigger a re-scan
+    )
+    if (changed.size === 0) {
+      console.log(`\nNo changes since ${prev.gitSha.slice(0, 8)} — nothing to re-scan.`)
+      await recordChangeset(
+        store,
+        source,
+        prev,
+        { ...prev, gitSha: headSha },
+        Object.keys(prev.files).length,
+      )
+      return
+    }
+    scope = [...changed].filter((f) => existsSync(join(root, f)))
+  }
+
+  console.log(
+    `Agentic scan of ${root} with ${spec ?? process.env.ECHOSTASH_SCAN_MODEL}` +
+      `${scope ? ` (incremental: ${scope.length} changed file(s))` : ''}…`,
+  )
+  const { locations, steps } = await discover({ root, spec, scopeFiles: scope })
+  const fresh = extractLocations(root, locations)
+  console.log(`  agent: ${steps} step(s), ${locations.length} location(s) reported`)
+
+  const freshByFile = new Map<string, DiscoveredPrompt[]>()
+  for (const p of fresh) {
+    const list = freshByFile.get(p.filePath) ?? []
+    list.push(p)
+    freshByFile.set(p.filePath, list)
+  }
+
+  let files: Record<string, FileEntry>
+  if (scope) {
+    files = { ...(prev?.files ?? {}) }
+    for (const f of scope) {
+      const ps = freshByFile.get(f)
+      if (ps?.length) files[f] = fileEntryFrom(root, f, ps)
+      else delete files[f] // changed file no longer holds a prompt
+    }
+    for (const f of gitLines(
+      ['diff', '--name-only', '--diff-filter=D', prev?.gitSha ?? '', headSha ?? ''],
+      root,
+    )) {
+      delete files[f] // deleted on disk
+    }
+  } else {
+    files = {}
+    for (const [f, ps] of freshByFile) files[f] = fileEntryFrom(root, f, ps)
+  }
+
+  const manifest: Manifest = { source, gitSha: headSha, files }
+  const skipped = scope
+    ? Object.keys(prev?.files ?? {}).filter((f) => !scope?.includes(f)).length
+    : 0
+  const total = Object.values(files).reduce((n, fe) => n + fe.prompts.length, 0)
+  console.log(`\n${total} prompt(s) tracked.`)
+  await recordChangeset(store, source, prev, manifest, skipped)
+}
+
 export async function runScan(argv: string[]): Promise<number> {
   const flags = parseFlags(argv)
   const root = resolve(flags.positional[0] ?? '.')
@@ -153,12 +253,18 @@ export async function runScan(argv: string[]): Promise<number> {
   const useLlm = !flags.noLlm && Boolean(modelConfigured)
   const classifier = useLlm ? makeClassifier(flags.scanModel) : undefined
 
+  if (flags.agent && !modelConfigured) {
+    console.error('--agent needs a scan model (--scan-model or ECHOSTASH_SCAN_MODEL).')
+    return 1
+  }
+  // The complete flow: agentic discovery + incremental change-tracking.
+  if (flags.agent && flags.track) {
+    await runAgentTrack(root, flags.source ?? basename(root), flags.scanModel)
+    return 0
+  }
+
   let prompts: DiscoveredPrompt[]
   if (flags.agent) {
-    if (!modelConfigured) {
-      console.error('--agent needs a scan model (--scan-model or ECHOSTASH_SCAN_MODEL).')
-      return 1
-    }
     console.log(`Agentic scan of ${root} with ${modelConfigured}…`)
     const { locations, steps } = await discover({ root, spec: flags.scanModel })
     prompts = extractLocations(root, locations)

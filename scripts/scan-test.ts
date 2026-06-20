@@ -1,16 +1,16 @@
 /**
- * Manual scan harness — point the FULL analyzer pipeline at any project on disk.
+ * Manual scan harness — run the full scan + change-tracking against any project on disk.
  *
- *   1. cp scan-test.example scan-test.local   (scan-test.local is gitignored)
- *   2. edit scan-test.local: set PROJECT_PATH, and ECHOSTASH_SCAN_MODEL (+ creds) for the LLM phase
- *   3. pnpm scan:test
+ *   1. cp scan-test.example scan-test.local      (scan-test.local is gitignored)
+ *   2. edit scan-test.local: set PROJECT_PATH, and ECHOSTASH_SCAN_MODEL (+ creds) for the agent
+ *   3. pnpm scan:test          (re-run after edits — it only re-scans what changed)
  *
- * Deterministic-only run: leave ECHOSTASH_SCAN_MODEL empty (or set NO_LLM=1).
+ * With a model set it runs the agentic, language-agnostic scan; without one (or NO_LLM=1) it
+ * runs the deterministic scan. Either way it tracks changes in <project>/.echostash/.
  */
 import { existsSync, readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
-import { scanReport } from '@echostash/analyzer'
-import { makeClassifier } from '@echostash/cli'
+import { basename, resolve } from 'node:path'
+import { runScan } from '@echostash/cli'
 
 /** Load a KEY=VALUE file into process.env (does not override already-set vars). */
 function loadEnvFile(path: string): boolean {
@@ -34,42 +34,26 @@ async function main(): Promise<void> {
   const envFile = process.argv[2] ?? 'scan-test.local'
   const loaded = loadEnvFile(resolve(envFile))
 
-  const projectPath = process.env.PROJECT_PATH
-  if (!projectPath) {
+  const project = process.env.PROJECT_PATH
+  if (!project) {
     const where = loaded ? `(read ${envFile})` : `(no ${envFile} found)`
     console.error(
-      `No PROJECT_PATH set. ${where}\nCopy scan-test.example to scan-test.local and set PROJECT_PATH.`,
+      `No PROJECT_PATH set ${where}.\nCopy scan-test.example to scan-test.local and set PROJECT_PATH.`,
     )
     process.exit(1)
   }
 
-  const root = resolve(projectPath)
-  const model = process.env.ECHOSTASH_SCAN_MODEL
-  const useLlm = !process.env.NO_LLM && Boolean(model)
-  const classifier = useLlm ? makeClassifier() : undefined
-
-  console.log(`\nScanning ${root}`)
-  console.log(useLlm ? `LLM phase: ${model}` : 'LLM phase: off (deterministic only)')
-
-  const started = Date.now()
-  const report = await scanReport({ root, classifier })
-  const ms = Date.now() - started
-
-  const classified = useLlm ? ` → ${report.stats.classifiedIn} classified` : ''
-  console.log(
-    `\n${report.stats.files} files · ${report.stats.definite} definite · ${report.stats.candidates} gray candidate(s)${classified}  (${ms}ms)`,
-  )
-  if (report.libraries.length) console.log(`libraries: ${report.libraries.join(', ')}`)
-
-  console.log(`\nFound ${report.prompts.length} prompt(s):\n`)
-  for (const p of report.prompts) {
-    const modelLabel = p.model ? `${p.provider ?? '?'}/${p.model}` : 'no-model'
-    const text = p.messages[0]?.content
-    const preview = typeof text === 'string' ? text.replace(/\s+/g, ' ').slice(0, 120) : ''
-    console.log(`  • ${p.fingerprint}  [${modelLabel}] (${p.resolution})`)
-    if (preview) console.log(`      "${preview}${preview.length >= 120 ? '…' : ''}"`)
-  }
-  console.log('')
+  const root = resolve(project)
+  const useAgent = !process.env.NO_LLM && Boolean(process.env.ECHOSTASH_SCAN_MODEL)
+  const argv = [
+    root,
+    '--track',
+    '--dry-run',
+    '--source',
+    basename(root),
+    ...(useAgent ? ['--agent'] : ['--no-llm']),
+  ]
+  process.exit(await runScan(argv))
 }
 
 main().catch((err) => {

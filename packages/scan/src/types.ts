@@ -16,6 +16,8 @@ export interface FileEntry {
 /** The recorded state of a source after a scan. Keyed by relative path. */
 export interface Manifest {
   source: string
+  /** HEAD sha at scan time — lets the next scan diff with `git diff` and re-scan only changed files. */
+  gitSha?: string | null
   files: Record<string, FileEntry>
 }
 
