@@ -9,3 +9,7 @@ dist/
 coverage/
 *.tsbuildinfo
 scan-test.local
+
+# IDE
+.idea/
+.vscode/
