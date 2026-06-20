@@ -1,3 +1,5 @@
+export { makeClassifier } from './classifier'
+
 export const COMMANDS = ['init', 'scan', 'eval', 'ci'] as const
 export type Command = (typeof COMMANDS)[number]
 

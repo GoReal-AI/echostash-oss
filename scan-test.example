@@ -1,0 +1,19 @@
+# Scan-test harness config. Copy to `scan-test.local` (gitignored) and fill in.
+#   cp scan-test.example scan-test.local && pnpm scan:test
+
+# The project to scan (absolute path).
+PROJECT_PATH=/absolute/path/to/some/project
+
+# Model for the LLM gray-zone classifier, as "<provider>:<model>".
+# Leave empty (or set NO_LLM=1) for a fully-deterministic run (definite-tier only).
+ECHOSTASH_SCAN_MODEL=
+
+# Provider credentials (only what your chosen provider needs):
+# OPENAI_API_KEY=
+# ANTHROPIC_API_KEY=
+# GOOGLE_GENERATIVE_AI_API_KEY=
+# For vertex (uses gcloud Application Default Credentials):
+# GOOGLE_VERTEX_PROJECT=
+# GOOGLE_VERTEX_LOCATION=us-central1
+
+# NO_LLM=1   # force deterministic-only

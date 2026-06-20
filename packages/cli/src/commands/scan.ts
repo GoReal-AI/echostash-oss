@@ -1,9 +1,8 @@
 import { execFileSync } from 'node:child_process'
 import { basename, resolve } from 'node:path'
-import { type Classifier, type ClassifyItem, scanReport } from '@echostash/analyzer'
-import { generateStructured } from '@echostash/llm'
+import { scanReport } from '@echostash/analyzer'
 import type { ScanReport, ScanReportResult } from '@echostash/shared'
-import { z } from 'zod'
+import { makeClassifier } from '../classifier'
 
 interface Flags {
   positional: string[]
@@ -39,43 +38,6 @@ function git(args: string[], cwd: string): string | null {
     }).trim()
   } catch {
     return null
-  }
-}
-
-const CLASSIFY_SYSTEM =
-  'You are a precise code auditor. You decide whether each candidate string from a codebase is an ' +
-  'LLM prompt — text written to instruct or converse with a language model (system prompts, ' +
-  'instructions, rubrics, message/agent templates) — versus ordinary content (SQL, logs, UI copy, ' +
-  'errors, docs). Be conservative: when unsure, answer false.'
-
-const VerdictSchema = z.object({
-  results: z.array(z.object({ id: z.string(), isPrompt: z.boolean() })),
-})
-
-/** Build a classifier backed by the configured scan model. Batches; sends previews only. */
-function makeClassifier(spec: string | undefined): Classifier {
-  return async (items: ClassifyItem[]) => {
-    const out: { id: string; isPrompt: boolean }[] = []
-    const BATCH = 40
-    for (let i = 0; i < items.length; i += BATCH) {
-      const batch = items.slice(i, i + BATCH)
-      const lines = batch
-        .map(
-          (it) =>
-            `#${it.id} name=${it.name ?? '(none)'} loc=${it.filePath}:${it.line} len=${it.length}\n"""${it.preview}"""`,
-        )
-        .join('\n\n')
-      const prompt = `Classify each candidate. Return a verdict for every id.\n\n${lines}`
-      const { results } = await generateStructured({
-        spec,
-        role: 'scan',
-        system: CLASSIFY_SYSTEM,
-        prompt,
-        schema: VerdictSchema,
-      })
-      out.push(...results)
-    }
-    return out
   }
 }
 
