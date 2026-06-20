@@ -34,11 +34,16 @@ describe('discoverPrompts (usage-anchored, deterministic — no model)', () => {
     expect(p?.messages[0]?.content).toMatch(/code reviewer/)
   })
 
-  it('does not flag comments, tool-schema descriptions, log strings, or SQL', () => {
+  it('detects task instructions with no "you are" via multiple instructional cues', () => {
+    const p = byFingerprint.get('src/instructions.ts:REVIEW_GUIDE')
+    expect(p?.messages[0]?.content).toMatch(/Make sure to read the diff/)
+  })
+
+  it('does not flag comments, tool-schema descriptions, SQL, or a lone-"please" log string', () => {
     expect(prompts.some((p) => p.filePath.includes('noise'))).toBe(false)
   })
 
-  it('finds exactly the four real prompts and nothing else', () => {
-    expect(prompts).toHaveLength(4)
+  it('finds exactly the five real prompts and nothing else', () => {
+    expect(prompts).toHaveLength(5)
   })
 })

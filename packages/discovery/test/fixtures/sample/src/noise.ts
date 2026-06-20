@@ -9,4 +9,8 @@ export function logError(e: unknown) {
 }
 
 const sql = 'SELECT * FROM prompts WHERE project_id = ? ORDER BY created_at DESC'
+
+// A lone "please" in UI/log copy must NOT register as a prompt (one weak cue is not enough).
+export const retryMessage = 'Please try again later, or contact support if the problem persists.'
+
 export { sql }

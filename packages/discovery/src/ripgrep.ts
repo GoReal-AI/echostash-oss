@@ -26,14 +26,25 @@ const NONCODE_PROMPT_EXT = new Set([
   '.txt',
 ])
 
-/** Content + name signals that mark a string as addressed to an LLM (any language). */
+/**
+ * Content signals (ripgrep regexes) that mark a file/line worth inspecting — the instructional,
+ * second-person language you use when telling an LLM what to do. Broad on purpose: this only selects
+ * candidates; `hasStrongEvidence` below is the precision gate that decides what's actually a prompt.
+ */
 const CONTENT_SIGNALS = [
-  'you are (a|an|the|now|here|responsible|tasked)',
-  'your (role|task|job|goal|mission|purpose) (is|:)',
-  'you (must|should|always|never|will) ',
+  'you are',
+  "you're ",
+  'your (role|task|job|goal|mission|purpose)',
+  'you (must|should|always|never|will|can)',
+  'act as',
   'respond (with|only|in|using)',
   'reply (with|only|in)',
-  'act as (a|an|the)',
+  'make sure (to|that)',
+  'please ',
+  "(do not|don't) ",
+  'i want you to',
+  'step.by.step',
+  'follow (these|the)',
   '\\[#(role|system|tool|skill)',
   'system prompt',
 ]
@@ -49,12 +60,47 @@ const NAME_SIGNALS = [
 const isPromptName = (name: string): boolean =>
   /prompt|template|instruction|persona|rubric|system|preamble|directive/i.test(name)
 
-/** Strong textual evidence that a string is genuinely an LLM instruction (not just mentions one). */
-const hasStrongEvidence = (text: string): boolean =>
-  /\[#(role|system|tool|skill)\s/i.test(text) ||
-  /^\s*(you are|you're|act as|your (?:role|task|job|goal|mission)|you (?:must|should|always|never)|respond (?:with|only|in)|reply (?:with|only|in))/i.test(
-    text,
-  )
+/** A single cue that, on its own, marks a string as an LLM instruction — anchored at its start. */
+const STRONG_START =
+  /^\s*(you are\b|you're\b|act as\b|your (?:role|task|job|goal|mission|purpose)\b|you (?:must|should|always|never|will|can)\b|respond (?:with|only|in|using)\b|reply (?:with|only|in)\b|i want you to\b)/i
+
+/**
+ * Softer instructional phrases — the kind you use when explaining a task to someone. Any one alone is
+ * too common (a lone "please" appears in log/UI strings), so they only count in aggregate (2+).
+ */
+const INSTRUCTIONAL: RegExp[] = [
+  /\byou are\b/i,
+  /\byou're\b/i,
+  /\bact as\b/i,
+  /\byour (?:role|task|job|goal|mission|answer|response|output)\b/i,
+  /\byou (?:must|should|always|never|will|can|may)\b/i,
+  /\bmake sure (?:to|that)\b/i,
+  /\bplease\b/i,
+  /\b(?:do not|don't)\b/i,
+  /\bnever\b/i,
+  /\balways\b/i,
+  /\bensure (?:that|you)\b/i,
+  /\bavoid\b/i,
+  /\bfollow (?:these|the)\b/i,
+  /\bstep[ -]by[ -]step\b/i,
+  /\bthe following\b/i,
+  /\bbased on\b/i,
+  /\brespond\b/i,
+  /\breply\b/i,
+]
+
+/**
+ * Strong textual evidence that a string is genuinely an LLM instruction (not just mentions one):
+ * a structural role marker, a strong opening cue, or two-or-more softer instructional phrases.
+ */
+const hasStrongEvidence = (text: string): boolean => {
+  if (/\[#(role|system|tool|skill)\s/i.test(text) || STRONG_START.test(text)) return true
+  let hits = 0
+  for (const re of INSTRUCTIONAL) {
+    if (re.test(text) && ++hits >= 2) return true
+  }
+  return false
+}
 
 /** Looks like a code fragment / regex / log string the signal scan grabbed by accident, not a prompt. */
 const looksLikeCode = (text: string): boolean =>
