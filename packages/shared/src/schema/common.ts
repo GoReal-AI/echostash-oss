@@ -10,7 +10,7 @@ export const Provider = z.enum(['openai', 'anthropic', 'google', 'vertex', 'lite
 export type Provider = z.infer<typeof Provider>
 
 /**
- * How completely the analyzer could resolve a prompt's content from source.
+ * How completely the scanner could resolve a prompt's content from source.
  * - resolved: fully static (literal, or a literal followed through a binding/file)
  * - partial:  static skeleton with `{{holes}}` for runtime-interpolated parts
  * - dynamic:  the prompt is assembled at runtime and could not be reconstructed

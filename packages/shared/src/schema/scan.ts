@@ -3,7 +3,7 @@ import { Id, Provider, Resolution } from './common'
 import { ContentBlock, Message, ModelParams } from './prompt'
 
 /**
- * One prompt found at a call site by the analyzer. The server upserts these
+ * One prompt found at a call site by the scanner. The server upserts these
  * into prompts + prompt_snapshots, deriving content/config hashes.
  */
 export const DiscoveredPrompt = z.object({

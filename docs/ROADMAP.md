@@ -11,35 +11,32 @@ Each milestone lists concrete tasks; `🟢` = good first issue, `🟡` = medium,
 
 ---
 
-## M2 — Agentless analyzer + scan ingest + registry UI
+## M2 — Usage-anchored discovery + scan ingest + registry UI
 
 > The "magic": run a scan on a repo and watch its prompts (and their models/params) appear.
 
-**Package:** `packages/analyzer` (contract stubbed in `src/index.ts`), plus server + cli + web.
+**Package:** `packages/discovery`, plus server + cli + web.
 
 Tasks:
-- 🔴 **Call-site detection.** Parse TS/JS with the TypeScript compiler API; match the known
-  LLM call shapes (see [ARCHITECTURE.md](ARCHITECTURE.md#a-agentless-discovery-no-annotations-no-sdk)).
-  Return one `DiscoveredPrompt` per call site. Start with OpenAI + Vercel AI SDK; add
-  Anthropic/Google/LangChain/LiteLLM incrementally.
-- 🟡 **Content resolution.** Inline literal → `resolved`. Follow `const`/import bindings.
-  Follow `fs.readFile` / file imports. Runtime-assembled → skeleton with `{{holes}}`,
-  `resolution: 'partial' | 'dynamic'`.
-- 🟡 **Fingerprinting.** `file:enclosingSymbol` + a structural disambiguator; stable across
-  content edits.
-- 🟢 **Fixture tests.** Drop sample repos under `packages/analyzer/test/fixtures/` and assert
-  the produced `DiscoveredPrompt[]` (Vitest). This is the best first issue — it pins behavior.
-- 🟡 **`echostash scan` (cli).** Walk the repo, gather git context (`git rev-parse`, ref,
-  author), call the analyzer, POST a `ScanReport` to `/api/ingest/scan`.
-- 🟡 **`POST /api/ingest/scan` (server).** New module `apps/server/src/modules/ingest/`.
+- 🟢 **Call-site detection.** ripgrep over a catalog of known SDK shapes
+  (see [ARCHITECTURE.md](ARCHITECTURE.md#a-usage-anchored-discovery-no-annotations-no-sdk)) plus a
+  framework-agnostic structural anchor on prompt-bearing keys. Language-agnostic; ships its own
+  ripgrep. Optional LLM augment derives project-specific custom wrappers.
+- 🟢 **Content resolution.** Inline literal → `resolved`. Follow `const`/import bindings and
+  file reads (`getResource('p.st')`). Runtime-assembled → `resolution: 'partial' | 'dynamic'`.
+- 🟢 **Fingerprinting.** Identity is the prompt's definition (`file:symbol`); stable across edits.
+- 🟡 **Fixture tests.** Sample repos under `packages/discovery/test/fixtures/` asserting the
+  produced `DiscoveredPrompt[]` (Vitest) — the gold standard for pinning behavior.
+- 🟢 **`echostash scan` (cli).** Walk the repo, gather git context, run discovery, optionally
+  augment, POST a `ScanReport` to `/api/ingest/scan`; `--track` diffs against a local manifest.
+- 🟡 **`POST /api/ingest/scan` (server).** Module `apps/server/src/modules/ingest/`.
   Upsert `prompts` by `fingerprint`; insert a `prompt_snapshots` row when
   `(contentHash, configHash)` is new; write a `scan_runs` row; return `ScanReportResult`.
-  Hash helper: stable JSON stringify → sha-256.
 - 🟡 **Registry UI.** `apps/web` `/prompts` (list: name, model, last change) and
   `/prompts/:id` (snapshot/change timeline + diff). This is where the web app gets its real
   shell — Tailwind + shadcn + TanStack Query/Router land here.
 
-**Verify:** mark nothing — just `echostash scan ../some-repo` → prompts show in `/prompts`
+**Verify:** no annotations — just `echostash scan ../some-repo` → prompts show in `/prompts`
 with model + git info; change a model in the repo, re-scan → a new snapshot is flagged.
 
 ---
@@ -128,7 +125,8 @@ sandbox, view the eval matrix.
 
 ## Post-v1 ideas
 
-- Python analyzer (second language for the scanner).
+- Deeper language-specific resolution (the scanner is already language-agnostic; richer
+  cross-file/variable tracing per language would raise recall on dynamic prompts).
 - Pull connectors for prompts in your DB / a third-party store.
 - Import datasets from Langfuse/Helicone (golden cases from real traffic — respecting the
   boundary: we pull from their territory, we don't capture traffic).

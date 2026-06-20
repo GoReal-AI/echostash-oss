@@ -41,8 +41,8 @@ we auto-discover your prompts  →  you open one in a sandbox  →  tweak conten
 
 ## Two pillars
 
-1. **Awareness** — a static analyzer finds the LLM call sites in your code, reads off the
-   prompt + model + params, hashes them, and flags any change on every push. *Change a
+1. **Awareness** — a language-agnostic scanner finds the LLM call sites in your code, reads off
+   the prompt + model + params, hashes them, and flags any change on every push. *Change a
    prompt or swap a model — we see it.* Zero touch.
 2. **Stability / Eval** (the hero) — open any discovered prompt in a sandbox, change the
    content/model/params, run it against datasets, score it, compare variants, and gate
@@ -84,7 +84,7 @@ This is an early, in-progress build. Milestones:
 |-----------|------|--------|
 | **M0** | Monorepo skeleton (pnpm + Turborepo + Biome + TS) | ✅ done |
 | **M1** | Shared schemas + DB schema + server boot + migrations | ✅ done |
-| **M2** | Agentless analyzer (call-site detection) + scan ingest + registry UI | 🔜 open |
+| **M2** | Usage-anchored discovery (call-site detection) + scan ingest + registry UI | 🔜 open |
 | **M3** | Runner + provider layer + sandbox | 🔜 open |
 | **M4** | Datasets + eval matrix + scorers | 🔜 open |
 | **M5** | CI gate + GitHub App | 🔜 open |
@@ -133,7 +133,8 @@ pnpm build && pnpm typecheck && pnpm lint && pnpm test
 ```
 packages/
   shared/    zod schemas + types + the server↔runner eval protocol
-  analyzer/  agentless static analyzer (M2)
+  discovery/ usage-anchored prompt scanner — language-agnostic, ripgrep-based (M2)
+  scoring/   isomorphic scorer engine (string / structural / llm-judge)
   runner/    stateless eval executor: worker | action | cli (M3+)
   cli/       echostash scan | eval | ci | init
 apps/

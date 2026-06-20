@@ -31,7 +31,7 @@ Read these before non-trivial work: [docs/PRODUCT.md](docs/PRODUCT.md) (screens 
 - **Scoring:** `@echostash/scoring` — the isomorphic scorer engine.
 
 ```
-packages/  shared (zod contract + server↔runner protocol) · analyzer (AST scan) ·
+packages/  shared (zod contract + server↔runner protocol) · discovery (prompt scanner) ·
            scoring (scorer engine) · runner (eval executor) · cli (echostash scan|eval|ci)
 apps/      server (control plane API) · web (UI)
 actions/   eval (GitHub Action — CI eval gate)
@@ -39,8 +39,10 @@ actions/   eval (GitHub Action — CI eval gate)
 
 ## Architecture in three lines
 
-1. **Agentless discovery** — the analyzer anchors on **LLM call sites** in source (not arbitrary
-   strings), extracting prompt + model + params; identity = a call-site fingerprint.
+1. **Usage-anchored discovery** (`@echostash/discovery`) — ripgrep finds **LLM call sites** (a
+   catalog of SDK shapes + a framework-agnostic structural anchor on prompt-bearing keys), then
+   resolves each prompt argument back to its definition. A string is a prompt because it *flows into
+   an LLM call*, not because it looks like one. Identity = the prompt's definition (`file:symbol`).
 2. **Control plane / data plane** — the **server never calls an LLM**; it orchestrates and stores.
    The **runner** does all LLM/judge/embedding work and posts results back over HTTP.
 3. **`variant = (prompt content × model × params)`** is the shared atom across sandbox, eval, A/B.
@@ -51,7 +53,7 @@ actions/   eval (GitHub Action — CI eval gate)
 - **Validate at the edges** with the shared zod schemas (request bodies, ingest, runner protocol).
 - **Extensionless imports** (`from './client'`, never `'./client.js'`) — required by drizzle-kit.
 - **Scoring lives in `@echostash/scoring`** — don't reimplement assertion logic elsewhere.
-- **Commits:** `type(scope): message` (scopes: analyzer, runner, scoring, cli, server, web, shared,
+- **Commits:** `type(scope): message` (scopes: discovery, runner, scoring, cli, server, web, shared,
   ci, docs). **Branches:** `feat/…`, `fix/…`, `chore/…`. PRs use the template; **squash-merge**.
 - **DB changes:** edit `apps/server/src/db/schema/*`, then `pnpm db:generate` (commit the migration).
   Snapshots are **append-only** — we observe versions, we don't mutate them.
@@ -81,8 +83,8 @@ actions/   eval (GitHub Action — CI eval gate)
 3. **Read** the matching section of [docs/ROADMAP.md](docs/ROADMAP.md) (it lists files-to-create +
    the acceptance check) plus the relevant doc.
 4. **Branch** off `main`: `feat/<short>`.
-5. **Build it** — shared contract first if shapes change; add **Vitest** tests (analyzer → fixture
-   repos under `packages/analyzer/test/fixtures/`).
+5. **Build it** — shared contract first if shapes change; add **Vitest** tests (discovery → fixture
+   repos under `packages/discovery/test/fixtures/`).
 6. **Verify** (this is exactly what CI runs):
    ```bash
    pnpm build && pnpm typecheck && pnpm lint && pnpm test
