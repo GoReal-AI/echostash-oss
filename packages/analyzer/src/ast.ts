@@ -129,14 +129,14 @@ export function extractModel(
   sf: ts.SourceFile,
   scope: Map<string, ts.Expression>,
 ): { provider: Provider | null; model: string | null } {
-  // Vercel style: model: openai('gpt-4o')
+  // Vercel style: a provider factory call, e.g. model: openai(<model>)
   if (ts.isCallExpression(value) && ts.isIdentifier(value.expression)) {
     const provider = PROVIDER_FACTORY[value.expression.text] ?? null
     const first = value.arguments[0]
     const model = first && ts.isStringLiteralLike(first) ? first.text : null
     return { provider, model }
   }
-  // Plain string (OpenAI SDK style): model: 'gpt-4o'
+  // Plain string (OpenAI SDK style): model: <model>
   const resolved = resolveString(value, sf, scope)
   return { provider: null, model: resolved.text || null }
 }

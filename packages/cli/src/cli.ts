@@ -13,6 +13,10 @@ function printHelp(): void {
   )
   console.log('  --api-key <key>  API key (env ECHOSTASH_API_KEY)')
   console.log('  --source <name>  source name (default: directory name)')
+  console.log(
+    '  --scan-model <p:m>  classifier model for gray-zone strings (env ECHOSTASH_SCAN_MODEL)',
+  )
+  console.log('  --no-llm         deterministic only (definite-tier prompts; no model calls)')
   console.log('  --dry-run        analyze and print; do not post')
 }
 

@@ -7,6 +7,8 @@ export default defineConfig({
   clean: true,
   sourcemap: true,
   banner: { js: '#!/usr/bin/env node' },
-  // bundle workspace deps (they export raw .ts); keep npm deps (typescript) external
+  // bundle workspace deps (they export raw .ts)…
   noExternal: [/@echostash\//],
+  // …but keep heavy / dynamic-require npm deps external (resolved at runtime)
+  external: ['typescript', 'ai', /^@ai-sdk\//, 'google-auth-library', 'zod'],
 })
