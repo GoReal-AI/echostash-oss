@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Agentic, language-agnostic prompt discovery. The model analyzes the project and drives read-only tools (tree/grep/read) to locate prompts; we extract the verbatim text from disk.",
+  "description": "Usage-anchored, language-agnostic prompt discovery: ripgrep finds LLM call sites (known SDK shapes + framework-agnostic structural anchors + optional LLM-derived custom wrappers), then resolves each prompt argument back to its source. Deterministic, with a dedicated-file/strong-string fallback.",
   "exports": {
     ".": "./src/index.ts"
   },
@@ -16,7 +16,7 @@
   "dependencies": {
     "@echostash/llm": "workspace:*",
     "@echostash/shared": "workspace:*",
-    "ai": "^4.3.19",
+    "@vscode/ripgrep": "^1.18.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {

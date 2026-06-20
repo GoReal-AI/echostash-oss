@@ -13,3 +13,6 @@ scan-test.local
 # IDE
 .idea/
 .vscode/
+
+# Echostash scan/track output (per-repo manifest store)
+.echostash/

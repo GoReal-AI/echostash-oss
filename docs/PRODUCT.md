@@ -132,7 +132,7 @@ v1 ships the complete loop, because discovery + a viewer without eval/CI is just
 - **Ship** — Docker compose, seed data, self-host docs.
 
 ### Deferred (post-v1)
-GitHub App (webhook auto-scan; the CI Action covers v1) · more provider analyzers + Python ·
+GitHub App (webhook auto-scan; the CI Action covers v1) · more SDK call shapes + deeper resolution ·
 online A/B in production · managed-prompt storage (opt-in) · import datasets from Langfuse/Helicone ·
 autoscaling worker pool.
 

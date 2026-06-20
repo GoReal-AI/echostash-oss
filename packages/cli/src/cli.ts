@@ -9,16 +9,19 @@ function printHelp(): void {
   }
   console.log('\nscan [dir] options:')
   console.log(
-    '  --server <url>   control-plane URL (env ECHOSTASH_URL, default http://localhost:8080)',
+    '  (default)        fast deterministic scan — finds prompts that flow into LLM calls, then',
   )
-  console.log('  --api-key <key>  API key (env ECHOSTASH_API_KEY)')
-  console.log('  --source <name>  source name (default: directory name)')
   console.log(
-    '  --scan-model <p:m>  classifier model for gray-zone strings (env ECHOSTASH_SCAN_MODEL)',
+    '                   dedicated prompt files + strong prompt strings; language-agnostic',
   )
-  console.log('  --no-llm         deterministic only (definite-tier prompts; no model calls)')
-  console.log('  --agent          language-agnostic agentic scan (the model explores via tools)')
-  console.log('  --track          diff against the stored manifest (.echostash/) and print changes')
+  console.log(
+    '  --scan-model <p:m>  optional model that augments the scan with custom-wrapper detection,',
+  )
+  console.log('                   e.g. vertex:gemini-2.5-flash (env ECHOSTASH_SCAN_MODEL)')
+  console.log('  --track          diff against the stored manifest (.echostash/) + print changes')
+  console.log('  --source <name>  source name (default: directory name)')
+  console.log('  --server <url>   control-plane URL (env ECHOSTASH_URL)')
+  console.log('  --api-key <key>  API key (env ECHOSTASH_API_KEY)')
   console.log('  --dry-run        analyze and print; do not post')
 }
 

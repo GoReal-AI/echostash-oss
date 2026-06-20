@@ -2,11 +2,11 @@
  * Manual scan harness — run the full scan + change-tracking against any project on disk.
  *
  *   1. cp scan-test.example scan-test.local      (scan-test.local is gitignored)
- *   2. edit scan-test.local: set PROJECT_PATH, and ECHOSTASH_SCAN_MODEL (+ creds) for the agent
+ *   2. edit scan-test.local: set PROJECT_PATH, and (optionally) ECHOSTASH_SCAN_MODEL (+ creds)
  *   3. pnpm scan:test          (re-run after edits — it only re-scans what changed)
  *
- * With a model set it runs the agentic, language-agnostic scan; without one (or NO_LLM=1) it
- * runs the deterministic scan. Either way it tracks changes in <project>/.echostash/.
+ * Runs the deterministic usage-anchored scan; with ECHOSTASH_SCAN_MODEL set it also runs the
+ * LLM augment pass (custom-wrapper detection). Either way it tracks changes in <project>/.echostash/.
  */
 import { existsSync, readFileSync } from 'node:fs'
 import { basename, resolve } from 'node:path'
@@ -44,15 +44,8 @@ async function main(): Promise<void> {
   }
 
   const root = resolve(project)
-  const useAgent = !process.env.NO_LLM && Boolean(process.env.ECHOSTASH_SCAN_MODEL)
-  const argv = [
-    root,
-    '--track',
-    '--dry-run',
-    '--source',
-    basename(root),
-    ...(useAgent ? ['--agent'] : ['--no-llm']),
-  ]
+  // Set ECHOSTASH_SCAN_MODEL to also run the LLM augment pass (custom-wrapper detection).
+  const argv = [root, '--track', '--dry-run', '--source', basename(root)]
   process.exit(await runScan(argv))
 }
 

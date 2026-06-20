@@ -40,7 +40,8 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design. Short vers
 
 - `packages/shared` — the contract: zod schemas + types + the server↔runner eval protocol.
   **Change this first** when you touch a data shape; server, runner, and web all import it.
-- `packages/analyzer` — the static analyzer (M2).
+- `packages/discovery` — the usage-anchored prompt scanner (M2).
+- `packages/scoring` — the isomorphic scorer engine.
 - `packages/runner` — the eval executor (M3+).
 - `packages/cli` — `echostash` commands.
 - `apps/server` — control plane (Fastify + Drizzle). New API features go in
@@ -56,9 +57,9 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design. Short vers
 - **Validate at the edges** with the shared zod schemas (request bodies, ingest payloads,
   the runner protocol).
 - **Formatting/linting is Biome**, not ESLint/Prettier. Let `pnpm lint:fix` do the work.
-- **Commits:** `type(scope): message` — e.g. `feat(analyzer): detect openai call sites`,
-  `fix(server): idempotent scan upsert`. Scopes: `analyzer`, `runner`, `cli`, `server`,
-  `web`, `shared`, `ci`, `docs`.
+- **Commits:** `type(scope): message` — e.g. `feat(discovery): detect openai call sites`,
+  `fix(server): idempotent scan upsert`. Scopes: `discovery`, `scoring`, `runner`, `cli`,
+  `server`, `web`, `shared`, `ci`, `docs`.
 - **Branches:** `feat/…`, `fix/…`, `chore/…`. Never push to `main`.
 
 ## Database changes
@@ -74,12 +75,12 @@ Keep snapshots **append-only** — we observe versions, we don't mutate them.
 1. Open [docs/ROADMAP.md](docs/ROADMAP.md) and find a task (look for `🟢` good-first-issues).
 2. Open/claim a GitHub issue so we don't double up.
 3. Each task lists the files to create and an acceptance check. Add tests (Vitest) — for the
-   analyzer, fixture repos under `packages/analyzer/test/fixtures/` are the gold standard.
+   scanner, fixture repos under `packages/discovery/test/fixtures/` are the gold standard.
 4. Open a PR; make sure `build`/`typecheck`/`lint`/`test` are green.
 
 ## Good first issues right now
 
-- `analyzer`: add a fixture repo + test pinning expected `DiscoveredPrompt[]` (M2).
+- `discovery`: add a fixture repo + test pinning expected `DiscoveredPrompt[]` (M2).
 - `runner`: write the `cost.ts` pricing table (M3).
 - `web`: scaffold the dark theme shell (Tailwind + shadcn) for the registry (M2).
 - `server`: the `sha-256(stableStringify(x))` hash helper used by scan ingest (M2).

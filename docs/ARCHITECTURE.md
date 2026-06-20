@@ -12,41 +12,55 @@ like Langfuse: they watch your *traffic*; we watch your *prompts*.
 
 ## Two key ideas
 
-### A. Agentless discovery (no annotations, no SDK)
+### A. Usage-anchored discovery (no annotations, no SDK)
 
 You can't reliably scan arbitrary code for "strings that look like prompts." So we don't.
-Instead we **anchor on LLM call sites**, which are structurally unmistakable in an AST:
+A string is a prompt because it **flows into an LLM call** — that's the signal we anchor on.
+`@echostash/discovery` runs ripgrep (it ships its own binary via `@vscode/ripgrep`, so there's
+no system dependency) and is language-agnostic. It works in layers:
 
-```
-openai.chat.completions.create({ model, messages, … })
-anthropic.messages.create({ model, system, messages })
-generateText / streamText({ model, messages })          // Vercel AI SDK
-genAI.getGenerativeModel({ model }).generateContent(…)   // Google / Vertex
-new ChatOpenAI({ model }).invoke(…)                      // LangChain
-litellm.completion(model=, messages=)                    // LiteLLM
-```
+1. **Call sites.** A catalog of known SDK shapes locates where an LLM is invoked:
 
-At each call site the analyzer reads off:
-- the **model** (string literal, or a variable it can trace),
-- the **params** (temperature, top_p, max_tokens, seed, …),
-- the **prompt / messages** argument, resolved as far as statically possible:
+   ```
+   openai.chat.completions.create({ model, messages, … })
+   anthropic.messages.create({ model, system, messages })
+   generateText / streamText({ model, messages })          // Vercel AI SDK
+   genAI.getGenerativeModel({ model }).generateContent(…)   // Google / Vertex
+   ChatOpenAI({ model }).invoke(…) / ChatPromptTemplate     // LangChain
+   litellm.completion(model=, messages=)                    // LiteLLM
+   ChatClient / new PromptTemplate(…)                       // Spring AI
+   ```
 
-| Source shape | Resolution |
-|---|---|
-| inline literal / template | `resolved` — hash it directly |
-| `const` / imported variable | follow the binding (intra-file + across imports) |
-| `fs.readFile('p.md')` / `import x from './p.txt'` | follow to the file + hash it |
-| runtime-assembled (RAG, conditionals) | `partial`/`dynamic` — capture a skeleton with `{{holes}}` |
+   Plus a **framework-agnostic structural anchor** on prompt-bearing keys themselves
+   (`systemPrompt:`, `messages: [{ role, content }]`, `instructions:`, …) — so an agent
+   framework or in-house wrapper is caught without us knowing it by name.
+
+2. **Resolve the prompt argument** back to its source, as far as statically possible:
+
+   | Source shape | Resolution |
+   |---|---|
+   | inline literal / template | `resolved` — hash it directly |
+   | `const` / imported variable | follow the binding (intra-file + one import hop) |
+   | `getResource('p.st')` / file read | follow to the file + hash it |
+   | runtime-assembled (RAG, conditionals) | `partial`/`dynamic` |
+
+3. **LLM augment (optional).** When a scan model is configured (`--scan-model` /
+   `ECHOSTASH_SCAN_MODEL`), one bounded request reads the manifests + a few signal-ranked files
+   and emits **project-specific custom-wrapper** call shapes (e.g. `llmService.complete(prompt)`).
+   It degrades gracefully to a catalog-only scan on any failure.
+
+4. **Fallback.** Dedicated prompt files (`*.st`, `**/prompts/**`, `*.md`, …) and
+   strongly-evidenced prompt strings the data-flow couldn't reach — gated to exclude comments,
+   code fragments, regexes, and log lines.
 
 Each snapshot stores a **`contentHash`** (the prompt text) and a **`configHash`** (model +
 params). Either changing produces a new snapshot — *that's* how we flag "the model changed".
 
-**Identity** is the call-site fingerprint (`file:enclosingSymbol` + a structural
-disambiguator), so a prompt's versions group together even as its content changes, and it
-survives refactors via git rename tracking. We auto-name it from the enclosing symbol; the
-user can rename it in the UI.
+**Identity** is the prompt's definition (`file:symbol`) — where it actually lives — so its
+versions group together even as its content changes, and it survives refactors via git rename
+tracking. We auto-name it from the symbol; the user can rename it in the UI.
 
-This is read by two surfaces over the same call-site signal:
+This is read by two surfaces over the same signal:
 - the **scanner** (`echostash scan` / GitHub App) at build/CI time → discovery + git-tied
   change monitoring, even before a prompt ever runs;
 - (later) optional connectors for prompts that live outside code — see "Sources" below.

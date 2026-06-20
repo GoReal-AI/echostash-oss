@@ -1,3 +1,5 @@
-export { discover, type DiscoverOptions } from './discover'
-export { extractLocations } from './extract'
-export type { PromptLocation } from './tools'
+export { discoverPrompts, type DiscoverPromptsOptions } from './combined'
+export { anchoredDiscover, type AnchoredOptions } from './anchored'
+export { ripgrepDiscover, type RipgrepOptions } from './ripgrep'
+export { augmentShapes, type AugmentOptions } from './augment'
+export { CATALOG, STRUCTURAL, type CallShape } from './catalog'
