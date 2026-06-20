@@ -1,4 +1,3 @@
-export { makeClassifier } from './classifier'
 export { runScan } from './commands/scan'
 
 export const COMMANDS = ['init', 'scan', 'eval', 'ci'] as const
