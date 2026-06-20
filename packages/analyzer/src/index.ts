@@ -7,6 +7,7 @@ import { DEFAULT_EXCLUDE, listSourceFiles, parseFile } from './walk'
 
 export * from './candidates'
 export { detectLibraries } from './libDetect'
+export { DEFAULT_EXCLUDE, listSourceFiles, parseFile } from './walk'
 
 /** One gray-zone candidate handed to the model to adjudicate (a preview, never the full string). */
 export interface ClassifyItem {
@@ -128,6 +129,23 @@ export async function scanReport(options: ScanOptions): Promise<ScanReport> {
 /** Back-compat: just the prompts. */
 export async function scan(options: ScanOptions): Promise<DiscoveredPrompt[]> {
   return (await scanReport(options)).prompts
+}
+
+/**
+ * Deterministic per-file extraction (call sites + definite-tier candidates, no LLM).
+ * Used by the change-tracking layer so each file can be (re)extracted in isolation.
+ */
+export function extractFile(absPath: string, relPath: string): DiscoveredPrompt[] {
+  const sf = parseFile(absPath, relPath)
+  if (!sf) return []
+  const byFp = new Map<string, DiscoveredPrompt>()
+  for (const p of detectCallSites(sf, relPath)) byFp.set(p.fingerprint, p)
+  for (const c of collectCandidates(sf, relPath)) {
+    if (c.tier !== 'definite') continue
+    const p = toPrompt(c)
+    if (!byFp.has(p.fingerprint)) byFp.set(p.fingerprint, p)
+  }
+  return [...byFp.values()]
 }
 
 export const ANALYZER_MILESTONE = 'M2' as const

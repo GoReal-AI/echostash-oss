@@ -1,0 +1,22 @@
+{
+  "name": "@echostash/scan",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Change-tracking backbone: prompt manifest (path + fileHash + promptHash), the diff engine, and pluggable stores. Discovery-agnostic and deterministic.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "clean": "rm -rf dist .turbo"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsup": "^8.5.1",
+    "typescript": "^5.7.2",
+    "vitest": "^3.2.6"
+  }
+}

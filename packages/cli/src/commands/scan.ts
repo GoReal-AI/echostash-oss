@@ -1,6 +1,14 @@
 import { execFileSync } from 'node:child_process'
-import { basename, resolve } from 'node:path'
-import { scanReport } from '@echostash/analyzer'
+import { readFileSync } from 'node:fs'
+import { basename, join, relative, resolve } from 'node:path'
+import { DEFAULT_EXCLUDE, extractFile, listSourceFiles, scanReport } from '@echostash/analyzer'
+import {
+  LocalStore,
+  type ScanInputFile,
+  buildManifest,
+  diffManifests,
+  hashValue,
+} from '@echostash/scan'
 import type { ScanReport, ScanReportResult } from '@echostash/shared'
 import { makeClassifier } from '../classifier'
 
@@ -12,10 +20,11 @@ interface Flags {
   scanModel?: string
   noLlm: boolean
   dryRun: boolean
+  track: boolean
 }
 
 function parseFlags(argv: string[]): Flags {
-  const f: Flags = { positional: [], noLlm: false, dryRun: false }
+  const f: Flags = { positional: [], noLlm: false, dryRun: false, track: false }
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]
     if (a === '--server') f.server = argv[++i]
@@ -24,9 +33,48 @@ function parseFlags(argv: string[]): Flags {
     else if (a === '--scan-model') f.scanModel = argv[++i]
     else if (a === '--no-llm') f.noLlm = true
     else if (a === '--dry-run') f.dryRun = true
+    else if (a === '--track') f.track = true
     else if (a && !a.startsWith('-')) f.positional.push(a)
   }
   return f
+}
+
+/** Build the current manifest, diff against the stored one (LocalStore), print + persist. */
+async function trackChanges(root: string, source: string): Promise<void> {
+  const store = new LocalStore(join(root, '.echostash'))
+  const prev = await store.load(source)
+
+  const files: ScanInputFile[] = listSourceFiles(root, DEFAULT_EXCLUDE).map((abs) => ({
+    relPath: relative(root, abs),
+    bytes: () => readFileSync(abs),
+  }))
+
+  const { manifest, filesSkipped } = await buildManifest({
+    source,
+    files,
+    prev,
+    extract: (relPath) =>
+      extractFile(join(root, relPath), relPath).map((p) => ({
+        name: p.name,
+        promptHash: hashValue({ messages: p.messages, content: p.content }),
+        line: p.line,
+        model: p.model,
+      })),
+  })
+
+  const changeset = diffManifests(prev, manifest)
+  changeset.filesSkipped = filesSkipped
+  await store.save(source, manifest, changeset)
+
+  const s = changeset.summary
+  console.log(`\nChange tracking (source "${source}" · .echostash/)`)
+  console.log(
+    `  ${s.new} new · ${s.modified} modified · ${s.deleted} deleted · ${s.unchanged} unchanged ` +
+      `(skipped ${filesSkipped} unchanged file(s))`,
+  )
+  for (const c of changeset.changes) {
+    if (c.status !== 'unchanged') console.log(`    ${c.status.padEnd(9)} ${c.relPath}:${c.name}`)
+  }
 }
 
 function git(args: string[], cwd: string): string | null {
@@ -64,6 +112,8 @@ export async function runScan(argv: string[]): Promise<number> {
     const model = p.model ? `${p.provider ?? '?'}/${p.model}` : 'no-model'
     console.log(`  • ${p.fingerprint}  [${model}]  (${p.resolution})`)
   }
+
+  if (flags.track) await trackChanges(root, flags.source ?? basename(root))
 
   if (flags.dryRun) {
     console.log('\n--dry-run: not posting to the server.')

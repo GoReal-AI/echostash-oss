@@ -24,6 +24,7 @@
     "@echostash/analyzer": "workspace:*",
     "@echostash/llm": "workspace:*",
     "@echostash/runner": "workspace:*",
+    "@echostash/scan": "workspace:*",
     "@echostash/shared": "workspace:*",
     "ai": "^4.3.19",
     "typescript": "^5.7.2",
