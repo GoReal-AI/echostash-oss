@@ -73,7 +73,9 @@ Keep snapshots **append-only** — we observe versions, we don't mutate them.
 ## Picking up work
 
 1. Open [docs/ROADMAP.md](docs/ROADMAP.md) and find a task (look for `🟢` good-first-issues).
-2. Open/claim a GitHub issue so we don't double up.
+2. **Claim it yourself** — comment `/assign` (or `.take`) on the issue. A bot assigns you and labels
+   it `in progress`; no repo access needed. It refuses if someone already holds it, so nobody gets
+   overridden. Done or stepping away? Comment `/unassign` to free it.
 3. Each task lists the files to create and an acceptance check. Add tests (Vitest) — for the
    scanner, fixture repos under `packages/discovery/test/fixtures/` are the gold standard.
 4. Open a PR; make sure `build`/`typecheck`/`lint`/`test` are green.

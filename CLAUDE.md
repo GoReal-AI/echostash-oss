@@ -79,7 +79,8 @@ actions/   eval (GitHub Action — CI eval gate)
 1. **Pick one** — [good first issues](https://github.com/GoReal-AI/echostash-oss/labels/good%20first%20issue)
    or browse by [milestone](https://github.com/GoReal-AI/echostash-oss/milestones). If it's labeled
    `design`, resolve the design question (in the issue) before coding.
-2. **Claim it** — assign yourself / comment so we don't double up.
+2. **Claim it** — comment `/assign` (or `.take`) on the issue; a bot assigns you (no repo access
+   needed) and blocks double-claims. `/unassign` frees it.
 3. **Read** the matching section of [docs/ROADMAP.md](docs/ROADMAP.md) (it lists files-to-create +
    the acceptance check) plus the relevant doc.
 4. **Branch** off `main`: `feat/<short>`.
