@@ -230,10 +230,19 @@ importers:
 
   packages/runner:
     dependencies:
+      '@echostash/llm':
+        specifier: workspace:*
+        version: link:../llm
+      '@echostash/scoring':
+        specifier: workspace:*
+        version: link:../scoring
       '@echostash/shared':
         specifier: workspace:*
         version: link:../shared
     devDependencies:
+      '@types/node':
+        specifier: ^22.10.2
+        version: 22.19.21
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(jiti@2.7.0)(postcss@8.5.15)(tsx@4.22.4)(typescript@5.9.3)(yaml@2.9.0)
