@@ -1,0 +1,60 @@
+name: Self-assign issues
+
+# Lets anyone claim an issue by commenting — no repo write access needed (the workflow's token does
+# the assignment). Refuses if the issue is already claimed, so two people can't grab the same one.
+#
+#   /assign  ·  /take  ·  .take  ·  /claim     → claim the issue
+#   /unassign  ·  /release  ·  .release        → release it back to the pool
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  issues: write
+
+jobs:
+  self-assign:
+    # Skip PR comments and bot comments.
+    if: ${{ !github.event.issue.pull_request && github.event.comment.user.type != 'Bot' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const body = (context.payload.comment.body || '').trim().toLowerCase()
+            const claim = /^[/.](assign|take|claim)\b/.test(body)
+            const release = /^[/.](unassign|release|drop)\b/.test(body)
+            if (!claim && !release) return
+
+            const { owner, repo } = context.repo
+            const issue_number = context.payload.issue.number
+            const user = context.payload.comment.user.login
+            const assignees = (context.payload.issue.assignees || []).map((a) => a.login)
+            const reply = (b) => github.rest.issues.createComment({ owner, repo, issue_number, body: b })
+
+            if (claim) {
+              if (assignees.length && !assignees.includes(user)) {
+                await reply(
+                  `⚠️ This one is already claimed by @${assignees[0]}. Pick another open issue, or ` +
+                  `coordinate in the comments — the assignee can free it with \`/unassign\`.`,
+                )
+                return
+              }
+              await github.rest.issues.addAssignees({ owner, repo, issue_number, assignees: [user] })
+              try {
+                await github.rest.issues.addLabels({ owner, repo, issue_number, labels: ['in progress'] })
+              } catch {}
+              await reply(
+                `✅ Assigned to @${user} — it's yours, thanks for picking it up! ` +
+                `If you stop, comment \`/unassign\` so someone else can take it.`,
+              )
+            } else if (release && assignees.includes(user)) {
+              await github.rest.issues.removeAssignees({ owner, repo, issue_number, assignees: [user] })
+              if (assignees.length === 1) {
+                try {
+                  await github.rest.issues.removeLabel({ owner, repo, issue_number, name: 'in progress' })
+                } catch {}
+              }
+              await reply(`🔓 @${user} released this issue — it's open again.`)
+            }
