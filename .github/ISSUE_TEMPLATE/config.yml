@@ -6,3 +6,6 @@ contact_links:
   - name: Architecture
     url: https://github.com/GoReal-AI/echostash-oss/blob/main/docs/ARCHITECTURE.md
     about: How Echostash works and why.
+  - name: How to contribute (claim an issue with /assign)
+    url: https://github.com/GoReal-AI/echostash-oss/blob/main/CONTRIBUTING.md
+    about: Comment /assign to claim an issue yourself, then open a PR that closes it.

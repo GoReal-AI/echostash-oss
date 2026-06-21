@@ -76,23 +76,33 @@ actions/   eval (GitHub Action — CI eval gate)
 
 ## How to take on an issue
 
-1. **Pick one** — [good first issues](https://github.com/GoReal-AI/echostash-oss/labels/good%20first%20issue)
-   or browse by [milestone](https://github.com/GoReal-AI/echostash-oss/milestones). If it's labeled
-   `design`, resolve the design question (in the issue) before coding.
-2. **Claim it** — comment `/assign` (or `.take`) on the issue; a bot assigns you (no repo access
-   needed) and blocks double-claims. `/unassign` frees it.
-3. **Read** the matching section of [docs/ROADMAP.md](docs/ROADMAP.md) (it lists files-to-create +
-   the acceptance check) plus the relevant doc.
-4. **Branch** off `main`: `feat/<short>`.
+> **Golden rule — no undocumented work, no silent collisions.** Many people (and many Claude Code
+> agents) work this repo in parallel. *Everything* you do maps to an issue you've **claimed**, and
+> you **report** as you go. This applies to AI agents too: if you're running Claude Code here, follow
+> this protocol exactly — do not start editing code that isn't tied to an issue assigned to you.
+
+1. **There must be an issue.** Pick one from [good first issues](https://github.com/GoReal-AI/echostash-oss/labels/good%20first%20issue)
+   or by [milestone](https://github.com/GoReal-AI/echostash-oss/milestones). No issue for what you
+   want to do? **Open one first** (state the problem + intended change) — never work undocumented.
+   If it's labeled `design`, resolve the design question in the issue before coding.
+2. **Claim it before you touch code** — comment `/assign` (or `.take`) on the issue. A bot assigns
+   you (no repo access needed) and labels it `in progress`; it refuses if someone already holds it,
+   so check for an assignee first and pick another if taken. Stopping early? Comment `/unassign`.
+3. **Read** the matching section of [docs/ROADMAP.md](docs/ROADMAP.md) (files-to-create + the
+   acceptance check) plus the relevant doc.
+4. **Branch** off `main`: `feat/<short>` — one issue per branch/PR.
 5. **Build it** — shared contract first if shapes change; add **Vitest** tests (discovery → fixture
-   repos under `packages/discovery/test/fixtures/`).
+   repos under `packages/discovery/test/fixtures/`). Comment on the issue if scope/approach shifts,
+   so the assignment stays meaningful.
 6. **Verify** (this is exactly what CI runs):
    ```bash
    pnpm build && pnpm typecheck && pnpm lint && pnpm test
    ```
-7. **PR** — use the template; reference the issue with a closing keyword **per number**
-   (`Closes #11, closes #12` — GitHub only links the first otherwise). Get CI green + one review,
-   then squash-merge.
+7. **PR + report** — open a PR (use the template) that references the issue with a closing keyword
+   **per number** (`Closes #11, closes #12` — GitHub only links the first otherwise). The PR link
+   posts back to the issue automatically; add a one-line status if anything's partial. Get CI green
+   + one review, then squash-merge — which closes the issue. **If you abandon the work, say so on the
+   issue and `/unassign`** so it returns to the pool.
 
 ## Local setup
 

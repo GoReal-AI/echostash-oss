@@ -10,6 +10,7 @@ Closes #
 
 ## Checklist
 
+- [ ] This PR closes a **claimed** issue (I commented `/assign` before starting — no silent collisions)
 - [ ] `pnpm build && pnpm typecheck && pnpm lint && pnpm test` all pass locally
 - [ ] Added/updated tests (Vitest)
 - [ ] Updated `@echostash/shared` first if a data shape changed
