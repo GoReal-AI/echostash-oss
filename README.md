@@ -122,6 +122,28 @@ curl localhost:8080/healthz    # {"status":"ok"}
 curl localhost:8080/readyz     # {"status":"ready","db":"ok"}
 ```
 
+### Seed demo data (optional)
+
+So a fresh clone isn't empty, `pnpm db:seed` loads a sample repo scan (prompts with a
+change timeline), a dataset, and one eval run.
+
+> ⚠️ **`db:seed` resets the database to demo data.** It **deletes every prompt, snapshot,
+> dataset, and eval run** in the target database — not just demo rows — and replaces them with
+> the fixture. Run it only against a throwaway/dev database, never one holding real scans. It
+> refuses to run when `NODE_ENV=production`.
+
+Re-running is safe in the sense that it doesn't duplicate rows — it wipes and re-inserts the
+same fixture each time. Run it once the schema is applied (after the server has started once,
+or after `pnpm db:migrate`):
+
+```bash
+# the scripts read config from the environment, so load .env into the shell first
+set -a && source .env && set +a
+
+pnpm db:migrate                # apply the schema if the server hasn't already
+pnpm db:seed                   # populate prompts + datasets + an eval run
+```
+
 Run the whole check suite (what CI runs):
 
 ```bash

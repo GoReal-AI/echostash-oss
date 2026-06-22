@@ -24,7 +24,14 @@ import {
 } from './schema'
 
 /**
- * Seed a fresh clone with demo data so every screen has something to show:
+ * ⚠️  DESTRUCTIVE — RESETS THE DATABASE TO DEMO DATA.
+ *
+ * This **deletes every row** in the prompt/scan/eval/dataset tables (not just demo rows —
+ * the `clear()` deletes are unfiltered) and replaces them with a fixed demo fixture. Any real
+ * scanned prompts, snapshots, datasets, or eval runs in this database are permanently lost.
+ * Only run it against a throwaway/dev database. It refuses to run when NODE_ENV=production.
+ *
+ * It seeds, so every screen has something to show:
  *   1. a sample repo scan  → sources + scan_runs + prompts + prompt_snapshots (with a change timeline)
  *   2. datasets            → datasets + dataset_cases
  *   3. an eval run         → variants + eval_runs + eval_run_cells + eval_scores
@@ -125,7 +132,11 @@ const SCAN_V2: ScanReport = {
   ),
 }
 
-/** Delete all seeded rows, children-first, so a re-run starts clean. */
+/**
+ * Truncate every prompt/scan/eval/dataset table, children-first, so a re-run starts clean.
+ * These deletes are UNFILTERED — they remove real data too, not just demo rows. Guarded by the
+ * NODE_ENV check in seed(); do not call this directly without that guard.
+ */
 async function clear(db: Database): Promise<void> {
   await db.delete(evalScores)
   await db.delete(evalRunCells)
@@ -144,6 +155,15 @@ async function clear(db: Database): Promise<void> {
 }
 
 export async function seed(db: Database): Promise<void> {
+  // Hard stop: clear() wipes ALL rows in these tables, not just demo data. Never let that
+  // happen against a production database.
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error(
+      'db:seed refuses to run with NODE_ENV=production — it resets the database to demo data and ' +
+        'would delete real scanned prompts. Run it only against a dev/throwaway database.',
+    )
+  }
+
   await clear(db)
 
   // 1. Sample repo scan — ingest twice to create a change timeline.
