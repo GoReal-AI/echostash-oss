@@ -56,7 +56,7 @@ const SCAN_V1: ScanReport = {
   },
   prompts: [
     {
-      fingerprint: 'src/agent.ts::supportAgent',
+      fingerprint: 'src/agent.ts:supportAgent',
       name: 'supportAgent',
       content: [],
       messages: [
@@ -72,7 +72,7 @@ const SCAN_V1: ScanReport = {
       line: 12,
     },
     {
-      fingerprint: 'src/openai-chat.ts::summarize',
+      fingerprint: 'src/openai-chat.ts:summarize',
       name: 'summarize',
       content: [{ type: 'text', text: 'Summarize the following text in one sentence.' }],
       messages: [
@@ -88,7 +88,7 @@ const SCAN_V1: ScanReport = {
       line: 8,
     },
     {
-      fingerprint: 'prompts/reviewer.st::reviewer',
+      fingerprint: 'prompts/reviewer.st:reviewer',
       name: 'reviewer',
       content: [{ type: 'text', text: 'You are a strict code reviewer. List issues as bullets.' }],
       messages: [
