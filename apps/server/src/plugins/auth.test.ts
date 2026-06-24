@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { safeEqualHex, apiKeyPrefix, API_KEY_PREFIX } from './auth'
+import { describe, expect, it } from 'vitest'
+import { API_KEY_PREFIX, apiKeyPrefix, safeEqualHex } from './auth'
 
 describe('plugins/auth', () => {
   describe('safeEqualHex', () => {
@@ -46,7 +46,7 @@ describe('plugins/auth', () => {
 
     it('returns false for 64-char hashes differing by one char', () => {
       const hash1 = 'a'.repeat(64)
-      const hash2 = 'a'.repeat(63) + 'b'
+      const hash2 = `${'a'.repeat(63)}b`
       const result = safeEqualHex(hash1, hash2)
       expect(result).toBe(false)
     })
@@ -67,9 +67,9 @@ describe('plugins/auth', () => {
     })
 
     it('handles full-length production keys', () => {
-      const key = 'ek_' + '0'.repeat(48)
+      const key = `ek_${'0'.repeat(48)}`
       const prefix = apiKeyPrefix(key)
-      expect(prefix).toBe('ek_' + '0'.repeat(8))
+      expect(prefix).toBe(`ek_${'0'.repeat(8)}`)
     })
 
     it('prefix is consistent across multiple calls', () => {

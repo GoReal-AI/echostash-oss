@@ -84,11 +84,11 @@ describe('auth/errors', () => {
     it('all error codes are defined and have messages', () => {
       const codes = Object.values(AuthErrorCode)
       expect(codes.length).toBeGreaterThan(0)
-      codes.forEach((code) => {
-        const error = authError(code as AuthErrorCode)
+      for (const code of codes) {
+        const error = authError(code)
         expect(error.message).toBeTruthy()
         expect(error.message.length).toBeGreaterThan(0)
-      })
+      }
     })
   })
 

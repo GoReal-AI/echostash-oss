@@ -1,8 +1,6 @@
-import { describe, it, expect, beforeEach } from 'vitest'
 import { createHash } from 'node:crypto'
-import type { Database } from '../../db/client'
-import { apiKeys } from '../../db/schema'
-import { safeEqualHex, apiKeyPrefix } from '../../plugins/auth'
+import { describe, expect, it } from 'vitest'
+import { apiKeyPrefix, safeEqualHex } from '../../plugins/auth'
 
 describe('api-keys/service', () => {
   describe('API key generation', () => {
@@ -16,7 +14,7 @@ describe('api-keys/service', () => {
     })
 
     it('hash comparison works for valid keys', () => {
-      const fullKey = 'ek_' + 'a'.repeat(48)
+      const fullKey = `ek_${'a'.repeat(48)}`
       const hash = createHash('sha256').update(fullKey).digest('hex')
       const providedHash = createHash('sha256').update(fullKey).digest('hex')
       const result = safeEqualHex(hash, providedHash)
@@ -24,8 +22,8 @@ describe('api-keys/service', () => {
     })
 
     it('hash comparison fails for tampered keys', () => {
-      const fullKey = 'ek_' + 'a'.repeat(48)
-      const tamperedKey = 'ek_' + 'a'.repeat(47) + 'b'
+      const fullKey = `ek_${'a'.repeat(48)}`
+      const tamperedKey = `ek_${'a'.repeat(47)}b`
       const hash = createHash('sha256').update(fullKey).digest('hex')
       const tamperedHash = createHash('sha256').update(tamperedKey).digest('hex')
       const result = safeEqualHex(hash, tamperedHash)
@@ -33,8 +31,8 @@ describe('api-keys/service', () => {
     })
 
     it('produces different hashes for different keys', () => {
-      const key1 = 'ek_' + 'a'.repeat(48)
-      const key2 = 'ek_' + 'b'.repeat(48)
+      const key1 = `ek_${'a'.repeat(48)}`
+      const key2 = `ek_${'b'.repeat(48)}`
       const hash1 = createHash('sha256').update(key1).digest('hex')
       const hash2 = createHash('sha256').update(key2).digest('hex')
       expect(hash1).not.toBe(hash2)
@@ -44,7 +42,7 @@ describe('api-keys/service', () => {
   describe('prefix collision resistance', () => {
     it('prefix space is large enough for practical use', () => {
       // 8 hex chars = 16^8 = 4,294,967,296 unique combinations
-      const prefixSpace = Math.pow(16, 8)
+      const prefixSpace = 16 ** 8
       expect(prefixSpace).toBeGreaterThan(1_000_000) // more than a million unique prefixes
     })
 
@@ -71,7 +69,7 @@ describe('api-keys/service', () => {
 
     it('validates prefix consistency between generation and lookup', () => {
       // This simulates the createApiKey and verifyApiKey flow
-      const fullKey = 'ek_' + 'a'.repeat(48)
+      const fullKey = `ek_${'a'.repeat(48)}`
       const generatedPrefix = apiKeyPrefix(fullKey)
       const lookupPrefix = apiKeyPrefix(fullKey)
       expect(generatedPrefix).toBe(lookupPrefix)
@@ -79,8 +77,8 @@ describe('api-keys/service', () => {
 
     it('prefix format prevents ambiguity', () => {
       // Two different keys should not share the same prefix (with overwhelming probability)
-      const key1Prefix = apiKeyPrefix('ek_' + 'a'.repeat(48))
-      const key2Prefix = apiKeyPrefix('ek_' + 'b'.repeat(48))
+      const key1Prefix = apiKeyPrefix(`ek_${'a'.repeat(48)}`)
+      const key2Prefix = apiKeyPrefix(`ek_${'b'.repeat(48)}`)
       expect(key1Prefix).not.toBe(key2Prefix)
     })
   })
@@ -111,8 +109,7 @@ describe('api-keys/service', () => {
 
   describe('SQL filtering logic', () => {
     it('SQL WHERE clause correctly filters revoked keys', () => {
-      // Simulates the listApiKeys SQL logic:
-      // WHERE revoked_at IS NULL
+      // Simulates the listApiKeys SQL logic: WHERE revoked_at IS NULL
       const allKeys = [
         { id: '1', name: 'key1', revokedAt: null },
         { id: '2', name: 'key2', revokedAt: new Date() },
