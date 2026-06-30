@@ -22,6 +22,12 @@ const EnvSchema = z.object({
     .transform((v) => v === 'true'),
   ADMIN_PASSWORD: z.string().default('changeme'),
   SESSION_SECRET: z.string().default('please-change-me-to-a-long-random-string'),
+  /**
+   * Whether (and whom) to trust for the client IP behind a proxy/load balancer. Passed straight
+   * to Fastify's `trustProxy`. 'true'/'false' toggle it; anything else is treated as a comma-list
+   * of trusted IPs/CIDRs. Leave 'false' unless a known proxy sits in front (else IPs are spoofable).
+   */
+  TRUST_PROXY: z.string().default('false'),
 })
 
 export type Env = z.infer<typeof EnvSchema>
