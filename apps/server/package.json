@@ -12,6 +12,7 @@
     "test": "vitest run --passWithNoTests",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/db/migrate.ts",
+    "db:seed": "tsx src/db/seed.ts",
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {

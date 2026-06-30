@@ -18,6 +18,7 @@
     "test": "turbo run test",
     "db:generate": "pnpm --filter @echostash/server db:generate",
     "db:migrate": "pnpm --filter @echostash/server db:migrate",
+    "db:seed": "pnpm --filter @echostash/server db:seed",
     "scan:test": "tsx scripts/scan-test.ts",
     "clean": "turbo run clean && rm -rf node_modules"
   },
