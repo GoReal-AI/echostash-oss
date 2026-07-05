@@ -1,39 +1,75 @@
+import type { Message } from '@echostash/shared'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import {
-  type Version,
-  datasetsFor,
-  evalRunsFor,
-  getProject,
-  getPrompt,
-  traces,
-  versionsFor,
-} from '../lib/mock'
+import { type Snapshot, fetchPrompt } from '../lib/api'
 import {
   Badge,
   Button,
   Card,
   EmptyState,
-  EvalBadge,
   PageHeader,
   ResolutionBadge,
-  SampleTag,
-  ScoreDelta,
   Tabs,
   short,
 } from '../lib/ui'
 
+const buttonLink =
+  'inline-flex items-center gap-1.5 rounded-md border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-sm font-medium text-zinc-200 transition-colors hover:bg-zinc-800'
+
+/** Flatten a message's content (string or content blocks) to plain text. */
+function toText(content: Message['content']): string {
+  if (typeof content === 'string') return content
+  if (Array.isArray(content)) {
+    return content
+      .map((p) => (typeof p === 'string' ? p : ((p as { text?: string }).text ?? '')))
+      .join('')
+  }
+  return ''
+}
+
+/** How a snapshot differs from the one before it (older) — drives the timeline badge. */
+function changeKind(
+  cur: Snapshot,
+  prev: Snapshot | undefined,
+): 'first' | 'content' | 'config' | 'both' {
+  if (!prev) return 'first'
+  const content = cur.contentHash !== prev.contentHash
+  const config = cur.configHash !== prev.configHash
+  if (content && config) return 'both'
+  if (content) return 'content'
+  if (config) return 'config'
+  return 'content'
+}
+
+const modelLabel = (s: { provider: string | null; model: string | null }) =>
+  s.model ? `${s.provider ? `${s.provider}/` : ''}${s.model}` : 'no model'
+
 export function PromptDetail() {
   const { id = '' } = useParams()
   const [tab, setTab] = useState('versions')
-  const prompt = getPrompt(id)
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['prompt', id],
+    queryFn: () => fetchPrompt(id),
+    enabled: id !== '',
+  })
 
-  if (!prompt) return <EmptyState title="Prompt not found" />
+  if (isLoading) {
+    return <div className="px-4 py-12 text-center text-sm text-zinc-500">Loading…</div>
+  }
+  if (error || !data) {
+    return (
+      <EmptyState
+        title="Prompt not found"
+        hint={
+          error ? `Couldn't load it (${(error as Error).message}).` : 'It may have been removed.'
+        }
+      />
+    )
+  }
 
-  const versions = versionsFor(id)
-  const dsets = datasetsFor(id)
-  const runs = evalRunsFor(id)
-  const usage = traces.filter((t) => t.promptName === prompt.name)
+  const { prompt, snapshots } = data
+  const latest = snapshots[0]
 
   return (
     <div>
@@ -43,201 +79,158 @@ export function PromptDetail() {
       <div className="mt-3">
         <PageHeader
           title={prompt.name}
-          subtitle={`${getProject(prompt.projectId)?.name} · ${prompt.fingerprint}`}
+          subtitle={prompt.fingerprint}
           actions={
-            <>
-              <Link to="/sandbox" className={buttonLink}>
-                Open in Sandbox
-              </Link>
-              <Button variant="primary">Run eval</Button>
-            </>
+            <Link to="/sandbox" className={buttonLink}>
+              Open in Sandbox
+            </Link>
           }
         />
       </div>
 
       <div className="mb-6 flex flex-wrap items-center gap-2">
-        <Badge tone="sky">
-          {prompt.provider}/{prompt.model}
-        </Badge>
-        <ResolutionBadge resolution={prompt.resolution} />
-        <EvalBadge state={prompt.evalState} score={prompt.evalScore} />
-        <span className="text-xs text-zinc-500">{prompt.calls7d.toLocaleString()} calls / 7d</span>
-        <span className="ml-auto">
-          <SampleTag />
-        </span>
+        {latest ? <Badge tone="sky">{modelLabel(latest)}</Badge> : null}
+        {latest ? <ResolutionBadge resolution={latest.resolution} /> : null}
+        {latest?.filePath ? (
+          <span className="font-mono text-xs text-zinc-500">
+            {latest.filePath}
+            {latest.symbol ? `:${latest.symbol}` : ''}
+          </span>
+        ) : null}
       </div>
 
       <Tabs
         active={tab}
         onChange={setTab}
         tabs={[
-          { key: 'versions', label: 'Versions', count: prompt.versions },
-          { key: 'usage', label: 'Usage' },
-          { key: 'datasets', label: 'Datasets', count: dsets.length },
-          { key: 'evals', label: 'Eval history', count: runs.length },
+          { key: 'versions', label: 'Versions', count: snapshots.length },
+          { key: 'messages', label: 'Messages' },
         ]}
       />
 
-      {tab === 'versions' && <VersionsTab versions={versions} prompt={prompt} />}
-
-      {tab === 'usage' && (
-        <div className="space-y-4">
-          <Card className="p-4">
-            <div className="text-sm text-zinc-300">
-              Used at{' '}
-              <span className="font-mono text-zinc-100">
-                {prompt.fingerprint.replace(':', ' · ')}
-              </span>{' '}
-              ({prompt.file}:{prompt.line})
-            </div>
-            <div className="mt-1 text-xs text-zinc-500">
-              {prompt.calls7d.toLocaleString()} calls in the last 7 days · 1 call site
-            </div>
-          </Card>
-          <div>
-            <div className="mb-2 text-sm font-medium text-zinc-400">Recent calls</div>
-            {usage.length === 0 ? (
-              <p className="text-sm text-zinc-600">No recent traces.</p>
-            ) : (
-              <Card className="divide-y divide-zinc-800/70">
-                {usage.map((t) => (
-                  <div key={t.id} className="flex items-center gap-4 px-4 py-2.5 text-sm">
-                    <Badge tone={t.status === 'ok' ? 'emerald' : 'red'}>{t.status}</Badge>
-                    <span className="text-zinc-400">
-                      {t.provider}/{t.model}
-                    </span>
-                    <span className="text-zinc-500">{t.latencyMs}ms</span>
-                    <span className="text-zinc-500">{t.tokens} tok</span>
-                    <span className="ml-auto text-zinc-600">{t.time}</span>
-                  </div>
-                ))}
-              </Card>
-            )}
-          </div>
-        </div>
-      )}
-
-      {tab === 'datasets' && (
-        <div>
-          <div className="mb-3 flex justify-end">
-            <Button variant="primary">+ Attach dataset</Button>
-          </div>
-          {dsets.length === 0 ? (
-            <EmptyState
-              title="No datasets yet"
-              hint="Attach a dataset of test cases to eval this prompt."
-            >
-              <Button variant="primary">+ Create dataset</Button>
-            </EmptyState>
-          ) : (
-            <Card className="divide-y divide-zinc-800/70">
-              {dsets.map((d) => (
-                <Link
-                  key={d.id}
-                  to={`/datasets/${d.id}`}
-                  className="flex items-center gap-4 px-4 py-3 hover:bg-zinc-900/40"
-                >
-                  <div>
-                    <div className="font-medium text-zinc-100">{d.name}</div>
-                    <div className="text-xs text-zinc-500">{d.description}</div>
-                  </div>
-                  <span className="ml-auto text-sm text-zinc-400">{d.caseCount} cases</span>
-                </Link>
-              ))}
-            </Card>
-          )}
-        </div>
-      )}
-
-      {tab === 'evals' && (
-        <div>
-          {runs.length === 0 ? (
-            <EmptyState title="No eval runs yet" hint="Run an eval to start tracking quality.">
-              <Button variant="primary">Run eval</Button>
-            </EmptyState>
-          ) : (
-            <Card className="divide-y divide-zinc-800/70">
-              {runs.map((r) => (
-                <Link
-                  key={r.id}
-                  to={`/evals/${r.id}`}
-                  className="flex items-center gap-4 px-4 py-3 hover:bg-zinc-900/40"
-                >
-                  <Badge tone={r.trigger === 'ci' ? 'violet' : 'zinc'}>{r.trigger}</Badge>
-                  <span className="text-zinc-400">{r.datasetName}</span>
-                  <span className="font-medium text-zinc-100">{r.score}%</span>
-                  <ScoreDelta delta={r.delta} />
-                  <span className="ml-auto text-xs text-zinc-600">{r.createdAt}</span>
-                </Link>
-              ))}
-            </Card>
-          )}
-        </div>
-      )}
+      {tab === 'versions' && <VersionsTab snapshots={snapshots} />}
+      {tab === 'messages' && <MessagesTab latest={latest} />}
     </div>
   )
 }
 
-const buttonLink =
-  'inline-flex items-center gap-1.5 rounded-md border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-sm font-medium text-zinc-200 transition-colors hover:bg-zinc-800'
-
-function VersionsTab({
-  versions,
-  prompt,
-}: { versions: Version[]; prompt: { model: string; provider: string } }) {
-  if (versions.length === 0) {
+function MessagesTab({ latest }: { latest: Snapshot | undefined }) {
+  if (!latest || latest.messages.length === 0) {
     return (
-      <Card className="p-4">
-        <div className="text-sm text-zinc-300">
-          Current:{' '}
-          <Badge tone="sky">
-            {prompt.provider}/{prompt.model}
-          </Badge>
-        </div>
-        <p className="mt-2 text-sm text-zinc-500">
-          Version history builds up as the scanner observes changes across commits.
-        </p>
-      </Card>
+      <EmptyState
+        title="No resolved messages"
+        hint="This prompt is assembled at runtime, so the scanner couldn't reconstruct its text statically."
+      />
     )
   }
   return (
+    <div className="space-y-3">
+      {latest.messages.map((m, i) => (
+        <Card key={`${m.role}-${i}`} className="overflow-hidden">
+          <div className="border-b border-zinc-800 bg-zinc-900/60 px-4 py-2">
+            <Badge tone="zinc">{m.role}</Badge>
+          </div>
+          <pre className="whitespace-pre-wrap px-4 py-3 font-mono text-xs leading-relaxed text-zinc-300">
+            {toText(m.content)}
+          </pre>
+        </Card>
+      ))}
+    </div>
+  )
+}
+
+function VersionsTab({ snapshots }: { snapshots: Snapshot[] }) {
+  const [showDiff, setShowDiff] = useState(false)
+  if (snapshots.length === 0) {
+    return (
+      <EmptyState title="No versions yet" hint="Versions build up as the scanner sees changes." />
+    )
+  }
+  const latest = snapshots[0]
+  const prior = snapshots[1]
+  const canDiff = latest !== undefined && prior !== undefined
+
+  return (
     <div>
-      <div className="mb-3 flex justify-end">
-        <Button>
-          Diff v{versions[0]?.v} ↔ v{versions[1]?.v ?? versions[0]?.v}
-        </Button>
-      </div>
+      {canDiff ? (
+        <div className="mb-3 flex justify-end">
+          <Button onClick={() => setShowDiff((v) => !v)}>
+            {showDiff ? 'Hide diff' : 'Diff latest 2 versions'}
+          </Button>
+        </div>
+      ) : null}
+
+      {showDiff && latest && prior ? <ContentDiff a={prior} b={latest} /> : null}
+
       <ol className="relative space-y-3 border-l border-zinc-800 pl-6">
-        {versions.map((s, idx) => (
-          <li key={s.id} className="relative">
-            <span
-              className={`absolute -left-[27px] top-2 h-2.5 w-2.5 rounded-full ring-4 ring-zinc-950 ${
-                idx === 0 ? 'bg-emerald-400' : 'bg-zinc-600'
-              }`}
-            />
-            <Card className="p-4">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="font-mono text-sm text-zinc-300">v{s.v}</span>
-                <Badge tone="sky">
-                  {s.provider}/{s.model}
-                </Badge>
-                {s.change === 'model' && <Badge tone="violet">model changed</Badge>}
-                {s.change === 'content' && <Badge tone="violet">content changed</Badge>}
-                {s.change === 'first' && <Badge tone="zinc">first seen</Badge>}
-                <span className="ml-auto text-xs text-zinc-500">
-                  {s.author} · {s.date}
-                </span>
-              </div>
-              <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 font-mono text-xs text-zinc-500">
-                <span>content {short(s.contentHash)}</span>
-                <span>config {short(s.configHash)}</span>
-                <span>{s.gitRef}</span>
-                <span>{s.gitSha}</span>
-              </div>
-            </Card>
-          </li>
-        ))}
+        {snapshots.map((s, idx) => {
+          const kind = changeKind(s, snapshots[idx + 1])
+          return (
+            <li key={s.id} className="relative">
+              <span
+                className={`absolute -left-[27px] top-2 h-2.5 w-2.5 rounded-full ring-4 ring-zinc-950 ${
+                  idx === 0 ? 'bg-emerald-400' : 'bg-zinc-600'
+                }`}
+              />
+              <Card className="p-4">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-mono text-sm text-zinc-300">v{snapshots.length - idx}</span>
+                  <Badge tone="sky">{modelLabel(s)}</Badge>
+                  {kind === 'first' && <Badge tone="zinc">first seen</Badge>}
+                  {kind === 'content' && <Badge tone="violet">content changed</Badge>}
+                  {kind === 'config' && <Badge tone="violet">model / params changed</Badge>}
+                  {kind === 'both' && <Badge tone="violet">content + model changed</Badge>}
+                  {s.seenCount > 1 ? (
+                    <span className="text-xs text-zinc-500">seen ×{s.seenCount}</span>
+                  ) : null}
+                  <span className="ml-auto text-xs text-zinc-500">
+                    {new Date(s.lastSeenAt).toLocaleDateString()}
+                  </span>
+                </div>
+                <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 font-mono text-xs text-zinc-500">
+                  <span>content {short(s.contentHash)}</span>
+                  <span>config {short(s.configHash)}</span>
+                  {s.gitRef ? <span>{s.gitRef}</span> : null}
+                  {s.gitSha ? <span>{short(s.gitSha)}</span> : null}
+                </div>
+              </Card>
+            </li>
+          )
+        })}
       </ol>
     </div>
+  )
+}
+
+/** Minimal line-level diff between two snapshots' concatenated message text. */
+function ContentDiff({ a, b }: { a: Snapshot; b: Snapshot }) {
+  const textOf = (s: Snapshot) =>
+    s.messages.map((m) => `[${m.role}] ${toText(m.content)}`).join('\n')
+  const oldLines = textOf(a).split('\n')
+  const newLines = textOf(b).split('\n')
+  const oldSet = new Set(oldLines)
+  const newSet = new Set(newLines)
+  const removed = oldLines.filter((l) => !newSet.has(l))
+  const added = newLines.filter((l) => !oldSet.has(l))
+  const unchanged = removed.length === 0 && added.length === 0
+
+  return (
+    <Card className="mb-4 overflow-hidden">
+      <div className="border-b border-zinc-800 bg-zinc-900/60 px-4 py-2 text-xs text-zinc-400">
+        Diff — older version → latest
+      </div>
+      <pre className="overflow-x-auto px-4 py-3 font-mono text-xs leading-relaxed">
+        {removed.length > 0 ? (
+          <span className="text-red-400">{removed.map((l) => `- ${l}`).join('\n')}</span>
+        ) : null}
+        {removed.length > 0 && added.length > 0 ? '\n' : null}
+        {added.length > 0 ? (
+          <span className="text-emerald-400">{added.map((l) => `+ ${l}`).join('\n')}</span>
+        ) : null}
+        {unchanged ? (
+          <span className="text-zinc-500">No message-text changes (only model/params differ).</span>
+        ) : null}
+      </pre>
+    </Card>
   )
 }
