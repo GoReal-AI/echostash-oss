@@ -18,9 +18,12 @@ function parseTrustProxy(value: string): boolean | string[] {
 }
 import { apiKeysRoutes } from './modules/api-keys/routes'
 import { authRoutes } from './modules/auth/routes'
+import { datasetRoutes } from './modules/datasets/routes'
 import { ingestRoutes } from './modules/ingest/routes'
 import { promptRoutes } from './modules/prompts/routes'
+import { scorerRoutes } from './modules/scorers/routes'
 import { settingsRoutes } from './modules/settings/routes'
+import { variantRoutes } from './modules/variants/routes'
 import { authPlugin } from './plugins/auth'
 
 export interface AppDeps {
@@ -87,6 +90,11 @@ export async function buildApp({ db, sql }: AppDeps): Promise<FastifyInstance> {
   // M2 — awareness: scan ingestion + the prompt registry.
   await app.register(ingestRoutes, { prefix: '/api' })
   await app.register(promptRoutes, { prefix: '/api' })
+
+  // M4 — eval: datasets/cases, scorers, and variants CRUD.
+  await app.register(datasetRoutes, { prefix: '/api' })
+  await app.register(scorerRoutes, { prefix: '/api' })
+  await app.register(variantRoutes, { prefix: '/api' })
 
   return app
 }

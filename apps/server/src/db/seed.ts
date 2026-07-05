@@ -221,7 +221,12 @@ export async function seed(db: Database): Promise<void> {
   // 3. Scorer + two variants (the eval-matrix columns).
   const [scorer] = await db
     .insert(scorers)
-    .values({ name: 'contains-keyword', type: 'deterministic', config: { path: 'contains' } })
+    .values({
+      name: 'contains-keyword',
+      family: 'string',
+      op: 'contains',
+      config: { value: 'the' },
+    })
     .returning()
   if (!scorer) throw new Error('seed: failed to create scorer')
 
