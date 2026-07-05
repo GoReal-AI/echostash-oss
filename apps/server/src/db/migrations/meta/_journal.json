@@ -8,6 +8,13 @@
       "when": 1781777735488,
       "tag": "0000_even_emma_frost",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1783254925691,
+      "tag": "0001_green_cyclops",
+      "breakpoints": true
     }
   ]
 }

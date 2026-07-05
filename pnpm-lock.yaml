@@ -30,6 +30,9 @@ importers:
 
   apps/server:
     dependencies:
+      '@echostash/scoring':
+        specifier: workspace:*
+        version: link:../../packages/scoring
       '@echostash/shared':
         specifier: workspace:*
         version: link:../../packages/shared

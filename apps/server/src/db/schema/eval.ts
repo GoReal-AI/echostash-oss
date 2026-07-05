@@ -1,15 +1,19 @@
 import type {
+  AssertionOp,
   EvalExecutor,
   EvalStatus,
   EvalTrigger,
   Message,
   ModelParams,
   Provider,
+  ScorerFamily,
+  ScorerTarget,
   ScorerType,
 } from '@echostash/shared'
 import { createId } from '@paralleldrive/cuid2'
 import {
   boolean,
+  doublePrecision,
   index,
   integer,
   jsonb,
@@ -63,6 +67,8 @@ export const datasetCases = pgTable(
       .references(() => datasets.id, { onDelete: 'cascade' }),
     name: text('name').notNull(),
     input: jsonb('input').$type<Record<string, unknown>>().notNull().default({}),
+    /** optional mocked conversation prepended before the model responds (test a turn in isolation) */
+    messages: jsonb('messages').$type<Message[]>(),
     expected: jsonb('expected'),
     source: text('source').$type<'manual' | 'import'>().notNull().default('manual'),
     position: integer('position').notNull().default(0),
@@ -70,11 +76,20 @@ export const datasetCases = pgTable(
   (t) => [index('dataset_cases_dataset_idx').on(t.datasetId)],
 )
 
+/** A single check applied to an output — mirrors the shared `Scorer` the runner consumes. */
 export const scorers = pgTable('scorers', {
   id: id(),
   name: text('name').notNull(),
-  type: text('type').$type<ScorerType>().notNull(),
+  family: text('family').$type<ScorerFamily>().notNull(),
+  op: text('op').$type<AssertionOp>().notNull(),
   config: jsonb('config').$type<Record<string, unknown>>().notNull().default({}),
+  target: text('target').$type<ScorerTarget>().notNull().default('response'),
+  weight: doublePrecision('weight').notNull().default(1),
+  /** pass cutoff for scored (0..1) scorers; null = use the family default */
+  threshold: doublePrecision('threshold'),
+  negate: boolean('negate').notNull().default(false),
+  /** Legacy coarse type, superseded by `family`; kept nullable for back-compat. */
+  type: text('type').$type<ScorerType>(),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 })
 
