@@ -15,6 +15,13 @@
       "when": 1783254925691,
       "tag": "0001_green_cyclops",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1783257821745,
+      "tag": "0002_sloppy_gravity",
+      "breakpoints": true
     }
   ]
 }

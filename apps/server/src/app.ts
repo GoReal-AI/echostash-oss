@@ -19,6 +19,7 @@ function parseTrustProxy(value: string): boolean | string[] {
 import { apiKeysRoutes } from './modules/api-keys/routes'
 import { authRoutes } from './modules/auth/routes'
 import { datasetRoutes } from './modules/datasets/routes'
+import { evalRunRoutes } from './modules/eval-runs/routes'
 import { ingestRoutes } from './modules/ingest/routes'
 import { promptRoutes } from './modules/prompts/routes'
 import { scorerRoutes } from './modules/scorers/routes'
@@ -91,10 +92,11 @@ export async function buildApp({ db, sql }: AppDeps): Promise<FastifyInstance> {
   await app.register(ingestRoutes, { prefix: '/api' })
   await app.register(promptRoutes, { prefix: '/api' })
 
-  // M4 — eval: datasets/cases, scorers, and variants CRUD.
+  // M4 — eval: datasets/cases, scorers, variants CRUD + the eval-run lifecycle.
   await app.register(datasetRoutes, { prefix: '/api' })
   await app.register(scorerRoutes, { prefix: '/api' })
   await app.register(variantRoutes, { prefix: '/api' })
+  await app.register(evalRunRoutes, { prefix: '/api' })
 
   return app
 }

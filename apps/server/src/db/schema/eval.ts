@@ -107,6 +107,11 @@ export const evalRuns = pgTable(
     executor: text('executor').$type<EvalExecutor>().notNull(),
     gitSha: text('git_sha'),
     configHash: text('config_hash').notNull(),
+    /** The run's selection — lets the /spec endpoint rebuild the exact EvalJobSpec. */
+    variantIds: jsonb('variant_ids').$type<string[]>().notNull().default([]),
+    scorerIds: jsonb('scorer_ids').$type<string[]>().notNull().default([]),
+    sampleCount: integer('sample_count').notNull().default(1),
+    error: text('error'),
     status: text('status').$type<EvalStatus>().notNull().default('pending'),
     summaryTotal: integer('summary_total').notNull().default(0),
     summaryPassed: integer('summary_passed').notNull().default(0),
