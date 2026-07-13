@@ -45,8 +45,9 @@ export async function evalRunRoutes(app: FastifyInstance): Promise<void> {
         status: 'pending',
       })
       .returning({ id: evalRuns.id, status: evalRuns.status })
-    app.log.info({ evalRunId: row?.id }, 'eval run created (pending)')
-    return reply.code(201).send(row)
+    const dispatched = row ? await app.enqueueEval(row.id) : false
+    app.log.info({ evalRunId: row?.id, dispatched }, 'eval run created')
+    return reply.code(201).send({ ...row, dispatched })
   })
 
   // List runs, optionally scoped to a prompt.
