@@ -1,14 +1,34 @@
 {
   "name": "@echostash/cli",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "type": "module",
-  "description": "Echostash CLI: scan | eval | ci | init.",
+  "description": "Audit an MCP server's tool surface, scan your code for LLM prompts, and gate regressions in CI.",
+  "keywords": ["mcp", "model-context-protocol", "llm", "prompt", "eval", "lint", "ci"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoReal-AI/echostash-oss.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/GoReal-AI/echostash-oss#readme",
+  "bugs": "https://github.com/GoReal-AI/echostash-oss/issues",
   "bin": {
-    "echostash": "./src/cli.ts"
+    "echostash": "./dist/cli.js"
   },
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": ["dist", "README.md"],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=20"
   },
   "scripts": {
     "build": "tsup",
@@ -17,22 +37,25 @@
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^3.24.1"
+  },
+  "//optionalDependencies": "Only `scan` needs ripgrep, and only `scan --scan-model` needs the AI SDKs. Both are loaded lazily, so `mcp audit` works even when these fail to install (@vscode/ripgrep downloads a binary in a postinstall hook, which breaks behind proxies and in air-gapped CI).",
+  "optionalDependencies": {
     "@ai-sdk/anthropic": "^1.2.12",
     "@ai-sdk/google": "^1.2.19",
     "@ai-sdk/google-vertex": "^2.2.24",
     "@ai-sdk/openai": "^1.3.23",
+    "@vscode/ripgrep": "^1.18.0",
+    "ai": "^4.3.19"
+  },
+  "devDependencies": {
     "@echostash/analyzer": "workspace:*",
     "@echostash/discovery": "workspace:*",
     "@echostash/llm": "workspace:*",
     "@echostash/mcp": "workspace:*",
-    "@echostash/runner": "workspace:*",
     "@echostash/scan": "workspace:*",
     "@echostash/shared": "workspace:*",
-    "@vscode/ripgrep": "^1.18.0",
-    "ai": "^4.3.19",
-    "zod": "^3.24.1"
-  },
-  "devDependencies": {
     "@types/node": "^22.10.2",
     "tsup": "^8.5.1",
     "typescript": "^5.7.2",
