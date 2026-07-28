@@ -14,5 +14,11 @@ scan-test.local
 .idea/
 .vscode/
 
-# Echostash scan/track output (per-repo manifest store)
-.echostash/
+# Echostash scan/track output (per-repo manifest store) — local cache, not shared.
+# Note the pattern is `.echostash/*`, not `.echostash/`: git cannot re-include a file whose
+# parent directory is excluded, and MCP audit baselines below must stay committable.
+.echostash/*
+
+# ...except MCP audit baselines, which are meant to be committed — the CI gate compares the
+# current tool surface against them, so a local-only baseline would make the gate a no-op.
+!.echostash/mcp-baseline.*.json

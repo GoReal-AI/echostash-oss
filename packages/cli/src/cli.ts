@@ -1,3 +1,4 @@
+import { runMcp } from './commands/mcp'
 import { runScan } from './commands/scan'
 import { COMMANDS, COMMAND_HELP, type Command } from './index'
 
@@ -23,6 +24,16 @@ function printHelp(): void {
   console.log('  --server <url>   control-plane URL (env ECHOSTASH_URL)')
   console.log('  --api-key <key>  API key (env ECHOSTASH_API_KEY)')
   console.log('  --dry-run        analyze and print; do not post')
+  console.log('\nmcp audit <url | --command "npx -y @acme/server"> options:')
+  console.log('  (default)        read tools/list, analyze the tool surface, write a baseline')
+  console.log('                   — no API key, no server, no model calls')
+  console.log('  --check          compare against the committed baseline; exit 1 on regression')
+  console.log('  --threshold <n>  allowed score drop before --check fails (default 0)')
+  console.log('  --update-baseline  accept the current state while checking')
+  console.log('  --header k=v     extra HTTP header (repeatable)')
+  console.log('  --from-file <p>  audit a recorded tool surface instead of connecting')
+  console.log('  --dir <path>     where baselines live (default .echostash)')
+  console.log('  --json           machine-readable output')
 }
 
 async function main(argv: string[]): Promise<number> {
@@ -37,6 +48,7 @@ async function main(argv: string[]): Promise<number> {
     return 1
   }
   if (command === 'scan') return runScan(rest)
+  if (command === 'mcp') return runMcp(rest)
   console.log(`"${command}" is not implemented yet — ${COMMAND_HELP[command as Command]}`)
   return 0
 }

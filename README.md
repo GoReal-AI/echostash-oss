@@ -76,6 +76,46 @@ quota.
 **📐 Want the full product picture — every screen + the v1 scope?** See
 [docs/PRODUCT.md](docs/PRODUCT.md). For architecture/design, [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
+## Audit an MCP server's tool surface
+
+An MCP server's tool definitions **are prompts**: the `name`, `description`, and `inputSchema`
+are the only things a model sees when deciding which tool to call. Reword a description and
+tool-selection accuracy moves — but the change ships through a PR looking like a docstring edit.
+
+```bash
+echostash mcp audit https://your-server.example.com/mcp
+echostash mcp audit --command "npx -y @acme/mcp-server"
+```
+
+No API key, no server, no database, no model calls — it reads `tools/list` (and nothing else;
+auditing is side-effect free) and analyzes it deterministically:
+
+```
+  acme-support · 2 tools
+  protocol 2026-07-28
+
+  Tool Surface Score  97.5/100     context cost ~126 tokens/request
+
+  ! description-thin (1)
+      "refund_order" has a 16-character description
+  - no-negative-guidance (1)
+      "refund_order" never says when *not* to use it
+```
+
+It checks confusable tool pairs, unbounded or undescribed schemas, missing negative guidance
+("not for X — use Y instead"), name hygiene, behavioural annotations, and what the surface
+costs you in context tokens on **every** request.
+
+Each run writes `.echostash/mcp-baseline.<server>.json`. **Commit it**, then gate your PRs:
+
+```bash
+echostash mcp audit <target> --check     # exit 1 when the score regresses
+```
+
+Code gets reviewed; prompts don't. This closes that gap. Selection-accuracy eval (synthetic
+**and** hand-written queries → a confusion matrix showing which tool steals which one's traffic)
+is [tracked in M7](https://github.com/GoReal-AI/echostash-oss/issues/93).
+
 ## Status
 
 This is an early, in-progress build. Milestones:
