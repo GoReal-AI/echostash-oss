@@ -9,6 +9,8 @@
   },
   "scripts": {
     "build": "tsup",
+    "worker": "tsx src/worker.ts",
+    "worker:prod": "node dist/worker.js",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
     "clean": "rm -rf dist .turbo"
@@ -16,7 +18,8 @@
   "dependencies": {
     "@echostash/llm": "workspace:*",
     "@echostash/scoring": "workspace:*",
-    "@echostash/shared": "workspace:*"
+    "@echostash/shared": "workspace:*",
+    "bullmq": "^5.80.1"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

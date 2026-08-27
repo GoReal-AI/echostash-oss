@@ -11,6 +11,8 @@ import type {
 import { costUsd, isPriced } from './cost'
 
 export { costUsd, isPriced } from './cost'
+export { httpClient, type ServerClient } from './client'
+export { processEvalJob, type ProcessJobDeps } from './job'
 
 /** The LLM call, injectable so the executor can be unit-tested without a network/keys. */
 export type CompleteFn = (args: CompleteArgs) => Promise<Completion>

@@ -26,6 +26,7 @@ import { scorerRoutes } from './modules/scorers/routes'
 import { settingsRoutes } from './modules/settings/routes'
 import { variantRoutes } from './modules/variants/routes'
 import { authPlugin } from './plugins/auth'
+import { queuePlugin } from './queue'
 
 export interface AppDeps {
   db: Database
@@ -81,6 +82,9 @@ export async function buildApp({ db, sql }: AppDeps): Promise<FastifyInstance> {
       return reply.code(503).send({ status: 'not_ready', db: 'error' })
     }
   })
+
+  // Eval dispatch queue (BullMQ/Redis) — degrades to no-op without REDIS_URL.
+  await app.register(queuePlugin)
 
   // M5 — auth: session + API keys + settings
   await app.register(authPlugin)
