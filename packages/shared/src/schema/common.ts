@@ -18,5 +18,5 @@ export type Provider = z.infer<typeof Provider>
 export const Resolution = z.enum(['resolved', 'partial', 'dynamic'])
 export type Resolution = z.infer<typeof Resolution>
 
-export const SourceKind = z.enum(['github_app', 'git', 'local_scan', 'connector', 'native'])
+export const SourceKind = z.enum(['github_app', 'git', 'local_scan', 'connector', 'native', 'mcp'])
 export type SourceKind = z.infer<typeof SourceKind>

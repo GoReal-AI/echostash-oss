@@ -1,0 +1,25 @@
+{
+  "name": "@echostash/analyzer",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Deterministic tool-surface analysis: confusability, schema tightness, token budget, and the Tool Surface Score. No model calls.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@echostash/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsup": "^8.5.1",
+    "typescript": "^5.7.2",
+    "vitest": "^3.2.6"
+  }
+}

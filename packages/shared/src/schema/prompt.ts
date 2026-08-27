@@ -46,7 +46,8 @@ export const Prompt = z.object({
   /** human name, auto-derived from the enclosing symbol, renamable in the UI */
   name: z.string(),
   projectId: Id.nullable(),
-  type: z.enum(['prompt', 'skill']).default('prompt'),
+  /** `tool` = an MCP tool definition: its name + description + inputSchema are the prompt. */
+  type: z.enum(['prompt', 'skill', 'tool']).default('prompt'),
   firstSeenAt: Timestamp,
   lastSeenAt: Timestamp,
 })
