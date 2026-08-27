@@ -7,8 +7,18 @@ export default defineConfig({
   clean: true,
   sourcemap: true,
   banner: { js: '#!/usr/bin/env node' },
-  // bundle workspace deps (they export raw .ts)…
+  // Bundle the workspace deps — they export raw .ts and are not published to npm, so the
+  // published CLI has to carry them inline rather than depend on them.
   noExternal: [/@echostash\//],
-  // …but keep heavy / dynamic-require npm deps external (resolved at runtime)
-  external: ['ai', /^@ai-sdk\//, 'google-auth-library', 'zod', '@vscode/ripgrep'],
+  // Keep real npm deps external so they install normally. @modelcontextprotocol/sdk spawns
+  // child processes for stdio transport and @vscode/ripgrep ships a platform binary — neither
+  // survives bundling.
+  external: [
+    'ai',
+    /^@ai-sdk\//,
+    'google-auth-library',
+    'zod',
+    '@vscode/ripgrep',
+    /^@modelcontextprotocol\/sdk/,
+  ],
 })

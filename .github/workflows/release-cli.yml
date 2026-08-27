@@ -1,0 +1,79 @@
+name: Release CLI
+
+# Publish @echostash/cli to npm. Triggered by pushing a tag like `cli-v0.1.0`, or manually
+# with dry-run: true to rehearse the whole thing without publishing.
+on:
+  push:
+    tags: ['cli-v*']
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Build and pack, but do not publish'
+        type: boolean
+        default: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # Required for npm provenance (publishConfig.provenance in packages/cli/package.json).
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - run: pnpm install --frozen-lockfile
+
+      # Publishing something that doesn't pass its own checks is not a thing we do.
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm test
+      - run: pnpm build
+
+      # The tag is the source of truth — refuse to publish if it disagrees with package.json,
+      # so `cli-v0.2.0` can never ship 0.1.0 under the wrong name.
+      - name: Verify tag matches package version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#cli-v}"
+          PKG_VERSION="$(node -p "require('./packages/cli/package.json').version")"
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "::error::tag $GITHUB_REF_NAME implies $TAG_VERSION but package.json says $PKG_VERSION"
+            exit 1
+          fi
+
+      # The workspace deps are bundled, not published, so the tarball must not reference them.
+      - name: Verify no unpublished workspace deps leaked into the manifest
+        run: |
+          if node -p "JSON.stringify(require('./packages/cli/package.json').dependencies)" | grep -q '@echostash/'; then
+            echo "::error::packages/cli depends on an unpublished @echostash/* package; it must be bundled instead"
+            exit 1
+          fi
+
+      - name: Pack
+        working-directory: packages/cli
+        run: npm pack --pack-destination /tmp
+
+      # Install the real tarball somewhere clean and run it — catches a broken `bin` path or a
+      # missing runtime dep, which `pnpm build` passing tells you nothing about.
+      - name: Smoke-test the tarball
+        run: |
+          mkdir -p /tmp/smoke && cd /tmp/smoke && npm init -y >/dev/null
+          npm install /tmp/echostash-cli-*.tgz >/dev/null
+          ./node_modules/.bin/echostash --help
+          ./node_modules/.bin/echostash mcp audit --from-file "$GITHUB_WORKSPACE/packages/cli/test/fixtures/surface.json"
+
+      - name: Publish
+        if: startsWith(github.ref, 'refs/tags/') && inputs.dry-run != true
+        working-directory: packages/cli
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

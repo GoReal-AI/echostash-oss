@@ -1,6 +1,5 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { generate } from '@echostash/llm'
 import { z } from 'zod'
 import { CATALOG, type CallShape } from './catalog'
 import { rg, rgFiles } from './rgexec'
@@ -140,6 +139,9 @@ export async function augmentShapes(root: string, opts: AugmentOptions): Promise
   if (!context.trim()) return []
 
   onLog(`augment: analyzing project with ${opts.spec}…`)
+  // Imported lazily so the provider layer (and the ~10MB of AI SDKs behind it) is only loaded
+  // when someone actually opts into `--scan-model`. Every other command pays nothing.
+  const { generate } = await import('@echostash/llm')
   const text = await generate({
     spec: opts.spec,
     system: SYSTEM,
