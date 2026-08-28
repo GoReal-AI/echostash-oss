@@ -18,6 +18,8 @@ interface Flags {
   command?: string
   fromFile?: string
   headers: Record<string, string>
+  env: Record<string, string>
+  inheritEnv: boolean
   dir: string
   json: boolean
   check: boolean
@@ -29,6 +31,8 @@ function parseFlags(argv: string[]): Flags {
   const f: Flags = {
     positional: [],
     headers: {},
+    env: {},
+    inheritEnv: false,
     dir: '.echostash',
     json: false,
     check: false,
@@ -44,10 +48,11 @@ function parseFlags(argv: string[]): Flags {
     else if (a === '--json') f.json = true
     else if (a === '--check') f.check = true
     else if (a === '--update-baseline') f.updateBaseline = true
-    else if (a === '--header') {
+    else if (a === '--inherit-env') f.inheritEnv = true
+    else if (a === '--header' || a === '--env') {
       const raw = argv[++i] ?? ''
       const eq = raw.indexOf('=')
-      if (eq > 0) f.headers[raw.slice(0, eq)] = raw.slice(eq + 1)
+      if (eq > 0) (a === '--header' ? f.headers : f.env)[raw.slice(0, eq)] = raw.slice(eq + 1)
     } else if (a && !a.startsWith('-')) f.positional.push(a)
   }
   return f
@@ -92,6 +97,10 @@ export async function runMcp(argv: string[]): Promise<number> {
     let target: McpTarget
     try {
       target = parseTarget(raw, Object.keys(flags.headers).length ? flags.headers : undefined)
+      if (target.kind === 'stdio') {
+        if (Object.keys(flags.env).length) target.env = flags.env
+        if (flags.inheritEnv) target.inheritEnv = true
+      }
     } catch (err) {
       log(err instanceof Error ? err.message : String(err))
       return 1
