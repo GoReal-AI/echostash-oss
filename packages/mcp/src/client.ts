@@ -1,12 +1,26 @@
 import type { McpTool, McpToolSurface } from '@echostash/shared'
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
-import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
+import {
+  StdioClientTransport,
+  getDefaultEnvironment,
+} from '@modelcontextprotocol/sdk/client/stdio.js'
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js'
 
 /** Where to reach the server: an HTTP endpoint, or a command we spawn and speak stdio to. */
 export type McpTarget =
   | { kind: 'http'; url: string; headers?: Record<string, string> }
-  | { kind: 'stdio'; command: string; args: string[]; env?: Record<string, string> }
+  | {
+      kind: 'stdio'
+      command: string
+      args: string[]
+      /** Extra variables handed to the spawned server (on top of the safe default set). */
+      env?: Record<string, string>
+      /**
+       * Hand the server our *entire* environment. Off by default: an audited server is usually
+       * somebody else's code, and it must not inherit provider keys / tokens by accident.
+       */
+      inheritEnv?: boolean
+    }
 
 /**
  * Parse a CLI target. A bare `http(s)://` URL is an HTTP server; anything else is a command
@@ -28,6 +42,27 @@ export function targetId(target: McpTarget): string {
 const CLIENT_INFO = { name: 'echostash-mcp-audit', version: '0.1.0' }
 
 /**
+ * Environment for a spawned stdio server.
+ *
+ * Defaults to the MCP SDK's allow-list (`PATH`, `HOME`, `SHELL`, … — what a process needs to
+ * start) plus anything explicitly passed in `target.env`. The full parent environment is only
+ * forwarded when `inheritEnv` is set, so `echostash mcp audit --command "npx -y @acme/server"`
+ * never leaks `OPENAI_API_KEY`, `NPM_TOKEN`, etc. into code we didn't write.
+ */
+export function stdioEnv(
+  target: Extract<McpTarget, { kind: 'stdio' }>,
+  parent: NodeJS.ProcessEnv = process.env,
+): Record<string, string> {
+  const base: Record<string, string> = {}
+  if (target.inheritEnv) {
+    for (const [k, v] of Object.entries(parent)) if (v !== undefined) base[k] = v
+  } else {
+    Object.assign(base, getDefaultEnvironment())
+  }
+  return { ...base, ...(target.env ?? {}) }
+}
+
+/**
  * Read a server's complete tool surface.
  *
  * **Read-only by construction**: we call `tools/list` and nothing else, never `tools/call`.
@@ -43,7 +78,7 @@ export async function fetchToolSurface(target: McpTarget): Promise<McpToolSurfac
       : new StdioClientTransport({
           command: target.command,
           args: target.args,
-          env: { ...(process.env as Record<string, string>), ...(target.env ?? {}) },
+          env: stdioEnv(target),
         })
 
   try {

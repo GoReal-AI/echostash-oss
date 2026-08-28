@@ -84,7 +84,7 @@ tool-selection accuracy moves — but the change ships through a PR looking like
 
 ```bash
 echostash mcp audit https://your-server.example.com/mcp
-echostash mcp audit --command "npx -y @acme/mcp-server"
+echostash mcp audit --command "npx -y @acme/mcp-server"   # spawned with a minimal env; --env k=v to add
 ```
 
 No API key, no server, no database, no model calls — it reads `tools/list` (and nothing else;

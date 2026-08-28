@@ -54,6 +54,8 @@ npx @echostash/cli mcp audit <target> --check    # exits 1 when the score regres
 | `--threshold <n>` | allowed score drop before `--check` fails (default 0) |
 | `--update-baseline` | accept the current state while checking |
 | `--header k=v` | extra HTTP header (repeatable) |
+| `--env k=v` | variable to hand a `--command` server (repeatable) |
+| `--inherit-env` | forward your *entire* environment to the server (off by default — see below) |
 | `--from-file <p>` | audit a recorded surface instead of connecting |
 | `--json` | machine-readable output |
 
@@ -64,3 +66,11 @@ flow into. Language-agnostic, no annotations, no SDK. See the
 [main repo](https://github.com/GoReal-AI/echostash-oss).
 
 MIT
+
+### Environment of a spawned server
+
+`--command` servers get a minimal environment (`PATH`, `HOME`, and the handful of variables a
+process needs to start) — **not** your shell's. An audited server is usually somebody else's
+code, and it must not inherit `OPENAI_API_KEY`, `NPM_TOKEN`, etc. by accident. Pass what the
+server actually needs with `--env`, or opt into full inheritance with `--inherit-env` when you
+trust it.
