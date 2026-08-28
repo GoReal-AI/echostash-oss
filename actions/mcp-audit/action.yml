@@ -1,0 +1,98 @@
+name: 'Echostash MCP Audit Gate'
+description: 'Audit an MCP tool surface for regressions and post diff in PR'
+author: 'Echostash'
+
+inputs:
+  server:
+    description: 'Command or URL to start/reach the MCP server (e.g. "npx -y @acme/mcp-server")'
+    required: false
+  from-file:
+    description: 'Path to recorded tools/list JSON file'
+    required: false
+  threshold:
+    description: 'Max allowed score regression (default 0)'
+    required: false
+    default: '0'
+  dir:
+    description: 'Directory where baseline files are stored'
+    required: false
+    default: '.echostash'
+  comment:
+    description: 'Whether to post a PR comment with the audit report (requires github-token)'
+    required: false
+    default: 'true'
+  github-token:
+    description: 'GitHub token for posting PR comments (default github.token)'
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  score:
+    description: 'Current audit score (0-100)'
+    value: ${{ steps.run-audit.outputs.score }}
+  previous-score:
+    description: 'Previous baseline audit score (0-100)'
+    value: ${{ steps.run-audit.outputs.previous_score }}
+  regressed:
+    description: 'Whether the score regressed beyond the threshold ("true" or "false")'
+    value: ${{ steps.run-audit.outputs.regressed }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Run MCP Audit Gate
+      id: run-audit
+      shell: bash
+      env:
+        INPUT_SERVER: ${{ inputs.server }}
+        INPUT_FROM_FILE: ${{ inputs.from-file }}
+        INPUT_THRESHOLD: ${{ inputs.threshold }}
+        INPUT_DIR: ${{ inputs.dir }}
+        INPUT_COMMENT: ${{ inputs.comment }}
+        INPUT_GITHUB_TOKEN: ${{ inputs.github-token }}
+        GH_TOKEN: ${{ inputs.github-token }}
+      run: |
+        set -euo pipefail
+
+        ARGS=()
+        if [ -n "${INPUT_FROM_FILE}" ]; then
+          ARGS+=(--from-file "${INPUT_FROM_FILE}")
+        elif [ -n "${INPUT_SERVER}" ]; then
+          ARGS+=("${INPUT_SERVER}")
+        else
+          echo "::error::Either 'server' or 'from-file' input must be provided"
+          exit 1
+        fi
+
+        ARGS+=(--check --threshold "${INPUT_THRESHOLD}" --dir "${INPUT_DIR}" --json)
+
+        echo "Running: npx -y @echostash/cli mcp audit ${ARGS[*]}"
+        AUDIT_OUTPUT=$(npx -y @echostash/cli mcp audit "${ARGS[@]}" 2>&1 || true)
+
+        # Parse JSON output
+        JSON_PAYLOAD=$(echo "$AUDIT_OUTPUT" | grep -v '^[a-zA-Z]' || echo "{}")
+
+        SCORE=$(node -e "try { const d = JSON.parse(process.argv[1]); console.log(d.report?.score ?? 0); } catch { console.log(0); }" "$JSON_PAYLOAD")
+        PREV_SCORE=$(node -e "try { const d = JSON.parse(process.argv[1]); console.log(d.previousScore ?? 0); } catch { console.log(0); }" "$JSON_PAYLOAD")
+        REGRESSED=$(node -e "try { const d = JSON.parse(process.argv[1]); console.log(d.regressed ? 'true' : 'false'); } catch { console.log('false'); }" "$JSON_PAYLOAD")
+
+        echo "score=${SCORE}" >> "$GITHUB_OUTPUT"
+        echo "previous_score=${PREV_SCORE}" >> "$GITHUB_OUTPUT"
+        echo "regressed=${REGRESSED}" >> "$GITHUB_OUTPUT"
+
+        # Generate summary markdown
+        SUMMARY_MD="### 🔍 Echostash MCP Tool Surface Audit
+
+| Metric | Score |
+| :--- | :--- |
+| **Current Score** | **${SCORE} / 100** |
+| **Baseline Score** | **${PREV_SCORE} / 100** |
+| **Status** | $([ "$REGRESSED" = "true" ] && echo "❌ **REGRESSION DETECTED**" || echo "✅ **PASSED**") |
+
+"
+        echo "$SUMMARY_MD" >> "$GITHUB_STEP_SUMMARY"
+
+        if [ "$REGRESSED" = "true" ]; then
+          echo "::error::MCP Tool Surface Audit Regressed! Current score ($SCORE) is below previous baseline ($PREV_SCORE - $INPUT_THRESHOLD)."
+          exit 1
+        fi
