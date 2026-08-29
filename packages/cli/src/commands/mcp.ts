@@ -4,8 +4,11 @@ import { analyze } from '@echostash/analyzer'
 import {
   type McpTarget,
   diffBaseline,
+  evaluateToolSelection,
   fetchToolSurface,
   parseTarget,
+  readCasesFile,
+  renderEvalReport,
   toBaseline,
 } from '@echostash/mcp'
 import { McpBaseline, McpToolSurface } from '@echostash/shared'
@@ -71,14 +74,55 @@ function readBaseline(path: string): McpBaseline | null {
 
 /**
  * `echostash mcp audit <target>` — read a server's tool surface, analyze it, report.
+ * `echostash mcp eval <target>` — evaluate tool selection against test cases and render confusion matrix.
  *
  * Deliberately offline-shaped: no Echostash server, no API key, no model calls. Same
  * local-first convention as `scan --dry-run --track`.
  */
 export async function runMcp(argv: string[]): Promise<number> {
   const [sub, ...rest] = argv
+  if (sub === 'eval') {
+    const flags = parseFlags(rest)
+    const raw = flags.command ?? flags.positional[0]
+    if (!raw) {
+      log('usage: echostash mcp eval <url|--command "npx -y @acme/server"> [--dir <path>]')
+      return 1
+    }
+    let target: McpTarget
+    try {
+      target = parseTarget(raw, Object.keys(flags.headers).length ? flags.headers : undefined)
+    } catch (err) {
+      log(err instanceof Error ? err.message : String(err))
+      return 1
+    }
+    let surface: McpToolSurface
+    try {
+      surface = await fetchToolSurface(target)
+    } catch (err) {
+      log(err instanceof Error ? err.message : String(err))
+      return 1
+    }
+    const casesPath = join(flags.dir, 'mcp-cases.json')
+    let casesFile
+    try {
+      casesFile = readCasesFile(casesPath, surface)
+    } catch (err) {
+      log(err instanceof Error ? err.message : String(err))
+      return 1
+    }
+
+    const report = await evaluateToolSelection(surface, casesFile.cases, async (query, tools) => {
+      const matched = tools.find((t) => query.toLowerCase().includes(t.name.toLowerCase()))
+      return { toolName: matched ? matched.name : null }
+    })
+
+    if (flags.json) console.log(JSON.stringify(report, null, 2))
+    else console.log(renderEvalReport(report))
+    return 0
+  }
+
   if (sub !== 'audit') {
-    log(`unknown "mcp" subcommand: ${sub ?? '(none)'} — expected "audit"`)
+    log(`unknown "mcp" subcommand: ${sub ?? '(none)'} — expected "audit" or "eval"`)
     return 1
   }
 
