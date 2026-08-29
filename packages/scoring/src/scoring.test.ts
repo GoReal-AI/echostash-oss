@@ -1,6 +1,6 @@
 import type { Scorer } from '@echostash/shared'
 import { describe, expect, it } from 'vitest'
-import { evaluate, parseJudgeVerdict } from './index'
+import { evaluate, parseJudgeVerdict, SCORER_CATALOG } from './index'
 
 function scorer(p: Partial<Scorer> & Pick<Scorer, 'family' | 'op'>): Scorer {
   return { id: 's', name: 's', config: {}, target: 'response', weight: 1, negate: false, ...p }
@@ -110,5 +110,90 @@ describe('llm_judge', () => {
       { output: 'y' },
     )
     expect(r.status).toBe('error')
+  })
+})
+
+describe('tool_selection scorers', () => {
+  it('passes when tool choice matches config.tool', async () => {
+    const r = await evaluate(
+      scorer({
+        family: 'tool_selection',
+        op: 'selected_tool',
+        target: 'tool_choice',
+        config: { tool: 'calculator' },
+      }),
+      {
+        output: '',
+        toolChoice: { name: 'calculator' },
+      },
+    )
+    expect(r.status).toBe('pass')
+    expect(r.score).toBe(1)
+  })
+
+  it('passes when tool choice matches ctx.expected fallback', async () => {
+    const r = await evaluate(
+      scorer({
+        family: 'tool_selection',
+        op: 'selected_tool',
+        target: 'tool_choice',
+      }),
+      {
+        output: '',
+        expected: 'search',
+        toolChoice: { name: 'search' },
+      },
+    )
+    expect(r.status).toBe('pass')
+  })
+
+  it('fails when tool choice does not match', async () => {
+    const r = await evaluate(
+      scorer({
+        family: 'tool_selection',
+        op: 'selected_tool',
+        target: 'tool_choice',
+        config: { tool: 'calculator' },
+      }),
+      {
+        output: '',
+        toolChoice: { name: 'search' },
+      },
+    )
+    expect(r.status).toBe('fail')
+    expect(r.score).toBe(0)
+    expect(r.reason).toContain('expected tool "calculator", got "search"')
+  })
+
+  it('fails when expected tool is missing', async () => {
+    const r = await evaluate(
+      scorer({
+        family: 'tool_selection',
+        op: 'selected_tool',
+        target: 'tool_choice',
+      }),
+      {
+        output: '',
+        toolChoice: { name: 'search' },
+      },
+    )
+    expect(r.status).toBe('fail')
+    expect(r.reason).toContain('no expected tool specified')
+  })
+})
+
+describe('SCORER_CATALOG integrity', () => {
+  it('contains all implemented families and ops', () => {
+    const families = SCORER_CATALOG.map((f) => f.family)
+    expect(families).toContain('string')
+    expect(families).toContain('structural')
+    expect(families).toContain('operational')
+    expect(families).toContain('llm_judge')
+    expect(families).toContain('tool_selection')
+
+    const toolSelection = SCORER_CATALOG.find((f) => f.family === 'tool_selection')
+    expect(toolSelection).toBeDefined()
+    expect(toolSelection?.deterministic).toBe(true)
+    expect(toolSelection?.ops.map((o) => o.op)).toContain('selected_tool')
   })
 })

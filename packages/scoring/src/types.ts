@@ -2,6 +2,7 @@
 export interface EvalContext {
   output: string
   expected?: unknown
+  toolChoice?: { name: string | null }
   metrics?: {
     latencyMs?: number
     totalTokens?: number
