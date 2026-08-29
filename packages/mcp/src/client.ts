@@ -101,7 +101,7 @@ export async function fetchToolSurface(target: McpTarget): Promise<McpToolSurfac
       for (const t of page.tools) {
         tools.push({
           name: t.name,
-          title: t.annotations?.title ?? null,
+          title: (t as { title?: string }).title ?? t.annotations?.title ?? null,
           description: t.description ?? '',
           inputSchema: t.inputSchema ?? {},
           outputSchema: t.outputSchema ?? null,
