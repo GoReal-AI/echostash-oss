@@ -10,6 +10,7 @@ import { estimateTokens } from './text'
 export * from './text'
 export * from './score'
 export { confusablePairs, type ConfusablePair } from './checks/confusable'
+export { checkSchema } from './checks/schema'
 
 /** Past this the tool surface is a meaningful tax on every single request. */
 export const TOKEN_BUDGET_WARN = 10_000

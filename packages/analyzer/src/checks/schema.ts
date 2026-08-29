@@ -41,10 +41,11 @@ export function checkSchema(tool: McpTool): McpFinding[] {
   }
 
   const props = root.properties ?? {}
-  const required = new Set(root.required ?? [])
+  const requiredList = Array.isArray(root.required) ? root.required : []
+  const required = new Set(requiredList)
   const names = Object.keys(props).sort()
 
-  if (names.length > 0 && (root.required === undefined || root.required.length === 0)) {
+  if (names.length > 0 && requiredList.length === 0) {
     findings.push({
       check: 'schema-no-required',
       severity: 'warn',

@@ -22,6 +22,16 @@ export type McpTarget =
       inheritEnv?: boolean
     }
 
+export function splitArgs(input: string): string[] {
+  const matches = input.match(/(?:[^\s"']+|"[^"]*"|'[^']*')+/g) ?? []
+  return matches.map((m) => {
+    if ((m.startsWith('"') && m.endsWith('"')) || (m.startsWith("'") && m.endsWith("'"))) {
+      return m.slice(1, -1)
+    }
+    return m
+  })
+}
+
 /**
  * Parse a CLI target. A bare `http(s)://` URL is an HTTP server; anything else is a command
  * line we spawn (`npx -y @acme/server --flag`).
@@ -29,7 +39,7 @@ export type McpTarget =
 export function parseTarget(input: string, headers?: Record<string, string>): McpTarget {
   const trimmed = input.trim()
   if (/^https?:\/\//i.test(trimmed)) return { kind: 'http', url: trimmed, headers }
-  const [command, ...args] = trimmed.split(/\s+/).filter(Boolean)
+  const [command, ...args] = splitArgs(trimmed)
   if (!command) throw new Error('empty MCP target')
   return { kind: 'stdio', command, args }
 }
@@ -101,7 +111,7 @@ export async function fetchToolSurface(target: McpTarget): Promise<McpToolSurfac
       for (const t of page.tools) {
         tools.push({
           name: t.name,
-          title: t.annotations?.title ?? null,
+          title: (t as any).title ?? t.annotations?.title ?? null,
           description: t.description ?? '',
           inputSchema: t.inputSchema ?? {},
           outputSchema: t.outputSchema ?? null,

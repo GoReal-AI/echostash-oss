@@ -27,7 +27,7 @@ interface Flags {
   threshold: number
 }
 
-function parseFlags(argv: string[]): Flags {
+export function parseFlags(argv: string[]): Flags {
   const f: Flags = {
     positional: [],
     headers: {},
@@ -44,8 +44,14 @@ function parseFlags(argv: string[]): Flags {
     if (a === '--command') f.command = argv[++i]
     else if (a === '--from-file') f.fromFile = argv[++i]
     else if (a === '--dir') f.dir = argv[++i] ?? f.dir
-    else if (a === '--threshold') f.threshold = Number(argv[++i] ?? 0)
-    else if (a === '--json') f.json = true
+    else if (a === '--threshold') {
+      const rawVal = argv[++i]
+      const val = Number(rawVal)
+      if (Number.isNaN(val) || val < 0 || !Number.isFinite(val)) {
+        throw new Error(`invalid --threshold: expected a non-negative number, got "${rawVal ?? ''}"`)
+      }
+      f.threshold = val
+    } else if (a === '--json') f.json = true
     else if (a === '--check') f.check = true
     else if (a === '--update-baseline') f.updateBaseline = true
     else if (a === '--inherit-env') f.inheritEnv = true
@@ -58,14 +64,21 @@ function parseFlags(argv: string[]): Flags {
   return f
 }
 
-const baselinePath = (dir: string, serverId: string) =>
+export const baselinePath = (dir: string, serverId: string) =>
   join(dir, `mcp-baseline.${serverId.replace(/[^a-zA-Z0-9_-]+/g, '_')}.json`)
 
-function readBaseline(path: string): McpBaseline | null {
+export function readBaseline(path: string): { baseline: McpBaseline | null; error?: string } {
+  let raw: string
   try {
-    return McpBaseline.parse(JSON.parse(readFileSync(path, 'utf8')))
-  } catch {
-    return null
+    raw = readFileSync(path, 'utf8')
+  } catch (err: any) {
+    if (err?.code === 'ENOENT') return { baseline: null }
+    return { baseline: null, error: `failed to read baseline at ${path}: ${err?.message ?? String(err)}` }
+  }
+  try {
+    return { baseline: McpBaseline.parse(JSON.parse(raw)) }
+  } catch (err: any) {
+    return { baseline: null, error: `corrupt baseline at ${path}: ${err?.message ?? String(err)}` }
   }
 }
 
@@ -82,7 +95,14 @@ export async function runMcp(argv: string[]): Promise<number> {
     return 1
   }
 
-  const flags = parseFlags(rest)
+  let flags: Flags
+  try {
+    flags = parseFlags(rest)
+  } catch (err) {
+    log(err instanceof Error ? err.message : String(err))
+    return 1
+  }
+
   let surface: McpToolSurface
 
   if (flags.fromFile) {
@@ -125,7 +145,11 @@ export async function runMcp(argv: string[]): Promise<number> {
   const path = baselinePath(flags.dir, surface.serverId)
 
   if (flags.check) {
-    const previous = readBaseline(path)
+    const { baseline: previous, error: baselineError } = readBaseline(path)
+    if (baselineError) {
+      log(baselineError)
+      return 1
+    }
     if (!previous) {
       log(`no baseline at ${path} — run \`echostash mcp audit\` first to record one`)
       return 1
