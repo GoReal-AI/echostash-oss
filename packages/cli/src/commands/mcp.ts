@@ -44,7 +44,14 @@ function parseFlags(argv: string[]): Flags {
     if (a === '--command') f.command = argv[++i]
     else if (a === '--from-file') f.fromFile = argv[++i]
     else if (a === '--dir') f.dir = argv[++i] ?? f.dir
-    else if (a === '--threshold') f.threshold = Number(argv[++i] ?? 0)
+    else if (a === '--threshold') {
+      const raw = argv[++i]
+      const num = Number(raw)
+      if (Number.isNaN(num) || !Number.isFinite(num)) {
+        throw new Error(`invalid --threshold: "${raw}" is not a valid number`)
+      }
+      f.threshold = num
+    }
     else if (a === '--json') f.json = true
     else if (a === '--check') f.check = true
     else if (a === '--update-baseline') f.updateBaseline = true
@@ -61,11 +68,13 @@ function parseFlags(argv: string[]): Flags {
 const baselinePath = (dir: string, serverId: string) =>
   join(dir, `mcp-baseline.${serverId.replace(/[^a-zA-Z0-9_-]+/g, '_')}.json`)
 
-function readBaseline(path: string): McpBaseline | null {
+function readBaseline(path: string): { baseline: McpBaseline | null; error?: string } {
   try {
-    return McpBaseline.parse(JSON.parse(readFileSync(path, 'utf8')))
-  } catch {
-    return null
+    const raw = readFileSync(path, 'utf8')
+    return { baseline: McpBaseline.parse(JSON.parse(raw)) }
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === 'ENOENT') return { baseline: null }
+    return { baseline: null, error: err instanceof Error ? err.message : String(err) }
   }
 }
 
@@ -125,7 +134,11 @@ export async function runMcp(argv: string[]): Promise<number> {
   const path = baselinePath(flags.dir, surface.serverId)
 
   if (flags.check) {
-    const previous = readBaseline(path)
+    const { baseline: previous, error: baselineError } = readBaseline(path)
+    if (baselineError) {
+      log(`corrupt or invalid baseline at ${path} (${baselineError}) — delete or re-record it`)
+      return 1
+    }
     if (!previous) {
       log(`no baseline at ${path} — run \`echostash mcp audit\` first to record one`)
       return 1
