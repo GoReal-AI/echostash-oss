@@ -18,6 +18,7 @@ function parseTrustProxy(value: string): boolean | string[] {
 }
 import { apiKeysRoutes } from './modules/api-keys/routes'
 import { authRoutes } from './modules/auth/routes'
+import { ciRoutes } from './modules/ci/routes'
 import { datasetRoutes } from './modules/datasets/routes'
 import { evalRunRoutes } from './modules/eval-runs/routes'
 import { ingestRoutes } from './modules/ingest/routes'
@@ -101,6 +102,9 @@ export async function buildApp({ db, sql }: AppDeps): Promise<FastifyInstance> {
   await app.register(scorerRoutes, { prefix: '/api' })
   await app.register(variantRoutes, { prefix: '/api' })
   await app.register(evalRunRoutes, { prefix: '/api' })
+
+  // M5 — CI gate regression check
+  await app.register(ciRoutes, { prefix: '/api' })
 
   return app
 }
