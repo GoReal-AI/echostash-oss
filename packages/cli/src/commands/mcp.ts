@@ -90,7 +90,13 @@ export async function runMcp(argv: string[]): Promise<number> {
     return 1
   }
 
-  const flags = parseFlags(rest)
+  let flags: Flags
+  try {
+    flags = parseFlags(rest)
+  } catch (err) {
+    log(err instanceof Error ? err.message : String(err))
+    return 1
+  }
   let surface: McpToolSurface
 
   if (flags.fromFile) {

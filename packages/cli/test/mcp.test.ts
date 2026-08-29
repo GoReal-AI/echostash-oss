@@ -5,14 +5,16 @@ import { describe, expect, it } from 'vitest'
 import { runMcp } from '../src/commands/mcp'
 
 describe('CLI MCP audit command hardening', () => {
-  it('rejects non-numeric NaN threshold', async () => {
-    let errMessage = ''
-    try {
-      await runMcp(['audit', '--from-file', 'test.json', '--threshold', 'abc', '--check'])
-    } catch (err) {
-      errMessage = err instanceof Error ? err.message : String(err)
-    }
-    expect(errMessage).toContain('invalid --threshold: "abc" is not a valid number')
+  it('rejects a non-numeric threshold with exit code 1 instead of throwing', async () => {
+    const code = await runMcp([
+      'audit',
+      '--from-file',
+      'test.json',
+      '--threshold',
+      'abc',
+      '--check',
+    ])
+    expect(code).toBe(1)
   })
 
   it('reports corrupt baseline explicitly instead of missing baseline', async () => {
