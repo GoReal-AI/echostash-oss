@@ -12,6 +12,7 @@ import {
   sha256,
 } from '@echostash/scan'
 import type { DiscoveredPrompt, ScanReport, ScanReportResult } from '@echostash/shared'
+import { loadConfig } from '../config'
 
 const log = (m: string) => console.error(m)
 const promptHashOf = (p: DiscoveredPrompt) =>
@@ -123,7 +124,10 @@ async function trackFromPrompts(
 export async function runScan(argv: string[]): Promise<number> {
   const flags = parseFlags(argv)
   const root = resolve(flags.positional[0] ?? '.')
-  const source = flags.source ?? basename(root)
+  const config = loadConfig(root)
+  const source = flags.source ?? config?.source ?? config?.project ?? basename(root)
+  const server = flags.server ?? process.env.ECHOSTASH_URL ?? config?.url ?? 'http://localhost:8080'
+  const apiKey = flags.apiKey ?? process.env.ECHOSTASH_API_KEY ?? config?.apiKey
   const modelConfigured = flags.scanModel ?? process.env.ECHOSTASH_SCAN_MODEL
 
   console.log(`Scanning ${root}…`)
@@ -161,14 +165,12 @@ export async function runScan(argv: string[]): Promise<number> {
     prompts,
   }
   const res = await fetch(
-    `${flags.server ?? process.env.ECHOSTASH_URL ?? 'http://localhost:8080'}/api/ingest/scan`,
+    `${server}/api/ingest/scan`,
     {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        ...(flags.apiKey || process.env.ECHOSTASH_API_KEY
-          ? { authorization: `Bearer ${flags.apiKey ?? process.env.ECHOSTASH_API_KEY}` }
-          : {}),
+        ...(apiKey ? { authorization: `Bearer ${apiKey}` } : {}),
       },
       body: JSON.stringify(body),
     },

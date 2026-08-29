@@ -1,5 +1,7 @@
+export { runInit } from './commands/init'
 export { runScan } from './commands/scan'
 export { runMcp } from './commands/mcp'
+export { loadConfig, saveConfig, CONFIG_FILENAME } from './config'
 
 export const COMMANDS = ['init', 'scan', 'mcp', 'eval', 'ci'] as const
 export type Command = (typeof COMMANDS)[number]

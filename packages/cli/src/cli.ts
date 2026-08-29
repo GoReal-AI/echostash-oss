@@ -1,3 +1,4 @@
+import { runInit } from './commands/init'
 import { runMcp } from './commands/mcp'
 import { runScan } from './commands/scan'
 import { COMMANDS, COMMAND_HELP, type Command } from './index'
@@ -47,6 +48,7 @@ async function main(argv: string[]): Promise<number> {
     printHelp()
     return 1
   }
+  if (command === 'init') return runInit(rest)
   if (command === 'scan') return runScan(rest)
   if (command === 'mcp') return runMcp(rest)
   console.log(`"${command}" is not implemented yet — ${COMMAND_HELP[command as Command]}`)
