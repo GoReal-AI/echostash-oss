@@ -1,8 +1,8 @@
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { runMcp } from '../src/commands/mcp'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
-import { tmpdir } from 'node:os'
 
 describe('CLI MCP audit command hardening', () => {
   it('rejects non-numeric NaN threshold', async () => {

@@ -51,8 +51,7 @@ function parseFlags(argv: string[]): Flags {
         throw new Error(`invalid --threshold: "${raw}" is not a valid number`)
       }
       f.threshold = num
-    }
-    else if (a === '--json') f.json = true
+    } else if (a === '--json') f.json = true
     else if (a === '--check') f.check = true
     else if (a === '--update-baseline') f.updateBaseline = true
     else if (a === '--inherit-env') f.inheritEnv = true
