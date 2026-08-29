@@ -5,7 +5,8 @@
   "type": "module",
   "description": "Stateless eval executor (data plane): provider layer + matrix execution + scorers. Runs as a worker, GitHub Action, or CLI command. (M3/M4/M5)",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./worker": "./src/worker.ts"
   },
   "scripts": {
     "build": "tsup",
