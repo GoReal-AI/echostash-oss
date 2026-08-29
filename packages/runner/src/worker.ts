@@ -1,9 +1,18 @@
 import { Worker } from 'bullmq'
+import { z } from '@echostash/shared'
 import { httpClient } from './client'
 import { processEvalJob } from './job'
 
 /** Must match the server's queue name (apps/server/src/queue → EVAL_QUEUE). */
-const EVAL_QUEUE = 'eval'
+export const EVAL_QUEUE = 'eval'
+
+export const WorkerEnvSchema = z.object({
+  REDIS_URL: z.string().min(1, 'REDIS_URL is required'),
+  ECHOSTASH_URL: z.string().url().default('http://localhost:8080'),
+  ECHOSTASH_API_KEY: z.string().min(1, 'ECHOSTASH_API_KEY is required (project API key)'),
+  WORKER_CONCURRENCY: z.coerce.number().int().positive().default(4),
+  ECHOSTASH_JUDGE_MODEL: z.string().optional(),
+})
 
 /** Parse a redis:// URL into BullMQ connection options (it creates the ioredis client itself). */
 function redisConnection(url: string) {
@@ -28,33 +37,44 @@ function redisConnection(url: string) {
  *   pnpm --filter @echostash/runner worker
  */
 function main(): void {
-  const redisUrl = process.env.REDIS_URL
-  const serverUrl = process.env.ECHOSTASH_URL ?? 'http://localhost:8080'
-  const apiKey = process.env.ECHOSTASH_API_KEY
-  if (!redisUrl) throw new Error('REDIS_URL is required to run the eval worker')
-  if (!apiKey)
-    throw new Error('ECHOSTASH_API_KEY is required (the project key the worker posts with)')
+  const env = WorkerEnvSchema.parse({
+    REDIS_URL: process.env.REDIS_URL,
+    ECHOSTASH_URL: process.env.ECHOSTASH_URL,
+    ECHOSTASH_API_KEY: process.env.ECHOSTASH_API_KEY,
+    WORKER_CONCURRENCY: process.env.WORKER_CONCURRENCY,
+    ECHOSTASH_JUDGE_MODEL: process.env.ECHOSTASH_JUDGE_MODEL,
+  })
 
-  const concurrency = Number(process.env.WORKER_CONCURRENCY ?? 4)
-  const judgeSpec = process.env.ECHOSTASH_JUDGE_MODEL
-  const client = httpClient(serverUrl, apiKey)
+  const client = httpClient(env.ECHOSTASH_URL, env.ECHOSTASH_API_KEY)
 
   const worker = new Worker<{ evalRunId: string }>(
     EVAL_QUEUE,
     async (job) => {
       const { evalRunId } = job.data
       console.log(`▶ eval run ${evalRunId}`)
-      const result = await processEvalJob({ client, judgeSpec, concurrency }, evalRunId)
+      const result = await processEvalJob(
+        { client, judgeSpec: env.ECHOSTASH_JUDGE_MODEL, concurrency: env.WORKER_CONCURRENCY },
+        evalRunId,
+      )
       console.log(`✓ eval run ${evalRunId} — ${result.summary?.total ?? 0} score(s)`)
     },
-    { connection: redisConnection(redisUrl), concurrency },
+    { connection: redisConnection(env.REDIS_URL), concurrency: env.WORKER_CONCURRENCY },
   )
 
-  worker.on('failed', (job, err) =>
-    console.error(`✗ eval run ${job?.data.evalRunId}: ${err.message}`),
-  )
+  worker.on('failed', async (job, err) => {
+    const evalRunId = job?.data.evalRunId
+    console.error(`✗ eval run ${evalRunId}: ${err.message}`)
+    if (evalRunId) {
+      await client.postStatus(evalRunId, 'error', err.message).catch(() => {})
+    }
+  })
+
+  worker.on('stalled', (jobId) => {
+    console.warn(`! eval job ${jobId} stalled (worker lost or timed out)`)
+  })
+
   console.log(
-    `eval worker up — queue "${EVAL_QUEUE}", concurrency ${concurrency}, server ${serverUrl}`,
+    `eval worker up — queue "${EVAL_QUEUE}", concurrency ${env.WORKER_CONCURRENCY}, server ${env.ECHOSTASH_URL}`,
   )
 
   const shutdown = async () => {
@@ -65,4 +85,8 @@ function main(): void {
   process.on('SIGTERM', shutdown)
 }
 
-main()
+const isDirectRun =
+  process.argv[1] && /worker\.(ts|js)$/.test(process.argv[1].replace(/\\/g, '/'))
+if (isDirectRun) {
+  main()
+}

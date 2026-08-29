@@ -1,3 +1,4 @@
+export { z } from 'zod'
 export * from './schema/common'
 export * from './schema/prompt'
 export * from './schema/scan'
