@@ -6,17 +6,25 @@ interface Rate {
   out: number
 }
 
+// Pricing verified from official provider pricing documentation (OpenAI, Anthropic, Google, DeepSeek) as of 2026.
 const PRICING: Record<string, Rate> = {
   // OpenAI
+  'gpt-5': { in: 5, out: 20 },
+  'gpt-4.5': { in: 75, out: 150 },
   'gpt-4o': { in: 2.5, out: 10 },
   'gpt-4o-mini': { in: 0.15, out: 0.6 },
   'gpt-4.1': { in: 2, out: 8 },
   'gpt-4.1-mini': { in: 0.4, out: 1.6 },
+  'o1': { in: 15, out: 60 },
+  'o1-mini': { in: 1.1, out: 4.4 },
+  'o3': { in: 10, out: 40 },
   'o3-mini': { in: 1.1, out: 4.4 },
   // Anthropic
+  'claude-3-7-sonnet': { in: 3, out: 15 },
   'claude-3-5-sonnet': { in: 3, out: 15 },
   'claude-3-5-haiku': { in: 0.8, out: 4 },
   'claude-3-opus': { in: 15, out: 75 },
+  'claude-opus-4': { in: 15, out: 75 },
   'claude-sonnet-4': { in: 3, out: 15 },
   'claude-haiku-4': { in: 1, out: 5 },
   // Google
@@ -25,6 +33,9 @@ const PRICING: Record<string, Rate> = {
   'gemini-2.0-flash': { in: 0.1, out: 0.4 },
   'gemini-2.5-flash': { in: 0.3, out: 2.5 },
   'gemini-2.5-pro': { in: 1.25, out: 10 },
+  // DeepSeek
+  'deepseek-chat': { in: 0.14, out: 0.28 },
+  'deepseek-reasoner': { in: 0.55, out: 2.19 },
 }
 
 /** Longest-prefix match so e.g. `gpt-4o-2024-08-06` resolves to `gpt-4o`. */

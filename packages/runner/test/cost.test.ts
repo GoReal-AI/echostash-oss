@@ -25,4 +25,25 @@ describe('costUsd', () => {
       costUsd('some-local-llama', { promptTokens: 100, completionTokens: 100, totalTokens: 200 }),
     ).toBeNull()
   })
+
+  it('prices current generation models (claude-3-7-sonnet, gpt-5, deepseek-reasoner)', () => {
+    expect(isPriced('claude-3-7-sonnet-20250219')).toBe(true)
+    expect(
+      costUsd('claude-3-7-sonnet-20250219', {
+        promptTokens: 1e6,
+        completionTokens: 1e6,
+        totalTokens: 2e6,
+      }),
+    ).toBeCloseTo(3 + 15)
+
+    expect(isPriced('gpt-5')).toBe(true)
+    expect(
+      costUsd('gpt-5', { promptTokens: 1e6, completionTokens: 1e6, totalTokens: 2e6 }),
+    ).toBeCloseTo(5 + 20)
+
+    expect(isPriced('deepseek-reasoner')).toBe(true)
+    expect(
+      costUsd('deepseek-reasoner', { promptTokens: 1e6, completionTokens: 1e6, totalTokens: 2e6 }),
+    ).toBeCloseTo(0.55 + 2.19)
+  })
 })
