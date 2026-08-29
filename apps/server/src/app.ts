@@ -23,6 +23,7 @@ import { evalRunRoutes } from './modules/eval-runs/routes'
 import { ingestRoutes } from './modules/ingest/routes'
 import { promptRoutes } from './modules/prompts/routes'
 import { scorerRoutes } from './modules/scorers/routes'
+import { providerRoutes } from './modules/settings/providers'
 import { settingsRoutes } from './modules/settings/routes'
 import { variantRoutes } from './modules/variants/routes'
 import { authPlugin } from './plugins/auth'
@@ -91,6 +92,7 @@ export async function buildApp({ db, sql }: AppDeps): Promise<FastifyInstance> {
   await app.register(authRoutes, { prefix: '/api' })
   await app.register(apiKeysRoutes, { prefix: '/api' })
   await app.register(settingsRoutes, { prefix: '/api' })
+  await app.register(providerRoutes, { prefix: '/api' })
 
   // M2 — awareness: scan ingestion + the prompt registry.
   await app.register(ingestRoutes, { prefix: '/api' })
