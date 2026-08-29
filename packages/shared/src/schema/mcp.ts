@@ -96,3 +96,26 @@ export const McpBaseline = z.object({
   tools: z.array(McpBaselineTool),
 })
 export type McpBaseline = z.infer<typeof McpBaseline>
+
+/**
+ * A test query for tool selection evaluation.
+ * - expectTool: name of the expected tool to be invoked, or null if no tool should fire.
+ * - source: 'manual' (ground truth, human-authored) or 'generated' (synthetic coverage).
+ */
+export const McpCase = z.object({
+  id: z.string().min(1),
+  query: z.string().min(1),
+  expectTool: z.string().nullable(),
+  source: z.enum(['manual', 'generated']).default('manual'),
+  notes: z.string().optional(),
+})
+export type McpCase = z.infer<typeof McpCase>
+
+/**
+ * Committed test case file (`.echostash/mcp-cases.json`).
+ */
+export const McpCasesFile = z.object({
+  server: z.string().min(1),
+  cases: z.array(McpCase),
+})
+export type McpCasesFile = z.infer<typeof McpCasesFile>
