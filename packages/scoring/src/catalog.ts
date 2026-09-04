@@ -96,4 +96,16 @@ export const SCORER_CATALOG: FamilySpec[] = [
       },
     ],
   },
+  {
+    family: 'tool_selection',
+    label: 'Tool selection',
+    deterministic: true,
+    ops: [
+      {
+        op: 'selected_tool',
+        label: 'selected tool',
+        config: [{ key: 'tool', label: 'Expected tool name', kind: 'text' }],
+      },
+    ],
+  },
 ]

@@ -3,10 +3,12 @@ import { evaluateJudge } from './judge'
 import { scoreOperational } from './operational'
 import { scoreString } from './string'
 import { scoreStructural } from './structural'
+import { scoreToolSelection } from './tool-selection'
 import type { EvalContext, JudgeFn, ScoreOutcome } from './types'
 
 export * from './types'
 export * from './catalog'
+export * from './tool-selection'
 export { buildJudgePrompt, parseJudgeVerdict } from './judge'
 
 export interface EvaluateOptions {
@@ -37,6 +39,9 @@ export async function evaluate(
         break
       case 'operational':
         outcome = scoreOperational(scorer.op, scorer.config, ctx)
+        break
+      case 'tool_selection':
+        outcome = scoreToolSelection(scorer.op, scorer.config, ctx)
         break
       case 'llm_judge':
         if (!opts.judge) {
@@ -70,6 +75,9 @@ export async function evaluate(
 /** Convenience: is this scorer runnable without an LLM (so the UI can run it live)? */
 export function isDeterministic(scorer: Pick<Scorer, 'family'>): boolean {
   return (
-    scorer.family === 'string' || scorer.family === 'structural' || scorer.family === 'operational'
+    scorer.family === 'string' ||
+    scorer.family === 'structural' ||
+    scorer.family === 'operational' ||
+    scorer.family === 'tool_selection'
   )
 }

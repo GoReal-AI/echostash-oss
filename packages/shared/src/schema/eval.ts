@@ -23,6 +23,8 @@ export const AssertionOp = z.enum([
   'cost',
   // llm-judge
   'judge',
+  // tool selection
+  'selected_tool',
   // deferred families (forward-compat; engines land per backlog)
   'similar_to',
   'sentiment',
@@ -40,6 +42,7 @@ export const ScorerFamily = z.enum([
   'structural',
   'operational',
   'llm_judge',
+  'tool_selection',
   // deferred
   'similarity',
   'sentiment',
@@ -52,7 +55,7 @@ export type ScorerFamily = z.infer<typeof ScorerFamily>
 export const ScorerType = z.enum(['deterministic', 'llm_judge', 'semantic', 'code', 'human'])
 export type ScorerType = z.infer<typeof ScorerType>
 
-export const ScorerTarget = z.enum(['response']) // later: 'tools' | 'render'
+export const ScorerTarget = z.enum(['response', 'tool_choice'])
 export type ScorerTarget = z.infer<typeof ScorerTarget>
 
 /** A single check applied to an output. See docs/EVAL.md. */
