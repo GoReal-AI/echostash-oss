@@ -3,10 +3,13 @@ import { join } from 'node:path'
 import { analyze } from '@echostash/analyzer'
 import {
   type McpTarget,
+  addCase,
   diffBaseline,
   fetchToolSurface,
   parseTarget,
+  readCasesFile,
   toBaseline,
+  writeCasesFile,
 } from '@echostash/mcp'
 import { McpBaseline, McpToolSurface } from '@echostash/shared'
 import { renderCheck, renderReport } from './mcp-report'
@@ -79,14 +82,48 @@ function readBaseline(path: string): { baseline: McpBaseline | null; error?: str
 
 /**
  * `echostash mcp audit <target>` — read a server's tool surface, analyze it, report.
+ * `echostash mcp cases add "<query>" [--expect <tool>]` — add a test case.
  *
  * Deliberately offline-shaped: no Echostash server, no API key, no model calls. Same
  * local-first convention as `scan --dry-run --track`.
  */
 export async function runMcp(argv: string[]): Promise<number> {
   const [sub, ...rest] = argv
+  if (sub === 'cases') {
+    const [action, ...args] = rest
+    if (action === 'add') {
+      const query = args[0]
+      let expectTool: string | null = null
+      let file = '.echostash/mcp-cases.json'
+      let server = 'default'
+      for (let i = 1; i < args.length; i++) {
+        if (args[i] === '--expect') expectTool = args[++i] ?? null
+        else if (args[i] === '--file') file = args[++i] ?? file
+        else if (args[i] === '--server') server = args[++i] ?? server
+      }
+      if (!query) {
+        log('usage: echostash mcp cases add "<query>" [--expect <tool>] [--file <path>] [--server <name>]')
+        return 1
+      }
+      let existing = null
+      try {
+        existing = readCasesFile(file)
+      } catch {}
+      const updated = addCase(existing, existing?.server ?? server, {
+        query,
+        expectTool,
+        source: 'manual',
+      })
+      writeCasesFile(file, updated)
+      log(`✓ added case to ${file} (id: ${updated.cases[updated.cases.length - 1]?.id})`)
+      return 0
+    }
+    log(`unknown "mcp cases" action: ${action ?? '(none)'} — expected "add"`)
+    return 1
+  }
+
   if (sub !== 'audit') {
-    log(`unknown "mcp" subcommand: ${sub ?? '(none)'} — expected "audit"`)
+    log(`unknown "mcp" subcommand: ${sub ?? '(none)'} — expected "audit" or "cases"`)
     return 1
   }
 
