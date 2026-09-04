@@ -30,12 +30,13 @@ describe('auth/errors', () => {
         authError(AuthErrorCode.InvalidRequest).message,
         authError(AuthErrorCode.InvalidPassword).message,
         authError(AuthErrorCode.Unauthorized).message,
+        authError(AuthErrorCode.Forbidden).message,
         authError(AuthErrorCode.TooManyAttempts).message,
         authError(AuthErrorCode.KeyNotFound).message,
         authError(AuthErrorCode.KeyCreationFailed).message,
         authError(AuthErrorCode.InternalError).message,
       ])
-      expect(messages.size).toBe(7) // all unique
+      expect(messages.size).toBe(8) // all unique
     })
   })
 
