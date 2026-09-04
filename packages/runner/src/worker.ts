@@ -56,7 +56,6 @@ function main(): void {
   console.log(
     `eval worker up — queue "${EVAL_QUEUE}", concurrency ${concurrency}, server ${serverUrl}`,
   )
-
   const shutdown = async () => {
     await worker.close()
     process.exit(0)
@@ -65,4 +64,12 @@ function main(): void {
   process.on('SIGTERM', shutdown)
 }
 
-main()
+export { httpClient, type ServerClient } from './client'
+export { processEvalJob, type ProcessJobDeps } from './job'
+export { EVAL_QUEUE, redisConnection, main }
+
+// Run automatically when executed as a CLI script
+const isMain = process.argv[1] && (process.argv[1].endsWith('worker.ts') || process.argv[1].endsWith('worker.js') || process.argv[1].endsWith('worker.mjs'))
+if (isMain) {
+  main()
+}
