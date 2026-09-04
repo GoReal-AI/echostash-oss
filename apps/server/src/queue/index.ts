@@ -41,8 +41,23 @@ export const queuePlugin = fp(
 
     const queue = new Queue<EvalJob>(EVAL_QUEUE, { connection: redisConnection(url) })
     app.decorate('enqueueEval', async (evalRunId: string) => {
-      await queue.add('run', { evalRunId }, { removeOnComplete: 100, removeOnFail: 500 })
-      return true
+      try {
+        await queue.add(
+          'run',
+          { evalRunId },
+          {
+            jobId: evalRunId,
+            removeOnComplete: 100,
+            removeOnFail: 500,
+            attempts: 3,
+            backoff: { type: 'exponential', delay: 1000 },
+          },
+        )
+        return true
+      } catch (err) {
+        app.log.error({ err, evalRunId }, 'failed to enqueue eval run to Redis queue')
+        return false
+      }
     })
     app.addHook('onClose', async () => {
       await queue.close()
