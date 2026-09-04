@@ -84,15 +84,24 @@ export const McpBaselineTool = z.object({
 })
 export type McpBaselineTool = z.infer<typeof McpBaselineTool>
 
+export const McpSelectionAccuracy = z.object({
+  overall: z.number(),
+  manual: z.number().nullable(),
+  generated: z.number().nullable(),
+})
+export type McpSelectionAccuracy = z.infer<typeof McpSelectionAccuracy>
+
 export const McpBaseline = z.object({
   version: z.literal(1).default(1),
   serverId: z.string(),
   serverName: z.string(),
   protocolVersion: z.string().nullable(),
+  selectorModel: z.string().nullish(),
   createdAt: Timestamp,
   score: z.number(),
   tokenBudget: z.number(),
   findingCounts: z.record(z.number()).default({}),
+  selectionAccuracy: McpSelectionAccuracy.nullish(),
   tools: z.array(McpBaselineTool),
 })
 export type McpBaseline = z.infer<typeof McpBaseline>

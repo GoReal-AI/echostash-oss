@@ -7,6 +7,7 @@ import {
   fetchToolSurface,
   parseTarget,
   toBaseline,
+  verifyPinning,
 } from '@echostash/mcp'
 import { McpBaseline, McpToolSurface } from '@echostash/shared'
 import { renderCheck, renderReport } from './mcp-report'
@@ -146,6 +147,11 @@ export async function runMcp(argv: string[]): Promise<number> {
     }
     if (!previous) {
       log(`no baseline at ${path} — run \`echostash mcp audit\` first to record one`)
+      return 1
+    }
+    const pinErr = verifyPinning(current, previous)
+    if (pinErr) {
+      log(`error: ${pinErr}`)
       return 1
     }
     const changes = diffBaseline(previous, current)
