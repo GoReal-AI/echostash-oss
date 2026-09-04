@@ -22,6 +22,7 @@ import { datasetRoutes } from './modules/datasets/routes'
 import { evalRunRoutes } from './modules/eval-runs/routes'
 import { ingestRoutes } from './modules/ingest/routes'
 import { promptRoutes } from './modules/prompts/routes'
+import { scanRunsRoutes } from './modules/scan-runs/routes'
 import { scorerRoutes } from './modules/scorers/routes'
 import { settingsRoutes } from './modules/settings/routes'
 import { variantRoutes } from './modules/variants/routes'
@@ -92,9 +93,10 @@ export async function buildApp({ db, sql }: AppDeps): Promise<FastifyInstance> {
   await app.register(apiKeysRoutes, { prefix: '/api' })
   await app.register(settingsRoutes, { prefix: '/api' })
 
-  // M2 — awareness: scan ingestion + the prompt registry.
+  // M2 — awareness: scan ingestion + the prompt registry + scan runs / change feed.
   await app.register(ingestRoutes, { prefix: '/api' })
   await app.register(promptRoutes, { prefix: '/api' })
+  await app.register(scanRunsRoutes, { prefix: '/api' })
 
   // M4 — eval: datasets/cases, scorers, variants CRUD + the eval-run lifecycle.
   await app.register(datasetRoutes, { prefix: '/api' })
