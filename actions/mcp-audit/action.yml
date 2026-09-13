@@ -1,0 +1,138 @@
+name: 'Echostash MCP Audit Gate'
+description: >-
+  Audit an MCP server's tool surface against its committed baseline and fail the PR when it
+  regresses. Deterministic: no API key, no LLM calls, no infrastructure.
+author: 'Echostash'
+branding:
+  icon: 'shield'
+  color: 'purple'
+
+inputs:
+  server:
+    description: 'MCP server to audit: an http(s) URL, or a command to spawn (e.g. "npx -y @acme/mcp-server")'
+    required: false
+  from-file:
+    description: 'Path to a recorded tools/list payload (JSON). Alternative to `server`; handy for fixtures.'
+    required: false
+  threshold:
+    description: 'How many score points the surface may drop before the gate fails'
+    required: false
+    default: '0'
+  dir:
+    description: 'Directory holding the committed baseline files'
+    required: false
+    default: '.echostash'
+  comment:
+    description: 'Post (and keep updated) a PR comment with the score delta and per-tool diff'
+    required: false
+    default: 'true'
+  github-token:
+    description: 'Token used to post the PR comment'
+    required: false
+    default: ${{ github.token }}
+  cli:
+    description: >-
+      Command that runs the Echostash CLI. Pinned by default so a CLI release can never change a
+      gate's verdict without a PR. Override with a local build (e.g. "node packages/cli/dist/cli.js")
+      when testing from the monorepo.
+    required: false
+    default: 'npx -y @echostash/cli@0.1.0'
+
+outputs:
+  score:
+    description: 'Tool Surface Score of the audited surface (0-100)'
+    value: ${{ steps.audit.outputs.score }}
+  previous-score:
+    description: 'Score recorded in the committed baseline (0-100)'
+    value: ${{ steps.audit.outputs.previous_score }}
+  delta:
+    description: 'score minus previous-score'
+    value: ${{ steps.audit.outputs.delta }}
+  regressed:
+    description: 'Whether the score dropped past the threshold ("true" or "false")'
+    value: ${{ steps.audit.outputs.regressed }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Audit the tool surface
+      id: audit
+      shell: bash
+      env:
+        INPUT_SERVER: ${{ inputs.server }}
+        INPUT_FROM_FILE: ${{ inputs.from-file }}
+        INPUT_THRESHOLD: ${{ inputs.threshold }}
+        INPUT_DIR: ${{ inputs.dir }}
+        INPUT_CLI: ${{ inputs.cli }}
+        ACTION_PATH: ${{ github.action_path }}
+      run: |
+        set -euo pipefail
+
+        ARGS=()
+        if [ -n "${INPUT_FROM_FILE}" ]; then
+          ARGS+=(--from-file "${INPUT_FROM_FILE}")
+        elif [ -n "${INPUT_SERVER}" ]; then
+          case "${INPUT_SERVER}" in
+            http://*|https://*) ARGS+=("${INPUT_SERVER}") ;;
+            *) ARGS+=(--command "${INPUT_SERVER}") ;;
+          esac
+        else
+          echo "::error::Provide either the 'server' or the 'from-file' input"
+          exit 1
+        fi
+        ARGS+=(--check --threshold "${INPUT_THRESHOLD}" --dir "${INPUT_DIR}" --json)
+
+        read -ra CLI <<< "${INPUT_CLI}"
+        STDOUT="${RUNNER_TEMP}/echostash-mcp-audit.json"
+        STDERR="${RUNNER_TEMP}/echostash-mcp-audit.stderr"
+
+        echo "::group::${CLI[*]} mcp audit ${ARGS[*]}"
+        # Capture the exit code instead of discarding it: the CLI exits 1 on regression AND on
+        # every error path (no baseline, unreachable server, bad flag). Anything that is not a
+        # well-formed check result must fail the gate, never pass it.
+        set +e
+        "${CLI[@]}" mcp audit "${ARGS[@]}" >"${STDOUT}" 2>"${STDERR}"
+        EXIT=$?
+        set -e
+        cat "${STDERR}" >&2 || true
+        echo "::endgroup::"
+
+        node "${ACTION_PATH}/render.mjs" \
+          --json "${STDOUT}" --stderr "${STDERR}" --exit "${EXIT}" \
+          --threshold "${INPUT_THRESHOLD}" --comment "${RUNNER_TEMP}/echostash-mcp-audit-comment.md"
+
+    - name: Post the PR comment
+      if: inputs.comment == 'true' && github.event_name == 'pull_request'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        REPO: ${{ github.repository }}
+        PR: ${{ github.event.pull_request.number }}
+        MARKER: ${{ steps.audit.outputs.marker }}
+        BODY: ${{ runner.temp }}/echostash-mcp-audit-comment.md
+      run: |
+        set -euo pipefail
+        # Upsert keyed on the marker so re-runs update one comment instead of stacking new ones.
+        # Best effort: a fork PR's token cannot comment, and that must not change the verdict.
+        if ! EXISTING=$(gh api "repos/${REPO}/issues/${PR}/comments?per_page=100" \
+            --jq ".[] | select(.body | startswith(\"${MARKER}\")) | .id" 2>/dev/null | head -n1); then
+          EXISTING=""
+        fi
+        if [ -n "${EXISTING}" ]; then
+          gh api -X PATCH "repos/${REPO}/issues/comments/${EXISTING}" -F body=@"${BODY}" >/dev/null \
+            || echo "::warning::Could not update the audit comment (token lacks pull-requests: write?)"
+        else
+          gh api -X POST "repos/${REPO}/issues/${PR}/comments" -F body=@"${BODY}" >/dev/null \
+            || echo "::warning::Could not post the audit comment (token lacks pull-requests: write?)"
+        fi
+
+    - name: Fail on regression
+      if: steps.audit.outputs.regressed == 'true'
+      shell: bash
+      env:
+        SCORE: ${{ steps.audit.outputs.score }}
+        PREVIOUS: ${{ steps.audit.outputs.previous_score }}
+        THRESHOLD: ${{ inputs.threshold }}
+      run: |
+        echo "::error::MCP tool surface regressed: score ${SCORE} is below baseline ${PREVIOUS} minus threshold ${THRESHOLD}"
+        exit 1

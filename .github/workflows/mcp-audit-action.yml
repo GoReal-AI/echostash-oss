@@ -1,0 +1,99 @@
+name: MCP audit action
+
+# Proves the composite action end to end against fixtures: green on an unchanged surface, red on a
+# regressed one, and red (not green) when there is no baseline at all.
+on:
+  pull_request:
+    paths:
+      - 'actions/mcp-audit/**'
+      - 'packages/cli/**'
+      - 'packages/mcp/**'
+      - 'packages/analyzer/**'
+      - 'packages/shared/**'
+      - '.github/workflows/mcp-audit-action.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'actions/mcp-audit/**'
+      - 'packages/cli/**'
+      - 'packages/mcp/**'
+      - 'packages/analyzer/**'
+      - 'packages/shared/**'
+      - '.github/workflows/mcp-audit-action.yml'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    env:
+      FIXTURES: actions/mcp-audit/test/fixtures
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # The action is tested against the workspace build, not npm, so a CLI change and its gate
+      # change land in the same PR.
+      - run: pnpm build
+
+      - name: Record the baseline from the unchanged surface
+        run: node packages/cli/dist/cli.js mcp audit --from-file "$FIXTURES/surface.json" --dir "$RUNNER_TEMP/baseline"
+
+      - name: Unchanged surface must pass
+        id: unchanged
+        uses: ./actions/mcp-audit
+        with:
+          from-file: ${{ env.FIXTURES }}/surface.json
+          dir: ${{ runner.temp }}/baseline
+          cli: node ${{ github.workspace }}/packages/cli/dist/cli.js
+          comment: 'false'
+
+      - name: Regressed surface must fail
+        id: regressed
+        uses: ./actions/mcp-audit
+        continue-on-error: true
+        with:
+          from-file: ${{ env.FIXTURES }}/surface-regressed.json
+          dir: ${{ runner.temp }}/baseline
+          cli: node ${{ github.workspace }}/packages/cli/dist/cli.js
+          # Leave the comment on so the PR shows what users will see.
+          comment: 'true'
+
+      - name: Missing baseline must fail, not pass
+        id: nobaseline
+        uses: ./actions/mcp-audit
+        continue-on-error: true
+        with:
+          from-file: ${{ env.FIXTURES }}/surface.json
+          dir: ${{ runner.temp }}/nowhere
+          cli: node ${{ github.workspace }}/packages/cli/dist/cli.js
+          comment: 'false'
+
+      - name: Assert
+        env:
+          UNCHANGED_OUTCOME: ${{ steps.unchanged.outcome }}
+          UNCHANGED_REGRESSED: ${{ steps.unchanged.outputs.regressed }}
+          UNCHANGED_SCORE: ${{ steps.unchanged.outputs.score }}
+          REGRESSED_OUTCOME: ${{ steps.regressed.outcome }}
+          REGRESSED_REGRESSED: ${{ steps.regressed.outputs.regressed }}
+          REGRESSED_DELTA: ${{ steps.regressed.outputs.delta }}
+          NOBASELINE_OUTCOME: ${{ steps.nobaseline.outcome }}
+          NOBASELINE_REGRESSED: ${{ steps.nobaseline.outputs.regressed }}
+        run: |
+          set -euo pipefail
+          fail() { echo "::error::$1"; exit 1; }
+          [ "$UNCHANGED_OUTCOME" = "success" ] || fail "unchanged surface: expected success, got $UNCHANGED_OUTCOME"
+          [ "$UNCHANGED_REGRESSED" = "false" ] || fail "unchanged surface: expected regressed=false, got '$UNCHANGED_REGRESSED'"
+          [ "$UNCHANGED_SCORE" = "100" ] || fail "unchanged surface: expected score=100, got '$UNCHANGED_SCORE'"
+          [ "$REGRESSED_OUTCOME" = "failure" ] || fail "regressed surface: expected failure, got $REGRESSED_OUTCOME"
+          [ "$REGRESSED_REGRESSED" = "true" ] || fail "regressed surface: expected regressed=true, got '$REGRESSED_REGRESSED'"
+          case "$REGRESSED_DELTA" in -*) ;; *) fail "regressed surface: expected a negative delta, got '$REGRESSED_DELTA'";; esac
+          [ "$NOBASELINE_OUTCOME" = "failure" ] || fail "missing baseline: expected failure, got $NOBASELINE_OUTCOME"
+          [ "$NOBASELINE_REGRESSED" != "true" ] || fail "missing baseline: must not report a regression"
+          echo "all gate scenarios behaved as expected"
