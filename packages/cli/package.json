@@ -1,27 +1,41 @@
 {
   "name": "@echostash/cli",
   "version": "0.1.0",
-  "type": "module",
-  "description": "Audit an MCP server's tool surface, scan your code for LLM prompts, and gate regressions in CI.",
-  "keywords": ["mcp", "model-context-protocol", "llm", "prompt", "eval", "lint", "ci"],
+  "description": "Audit an MCP server's tool surface, scan your code for LLM prompts, and gate regressions in CI. No API key, no server, no model calls.",
+  "keywords": [
+    "echostash",
+    "llm",
+    "prompt",
+    "eval",
+    "mcp",
+    "model-context-protocol",
+    "lint",
+    "audit",
+    "ci",
+    "cli",
+    "tool-surface"
+  ],
   "license": "MIT",
+  "author": "Yoad Elkayam (https://github.com/YoadElkayam)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GoReal-AI/echostash-oss.git",
     "directory": "packages/cli"
   },
-  "homepage": "https://github.com/GoReal-AI/echostash-oss#readme",
+  "homepage": "https://github.com/GoReal-AI/echostash-oss/tree/main/packages/cli#readme",
   "bugs": "https://github.com/GoReal-AI/echostash-oss/issues",
-  "bin": {
-    "echostash": "./dist/cli.js"
-  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     }
   },
-  "types": "./dist/index.d.ts",
+  "bin": {
+    "echostash": "./dist/cli.js"
+  },
   "files": ["dist", "README.md"],
   "publishConfig": {
     "access": "public",
@@ -40,7 +54,6 @@
     "@modelcontextprotocol/sdk": "^1.30.0",
     "zod": "^3.24.1"
   },
-  "//optionalDependencies": "Only `scan` needs ripgrep, and only `scan --scan-model` needs the AI SDKs. Both are loaded lazily, so `mcp audit` works even when these fail to install (@vscode/ripgrep downloads a binary in a postinstall hook, which breaks behind proxies and in air-gapped CI).",
   "optionalDependencies": {
     "@ai-sdk/anthropic": "^1.2.12",
     "@ai-sdk/google": "^1.2.19",
@@ -49,6 +62,7 @@
     "@vscode/ripgrep": "^1.18.0",
     "ai": "^4.3.19"
   },
+  "//optionalDependencies": "Only `scan` needs ripgrep, and only `scan --scan-model` needs the AI SDKs. Both are loaded lazily, so `mcp audit` works even when these fail to install (@vscode/ripgrep downloads a binary in a postinstall hook, which breaks behind proxies and in air-gapped CI).",
   "devDependencies": {
     "@echostash/analyzer": "workspace:*",
     "@echostash/discovery": "workspace:*",
