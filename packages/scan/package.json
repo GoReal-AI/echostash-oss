@@ -1,11 +1,33 @@
 {
   "name": "@echostash/scan",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "description": "Discovery-agnostic prompt manifest: hash prompt content, model and params, diff two manifests, and read or write baselines.",
+  "keywords": ["echostash", "llm", "prompt", "eval", "manifest", "diff", "baseline", "regression"],
+  "license": "MIT",
+  "author": "Yoad Elkayam (https://github.com/YoadElkayam)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoReal-AI/echostash-oss.git",
+    "directory": "packages/scan"
+  },
+  "homepage": "https://github.com/GoReal-AI/echostash-oss/tree/main/packages/scan#readme",
+  "bugs": "https://github.com/GoReal-AI/echostash-oss/issues",
   "type": "module",
-  "description": "Change-tracking backbone: prompt manifest (path + fileHash + promptHash), the diff engine, and pluggable stores. Discovery-agnostic and deterministic.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=20"
   },
   "scripts": {
     "build": "tsup",

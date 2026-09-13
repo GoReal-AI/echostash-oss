@@ -1,11 +1,44 @@
 {
   "name": "@echostash/analyzer",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "description": "Deterministic checks and the Tool Surface Score for MCP tool definitions: confusable tools, undescribed params, thin descriptions, token budget. No model calls.",
+  "keywords": [
+    "echostash",
+    "llm",
+    "prompt",
+    "eval",
+    "mcp",
+    "model-context-protocol",
+    "lint",
+    "audit",
+    "tool-surface",
+    "score"
+  ],
+  "license": "MIT",
+  "author": "Yoad Elkayam (https://github.com/YoadElkayam)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoReal-AI/echostash-oss.git",
+    "directory": "packages/analyzer"
+  },
+  "homepage": "https://github.com/GoReal-AI/echostash-oss/tree/main/packages/analyzer#readme",
+  "bugs": "https://github.com/GoReal-AI/echostash-oss/issues",
   "type": "module",
-  "description": "Deterministic tool-surface analysis: confusability, schema tightness, token budget, and the Tool Surface Score. No model calls.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=20"
   },
   "scripts": {
     "build": "tsup",

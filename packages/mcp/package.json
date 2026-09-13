@@ -1,11 +1,43 @@
 {
   "name": "@echostash/mcp",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "description": "Read an MCP server's tools/list into a typed tool surface (stdio or HTTP), and diff it against a committed baseline.",
+  "keywords": [
+    "echostash",
+    "llm",
+    "prompt",
+    "eval",
+    "mcp",
+    "model-context-protocol",
+    "tools",
+    "tool-surface",
+    "baseline"
+  ],
+  "license": "MIT",
+  "author": "Yoad Elkayam (https://github.com/YoadElkayam)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoReal-AI/echostash-oss.git",
+    "directory": "packages/mcp"
+  },
+  "homepage": "https://github.com/GoReal-AI/echostash-oss/tree/main/packages/mcp#readme",
+  "bugs": "https://github.com/GoReal-AI/echostash-oss/issues",
   "type": "module",
-  "description": "MCP tool-surface discovery: connect over stdio or streamable HTTP, read tools/list, and map it onto the scan manifest.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=20"
   },
   "scripts": {
     "build": "tsup",

@@ -1,11 +1,42 @@
 {
   "name": "@echostash/scoring",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "description": "Isomorphic scorer engine for LLM evals: deterministic assertions (contains, regex, json-schema, ...) plus the scorer catalog shared by the runner and the UI.",
+  "keywords": [
+    "echostash",
+    "llm",
+    "prompt",
+    "eval",
+    "scorer",
+    "assertion",
+    "regression",
+    "testing"
+  ],
+  "license": "MIT",
+  "author": "Yoad Elkayam (https://github.com/YoadElkayam)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoReal-AI/echostash-oss.git",
+    "directory": "packages/scoring"
+  },
+  "homepage": "https://github.com/GoReal-AI/echostash-oss/tree/main/packages/scoring#readme",
+  "bugs": "https://github.com/GoReal-AI/echostash-oss/issues",
   "type": "module",
-  "description": "The scorer engine: deterministic (string/structural/operational) + LLM-judge. Pure & isomorphic — used by the runner and previewed in the web.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=20"
   },
   "scripts": {
     "build": "tsup",

@@ -70,6 +70,36 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design. Short vers
 
 Keep snapshots **append-only** — we observe versions, we don't mutate them.
 
+## Releasing
+
+Six packages go to npm under `@echostash/*`: `shared`, `scan`, `mcp`, `analyzer`, `scoring` and
+`cli`. Everything else in the workspace is `private`. They are versioned in **lockstep**: one
+version, one tag, one release.
+
+**Bump + tag = release. No tokens anywhere.** Publishing runs in
+`.github/workflows/release.yml` through npm trusted publishing (GitHub OIDC), and every package
+ships with a provenance attestation. There is no `NPM_TOKEN`, and there never should be.
+
+```bash
+node scripts/release/bump.mjs 0.1.1            # sets every publishable package to 0.1.1
+git commit -am "chore(release): v0.1.1"
+git tag v0.1.1 && git push origin main v0.1.1   # the tag triggers the workflow
+```
+
+The workflow refuses to publish when the tag and the package versions disagree, or when the
+packages are not in lockstep. It runs typecheck, lint, test and build first, pins `workspace:*`
+dependencies to the released version (npm does not rewrite them), smoke-tests the CLI tarball in
+a clean install, then publishes each package in dependency order.
+
+Rehearse without publishing: **Actions → Release → Run workflow** with `dry-run` checked.
+
+What a maintainer needs on npmjs.com, once per package: a trusted publisher entry pointing at
+this repository, workflow file `release.yml`, no environment. The very first publish of a new
+package has to be done manually by a maintainer (npm requires the package to exist before a
+trusted publisher can be attached); after that the tag does everything.
+
+Only maintainers cut releases. Contributors never bump versions in PRs.
+
 ## Picking up work
 
 1. Open [docs/ROADMAP.md](docs/ROADMAP.md) and find a task (look for `🟢` good-first-issues).
