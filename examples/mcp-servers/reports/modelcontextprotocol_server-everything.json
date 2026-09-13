@@ -1,0 +1,233 @@
+{
+  "serverId": "npx -y @modelcontextprotocol/server-everything",
+  "serverName": "mcp-servers/everything",
+  "protocolVersion": null,
+  "toolCount": 13,
+  "score": 94.9,
+  "tokenBudget": {
+    "total": 1172,
+    "perTool": [
+      {
+        "tool": "gzip-file-as-resource",
+        "tokens": 236
+      },
+      {
+        "tool": "simulate-research-query",
+        "tokens": 163
+      },
+      {
+        "tool": "get-annotated-message",
+        "tokens": 120
+      },
+      {
+        "tool": "trigger-long-running-operation",
+        "tokens": 98
+      },
+      {
+        "tool": "get-resource-reference",
+        "tokens": 90
+      },
+      {
+        "tool": "get-structured-content",
+        "tokens": 85
+      },
+      {
+        "tool": "get-resource-links",
+        "tokens": 81
+      },
+      {
+        "tool": "get-sum",
+        "tokens": 65
+      },
+      {
+        "tool": "echo",
+        "tokens": 52
+      },
+      {
+        "tool": "get-env",
+        "tokens": 49
+      },
+      {
+        "tool": "toggle-subscriber-updates",
+        "tokens": 49
+      },
+      {
+        "tool": "toggle-simulated-logging",
+        "tokens": 47
+      },
+      {
+        "tool": "get-tiny-image",
+        "tokens": 37
+      }
+    ]
+  },
+  "findings": [
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "echo",
+      "message": "\"echo\" has a 28-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "get-sum",
+      "message": "\"get-sum\" has a 30-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "get-tiny-image",
+      "message": "\"get-tiny-image\" has a 30-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "name-generic",
+      "severity": "warn",
+      "tool": "get-env",
+      "message": "\"get-env\" is a generic name",
+      "hint": "Name the thing it acts on, not just the action."
+    },
+    {
+      "check": "name-generic",
+      "severity": "warn",
+      "tool": "get-sum",
+      "message": "\"get-sum\" is a generic name",
+      "hint": "Name the thing it acts on, not just the action."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "get-resource-reference",
+      "message": "\"get-resource-reference.resourceType\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "get-resource-links",
+      "message": "\"get-resource-links\" declares 1 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "get-resource-reference",
+      "message": "\"get-resource-reference\" declares 2 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "gzip-file-as-resource",
+      "message": "\"gzip-file-as-resource\" declares 3 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "trigger-long-running-operation",
+      "message": "\"trigger-long-running-operation\" declares 2 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "cache-hints-missing",
+      "severity": "info",
+      "message": "tools/list returned no ttlMs / cacheScope",
+      "hint": "The 2026-07-28 revision lets clients cache the tool surface — without hints they refetch."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "echo",
+      "message": "\"echo\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "get-annotated-message",
+      "message": "\"get-annotated-message\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "get-env",
+      "message": "\"get-env\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "get-resource-links",
+      "message": "\"get-resource-links\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "get-resource-reference",
+      "message": "\"get-resource-reference\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "get-structured-content",
+      "message": "\"get-structured-content\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "get-sum",
+      "message": "\"get-sum\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "get-tiny-image",
+      "message": "\"get-tiny-image\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "gzip-file-as-resource",
+      "message": "\"gzip-file-as-resource\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "simulate-research-query",
+      "message": "\"simulate-research-query\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "toggle-simulated-logging",
+      "message": "\"toggle-simulated-logging\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "toggle-subscriber-updates",
+      "message": "\"toggle-subscriber-updates\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "trigger-long-running-operation",
+      "message": "\"trigger-long-running-operation\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    }
+  ]
+}

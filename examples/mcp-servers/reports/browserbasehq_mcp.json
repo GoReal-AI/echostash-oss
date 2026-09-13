@@ -1,0 +1,205 @@
+{
+  "serverId": "npx -y @browserbasehq/mcp",
+  "serverName": "Browserbase MCP Server",
+  "protocolVersion": null,
+  "toolCount": 6,
+  "score": 85.2,
+  "tokenBudget": {
+    "total": 268,
+    "perTool": [
+      {
+        "tool": "observe",
+        "tokens": 58
+      },
+      {
+        "tool": "act",
+        "tokens": 52
+      },
+      {
+        "tool": "navigate",
+        "tokens": 49
+      },
+      {
+        "tool": "extract",
+        "tokens": 45
+      },
+      {
+        "tool": "end",
+        "tokens": 32
+      },
+      {
+        "tool": "start",
+        "tokens": 32
+      }
+    ]
+  },
+  "findings": [
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "act",
+      "message": "\"act.action\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "navigate",
+      "message": "\"navigate.url\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "observe",
+      "message": "\"observe.instruction\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "annotations-missing",
+      "severity": "warn",
+      "tool": "start",
+      "message": "\"start\" declares neither readOnlyHint nor destructiveHint",
+      "hint": "This one reads as mutating — clients need the hint to gate it behind confirmation."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "act",
+      "message": "\"act\" has a 29-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "end",
+      "message": "\"end\" has a 37-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "extract",
+      "message": "\"extract\" has a 26-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "navigate",
+      "message": "\"navigate\" has a 17-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "observe",
+      "message": "\"observe\" has a 39-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "start",
+      "message": "\"start\" has a 37-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "extract",
+      "message": "\"extract.instruction\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "extract",
+      "message": "\"extract\" declares 1 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "annotations-missing",
+      "severity": "info",
+      "tool": "act",
+      "message": "\"act\" declares neither readOnlyHint nor destructiveHint",
+      "hint": "Let clients skip confirmation prompts for reads."
+    },
+    {
+      "check": "annotations-missing",
+      "severity": "info",
+      "tool": "end",
+      "message": "\"end\" declares neither readOnlyHint nor destructiveHint",
+      "hint": "Let clients skip confirmation prompts for reads."
+    },
+    {
+      "check": "annotations-missing",
+      "severity": "info",
+      "tool": "extract",
+      "message": "\"extract\" declares neither readOnlyHint nor destructiveHint",
+      "hint": "Let clients skip confirmation prompts for reads."
+    },
+    {
+      "check": "annotations-missing",
+      "severity": "info",
+      "tool": "navigate",
+      "message": "\"navigate\" declares neither readOnlyHint nor destructiveHint",
+      "hint": "Let clients skip confirmation prompts for reads."
+    },
+    {
+      "check": "annotations-missing",
+      "severity": "info",
+      "tool": "observe",
+      "message": "\"observe\" declares neither readOnlyHint nor destructiveHint",
+      "hint": "Let clients skip confirmation prompts for reads."
+    },
+    {
+      "check": "cache-hints-missing",
+      "severity": "info",
+      "message": "tools/list returned no ttlMs / cacheScope",
+      "hint": "The 2026-07-28 revision lets clients cache the tool surface — without hints they refetch."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "act",
+      "message": "\"act\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "end",
+      "message": "\"end\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "extract",
+      "message": "\"extract\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "navigate",
+      "message": "\"navigate\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "observe",
+      "message": "\"observe\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "start",
+      "message": "\"start\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    }
+  ]
+}

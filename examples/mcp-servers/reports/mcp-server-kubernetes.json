@@ -1,0 +1,492 @@
+{
+  "serverId": "npx -y mcp-server-kubernetes",
+  "serverName": "kubernetes",
+  "protocolVersion": null,
+  "toolCount": 23,
+  "score": 92.1,
+  "tokenBudget": {
+    "total": 5515,
+    "perTool": [
+      {
+        "tool": "kubectl_create",
+        "tokens": 985
+      },
+      {
+        "tool": "node_management",
+        "tokens": 363
+      },
+      {
+        "tool": "kubectl_delete",
+        "tokens": 359
+      },
+      {
+        "tool": "kubectl_logs",
+        "tokens": 335
+      },
+      {
+        "tool": "install_helm_chart",
+        "tokens": 319
+      },
+      {
+        "tool": "kubectl_get",
+        "tokens": 303
+      },
+      {
+        "tool": "kubectl_patch",
+        "tokens": 303
+      },
+      {
+        "tool": "kubectl_rollout",
+        "tokens": 299
+      },
+      {
+        "tool": "exec_in_pod",
+        "tokens": 290
+      },
+      {
+        "tool": "kubectl_generic",
+        "tokens": 285
+      },
+      {
+        "tool": "kubectl_apply",
+        "tokens": 245
+      },
+      {
+        "tool": "upgrade_helm_chart",
+        "tokens": 243
+      },
+      {
+        "tool": "kubectl_context",
+        "tokens": 192
+      },
+      {
+        "tool": "explain_resource",
+        "tokens": 177
+      },
+      {
+        "tool": "kubectl_describe",
+        "tokens": 172
+      },
+      {
+        "tool": "list_api_resources",
+        "tokens": 154
+      },
+      {
+        "tool": "kubectl_scale",
+        "tokens": 151
+      },
+      {
+        "tool": "uninstall_helm_chart",
+        "tokens": 103
+      },
+      {
+        "tool": "port_forward",
+        "tokens": 84
+      },
+      {
+        "tool": "kubectl_reconnect",
+        "tokens": 69
+      },
+      {
+        "tool": "stop_port_forward",
+        "tokens": 34
+      },
+      {
+        "tool": "ping",
+        "tokens": 32
+      },
+      {
+        "tool": "cleanup",
+        "tokens": 18
+      }
+    ]
+  },
+  "findings": [
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "install_helm_chart",
+      "relatedTool": "uninstall_helm_chart",
+      "message": "\"install_helm_chart\" and \"uninstall_helm_chart\" have near-identical names (0.90 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "port_forward",
+      "message": "\"port_forward.localPort\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "port_forward",
+      "message": "\"port_forward.resourceName\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "port_forward",
+      "message": "\"port_forward.resourceType\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "port_forward",
+      "message": "\"port_forward.targetPort\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "stop_port_forward",
+      "message": "\"stop_port_forward.id\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "annotations-missing",
+      "severity": "warn",
+      "tool": "kubectl_create",
+      "message": "\"kubectl_create\" declares neither readOnlyHint nor destructiveHint",
+      "hint": "This one reads as mutating — clients need the hint to gate it behind confirmation."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "kubectl_get",
+      "relatedTool": "kubectl_describe",
+      "message": "\"kubectl_get\" and \"kubectl_describe\" have 71% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "cleanup",
+      "message": "\"cleanup\" has a 29-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "kubectl_scale",
+      "message": "\"kubectl_scale\" has a 29-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "stop_port_forward",
+      "message": "\"stop_port_forward\" has a 27-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "uninstall_helm_chart",
+      "message": "\"uninstall_helm_chart\" has a 30-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "upgrade_helm_chart",
+      "message": "\"upgrade_helm_chart\" has a 38-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "param-should-enum",
+      "severity": "warn",
+      "tool": "kubectl_apply",
+      "message": "\"kubectl_apply.filename\" enumerates its options in prose but is an open string",
+      "hint": "Move the options into `enum` so invalid values are rejected, not just discouraged."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "port_forward",
+      "message": "\"port_forward.namespace\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "kubectl_apply",
+      "message": "\"kubectl_apply\" declares 6 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "kubectl_create",
+      "message": "\"kubectl_create\" declares 23 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "kubectl_delete",
+      "message": "\"kubectl_delete\" declares 10 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "list_api_resources",
+      "message": "\"list_api_resources\" declares 5 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "annotations-missing",
+      "severity": "info",
+      "tool": "port_forward",
+      "message": "\"port_forward\" declares neither readOnlyHint nor destructiveHint",
+      "hint": "Let clients skip confirmation prompts for reads."
+    },
+    {
+      "check": "annotations-missing",
+      "severity": "info",
+      "tool": "stop_port_forward",
+      "message": "\"stop_port_forward\" declares neither readOnlyHint nor destructiveHint",
+      "hint": "Let clients skip confirmation prompts for reads."
+    },
+    {
+      "check": "cache-hints-missing",
+      "severity": "info",
+      "message": "tools/list returned no ttlMs / cacheScope",
+      "hint": "The 2026-07-28 revision lets clients cache the tool surface — without hints they refetch."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "cleanup",
+      "message": "\"cleanup\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "exec_in_pod",
+      "message": "\"exec_in_pod\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "explain_resource",
+      "message": "\"explain_resource\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "install_helm_chart",
+      "message": "\"install_helm_chart\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "kubectl_apply",
+      "message": "\"kubectl_apply\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "kubectl_context",
+      "message": "\"kubectl_context\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "kubectl_create",
+      "message": "\"kubectl_create\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "kubectl_delete",
+      "message": "\"kubectl_delete\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "kubectl_describe",
+      "message": "\"kubectl_describe\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "kubectl_generic",
+      "message": "\"kubectl_generic\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "kubectl_get",
+      "message": "\"kubectl_get\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "kubectl_logs",
+      "message": "\"kubectl_logs\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "kubectl_patch",
+      "message": "\"kubectl_patch\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "kubectl_reconnect",
+      "message": "\"kubectl_reconnect\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "kubectl_rollout",
+      "message": "\"kubectl_rollout\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "kubectl_scale",
+      "message": "\"kubectl_scale\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "list_api_resources",
+      "message": "\"list_api_resources\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "node_management",
+      "message": "\"node_management\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "ping",
+      "message": "\"ping\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "port_forward",
+      "message": "\"port_forward\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "stop_port_forward",
+      "message": "\"stop_port_forward\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "uninstall_helm_chart",
+      "message": "\"uninstall_helm_chart\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "upgrade_helm_chart",
+      "message": "\"upgrade_helm_chart\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "exec_in_pod",
+      "message": "\"exec_in_pod.command\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "kubectl_create",
+      "message": "\"kubectl_create.annotations\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "kubectl_create",
+      "message": "\"kubectl_create.command\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "kubectl_create",
+      "message": "\"kubectl_create.fromFile\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "kubectl_create",
+      "message": "\"kubectl_create.fromFileContent\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "kubectl_create",
+      "message": "\"kubectl_create.fromLiteral\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "kubectl_create",
+      "message": "\"kubectl_create.labels\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "kubectl_create",
+      "message": "\"kubectl_create.tcpPort\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "kubectl_generic",
+      "message": "\"kubectl_generic.args\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "list_api_resources",
+      "message": "\"list_api_resources.verbs\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    }
+  ]
+}

@@ -1,0 +1,468 @@
+{
+  "serverId": "npx -y @playwright/mcp",
+  "serverName": "Playwright",
+  "protocolVersion": null,
+  "toolCount": 24,
+  "score": 94,
+  "tokenBudget": {
+    "total": 3815,
+    "perTool": [
+      {
+        "tool": "browser_take_screenshot",
+        "tokens": 364
+      },
+      {
+        "tool": "browser_fill_form",
+        "tokens": 255
+      },
+      {
+        "tool": "browser_drop",
+        "tokens": 237
+      },
+      {
+        "tool": "browser_find",
+        "tokens": 228
+      },
+      {
+        "tool": "browser_click",
+        "tokens": 204
+      },
+      {
+        "tool": "browser_type",
+        "tokens": 201
+      },
+      {
+        "tool": "browser_network_request",
+        "tokens": 200
+      },
+      {
+        "tool": "browser_drag",
+        "tokens": 196
+      },
+      {
+        "tool": "browser_snapshot",
+        "tokens": 189
+      },
+      {
+        "tool": "browser_run_code_unsafe",
+        "tokens": 188
+      },
+      {
+        "tool": "browser_evaluate",
+        "tokens": 183
+      },
+      {
+        "tool": "browser_network_requests",
+        "tokens": 183
+      },
+      {
+        "tool": "browser_console_messages",
+        "tokens": 182
+      },
+      {
+        "tool": "browser_select_option",
+        "tokens": 158
+      },
+      {
+        "tool": "browser_tabs",
+        "tokens": 131
+      },
+      {
+        "tool": "browser_hover",
+        "tokens": 113
+      },
+      {
+        "tool": "browser_wait_for",
+        "tokens": 104
+      },
+      {
+        "tool": "browser_file_upload",
+        "tokens": 91
+      },
+      {
+        "tool": "browser_handle_dialog",
+        "tokens": 91
+      },
+      {
+        "tool": "browser_resize",
+        "tokens": 88
+      },
+      {
+        "tool": "browser_press_key",
+        "tokens": 78
+      },
+      {
+        "tool": "browser_navigate",
+        "tokens": 63
+      },
+      {
+        "tool": "browser_navigate_back",
+        "tokens": 48
+      },
+      {
+        "tool": "browser_close",
+        "tokens": 40
+      }
+    ]
+  },
+  "findings": [
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "browser_network_requests",
+      "relatedTool": "browser_network_request",
+      "message": "\"browser_network_requests\" and \"browser_network_request\" have near-identical names (0.96 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "browser_drop",
+      "relatedTool": "browser_drag",
+      "message": "\"browser_drop\" and \"browser_drag\" have near-identical names (0.83 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "browser_click",
+      "message": "\"browser_click\" has a 27-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "browser_close",
+      "message": "\"browser_close\" has a 14-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "browser_console_messages",
+      "message": "\"browser_console_messages\" has a 28-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "browser_file_upload",
+      "message": "\"browser_file_upload\" has a 28-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "browser_fill_form",
+      "message": "\"browser_fill_form\" has a 25-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "browser_handle_dialog",
+      "message": "\"browser_handle_dialog\" has a 15-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "browser_hover",
+      "message": "\"browser_hover\" has a 26-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "browser_navigate",
+      "message": "\"browser_navigate\" has a 17-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "browser_press_key",
+      "message": "\"browser_press_key\" has a 27-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "browser_resize",
+      "message": "\"browser_resize\" has a 25-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "browser_select_option",
+      "message": "\"browser_select_option\" has a 30-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "browser_type",
+      "message": "\"browser_type\" has a 31-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "param-should-enum",
+      "severity": "warn",
+      "tool": "browser_find",
+      "message": "\"browser_find.regex\" enumerates its options in prose but is an open string",
+      "hint": "Move the options into `enum` so invalid values are rejected, not just discouraged."
+    },
+    {
+      "check": "param-should-enum",
+      "severity": "warn",
+      "tool": "browser_find",
+      "message": "\"browser_find.text\" enumerates its options in prose but is an open string",
+      "hint": "Move the options into `enum` so invalid values are rejected, not just discouraged."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "browser_file_upload",
+      "message": "\"browser_file_upload\" declares 1 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "browser_find",
+      "message": "\"browser_find\" declares 2 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "browser_run_code_unsafe",
+      "message": "\"browser_run_code_unsafe\" declares 2 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "browser_snapshot",
+      "message": "\"browser_snapshot\" declares 4 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "browser_wait_for",
+      "message": "\"browser_wait_for\" declares 3 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "cache-hints-missing",
+      "severity": "info",
+      "message": "tools/list returned no ttlMs / cacheScope",
+      "hint": "The 2026-07-28 revision lets clients cache the tool surface — without hints they refetch."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_click",
+      "message": "\"browser_click\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_close",
+      "message": "\"browser_close\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_console_messages",
+      "message": "\"browser_console_messages\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_drag",
+      "message": "\"browser_drag\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_drop",
+      "message": "\"browser_drop\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_evaluate",
+      "message": "\"browser_evaluate\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_file_upload",
+      "message": "\"browser_file_upload\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_fill_form",
+      "message": "\"browser_fill_form\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_find",
+      "message": "\"browser_find\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_handle_dialog",
+      "message": "\"browser_handle_dialog\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_hover",
+      "message": "\"browser_hover\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_navigate",
+      "message": "\"browser_navigate\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_navigate_back",
+      "message": "\"browser_navigate_back\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_network_request",
+      "message": "\"browser_network_request\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_network_requests",
+      "message": "\"browser_network_requests\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_press_key",
+      "message": "\"browser_press_key\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_resize",
+      "message": "\"browser_resize\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_run_code_unsafe",
+      "message": "\"browser_run_code_unsafe\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_select_option",
+      "message": "\"browser_select_option\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_snapshot",
+      "message": "\"browser_snapshot\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_tabs",
+      "message": "\"browser_tabs\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_take_screenshot",
+      "message": "\"browser_take_screenshot\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_type",
+      "message": "\"browser_type\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "browser_wait_for",
+      "message": "\"browser_wait_for\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "browser_click",
+      "message": "\"browser_click.modifiers\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "browser_drop",
+      "message": "\"browser_drop.paths\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "browser_file_upload",
+      "message": "\"browser_file_upload.paths\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "browser_fill_form",
+      "message": "\"browser_fill_form.fields\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "browser_select_option",
+      "message": "\"browser_select_option.values\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    }
+  ]
+}

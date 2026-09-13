@@ -1,0 +1,211 @@
+{
+  "serverId": "npx -y @modelcontextprotocol/server-memory",
+  "serverName": "memory-server",
+  "protocolVersion": null,
+  "toolCount": 9,
+  "score": 91,
+  "tokenBudget": {
+    "total": 977,
+    "perTool": [
+      {
+        "tool": "create_relations",
+        "tokens": 152
+      },
+      {
+        "tool": "delete_relations",
+        "tokens": 150
+      },
+      {
+        "tool": "create_entities",
+        "tokens": 144
+      },
+      {
+        "tool": "delete_observations",
+        "tokens": 133
+      },
+      {
+        "tool": "add_observations",
+        "tokens": 132
+      },
+      {
+        "tool": "delete_entities",
+        "tokens": 83
+      },
+      {
+        "tool": "search_nodes",
+        "tokens": 77
+      },
+      {
+        "tool": "open_nodes",
+        "tokens": 72
+      },
+      {
+        "tool": "read_graph",
+        "tokens": 34
+      }
+    ]
+  },
+  "findings": [
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "add_observations",
+      "message": "\"add_observations.observations\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "create_entities",
+      "message": "\"create_entities.entities\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "create_relations",
+      "message": "\"create_relations.relations\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "delete_observations",
+      "message": "\"delete_observations.deletions\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "delete_entities",
+      "relatedTool": "delete_relations",
+      "message": "\"delete_entities\" and \"delete_relations\" have 62% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "read_graph",
+      "message": "\"read_graph\" has a 31-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "cache-hints-missing",
+      "severity": "info",
+      "message": "tools/list returned no ttlMs / cacheScope",
+      "hint": "The 2026-07-28 revision lets clients cache the tool surface — without hints they refetch."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "add_observations",
+      "message": "\"add_observations\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "create_entities",
+      "message": "\"create_entities\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "create_relations",
+      "message": "\"create_relations\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "delete_entities",
+      "message": "\"delete_entities\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "delete_observations",
+      "message": "\"delete_observations\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "delete_relations",
+      "message": "\"delete_relations\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "open_nodes",
+      "message": "\"open_nodes\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "read_graph",
+      "message": "\"read_graph\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "search_nodes",
+      "message": "\"search_nodes\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "add_observations",
+      "message": "\"add_observations.observations\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "create_entities",
+      "message": "\"create_entities.entities\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "create_relations",
+      "message": "\"create_relations.relations\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "delete_entities",
+      "message": "\"delete_entities.entityNames\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "delete_observations",
+      "message": "\"delete_observations.deletions\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "delete_relations",
+      "message": "\"delete_relations.relations\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "open_nodes",
+      "message": "\"open_nodes.names\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    }
+  ]
+}
