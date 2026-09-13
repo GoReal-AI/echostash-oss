@@ -143,34 +143,45 @@ describe('token budget', () => {
 })
 
 describe('score', () => {
-  it('averages per-tool warnings so big surfaces are not double-punished', () => {
-    const perTool = [
-      { check: 'a', severity: 'warn' as const, message: 'm', tool: 't1' },
-      { check: 'a', severity: 'warn' as const, message: 'm', tool: 't2' },
-    ]
+  const err = (tool?: string) => ({ check: 'a', severity: 'error' as const, message: 'm', tool })
+  const warn = (tool?: string) => ({ check: 'a', severity: 'warn' as const, message: 'm', tool })
+
+  it('scores each tool, then averages, so big surfaces are not double-punished', () => {
     // Two tools, one warn each → same score as one tool with one warn.
-    expect(scoreFindings(perTool, 2)).toBe(scoreFindings(perTool.slice(0, 1), 1))
+    expect(scoreFindings([warn('t1'), warn('t2')], 2)).toBe(scoreFindings([warn('t1')], 1))
+    expect(scoreFindings([warn('t1')], 1)).toBe(96)
   })
 
-  it('does NOT average errors — a broken tool stays broken on a big surface', () => {
-    const oneError = [{ check: 'a', severity: 'error' as const, message: 'm', tool: 't1' }]
-    // Same absolute hit whether the server has 2 tools or 40.
-    expect(scoreFindings(oneError, 2)).toBe(scoreFindings(oneError, 40))
-    expect(scoreFindings(oneError, 40)).toBe(88)
+  it('does not saturate: a badly broken tool drags the mean down, not to zero', () => {
+    // One tool with nine errors is itself at 0; the other thirteen tools are fine.
+    const nine = Array.from({ length: 9 }, () => err('broken'))
+    expect(scoreFindings(nine, 14)).toBe(Number(((13 * 100) / 14).toFixed(1)))
+    // Adding a finding on any other tool still lowers the score, so a 0-threshold gate fires.
+    expect(scoreFindings([...nine, err('other')], 14)).toBeLessThan(scoreFindings(nine, 14))
+  })
+
+  it('a tool cannot go below 0, so one disaster is bounded', () => {
+    const twenty = Array.from({ length: 20 }, () => err('t1'))
+    expect(scoreFindings(twenty, 2)).toBe(50)
+  })
+
+  it('an error on one tool is a bigger relative hit on a small surface', () => {
+    expect(scoreFindings([err('t1')], 2)).toBe(94)
+    expect(scoreFindings([err('t1')], 40)).toBe(99.7)
   })
 
   it('counts surface-level findings once at full weight', () => {
-    expect(scoreFindings([{ check: 'a', severity: 'error', message: 'm' }], 10)).toBe(88)
+    expect(scoreFindings([err()], 10)).toBe(88)
+    expect(scoreFindings([err(), warn('t1')], 1)).toBe(84)
   })
 
-  it('clamps to 0..100', () => {
-    const many = Array.from({ length: 50 }, () => ({
-      check: 'a',
-      severity: 'error' as const,
-      message: 'm',
-    }))
+  it('clamps to 0..100 and is deterministic', () => {
+    const many = Array.from({ length: 50 }, () => err())
     expect(scoreFindings(many, 1)).toBe(0)
     expect(scoreFindings([], 1)).toBe(100)
+    expect(scoreFindings([], 0)).toBe(100)
+    const mixed = [err('b'), warn('a'), err('a'), warn('b')]
+    expect(scoreFindings(mixed, 2)).toBe(scoreFindings([...mixed].reverse(), 2))
   })
 })
 
