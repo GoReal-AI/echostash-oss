@@ -1,0 +1,36 @@
+{
+  "serverId": "example-support",
+  "serverName": "example-support",
+  "protocolVersion": "2026-07-28",
+  "fetchedAt": "2026-07-28T10:00:00.000Z",
+  "ttlMs": 60000,
+  "cacheScope": "session",
+  "tools": [
+    {
+      "name": "refund_order",
+      "description": "Issue a monetary refund against a completed order. Returns the refund id and the amount credited. Do not use this to cancel an order that has not shipped yet — use cancel_order instead.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "orderId": { "type": "string", "description": "The order to refund." }
+        },
+        "required": ["orderId"],
+        "additionalProperties": false
+      },
+      "annotations": { "readOnlyHint": false, "destructiveHint": true }
+    },
+    {
+      "name": "cancel_order",
+      "description": "Cancel an order that has not yet shipped, releasing its reserved stock. Returns the cancellation id. Not for orders already delivered — use refund_order instead.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "orderId": { "type": "string", "description": "The order to cancel." }
+        },
+        "required": ["orderId"],
+        "additionalProperties": false
+      },
+      "annotations": { "readOnlyHint": false, "destructiveHint": true }
+    }
+  ]
+}
