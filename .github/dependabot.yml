@@ -13,6 +13,11 @@ updates:
     groups:
       dev-dependencies:
         dependency-type: development
+      # Security updates flow even while version updates are paused. Group them so one PR
+      # carries the whole batch instead of one PR per advisory.
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
