@@ -12,6 +12,27 @@ zero setup. No annotations, no SDK, no test harness.
 
 ---
 
+## Try it in 30 seconds
+
+No account, no server, no API key. Point it at any MCP server and get a scored report of its tool surface:
+
+```bash
+npx -y @echostash/cli mcp audit --command "npx -y @modelcontextprotocol/server-filesystem /tmp"
+```
+
+Then gate every PR with the GitHub Action (deterministic, fails closed, posts the per-tool diff):
+
+```yaml
+- uses: GoReal-AI/echostash-oss/actions/mcp-audit@main
+  with:
+    server: 'npx -y @acme/mcp-server'   # or an http(s):// URL
+```
+
+Details in [Audit an MCP server's tool surface](#audit-an-mcp-servers-tool-surface) and
+[`actions/mcp-audit`](actions/mcp-audit/README.md).
+
+---
+
 ## Why
 
 Every "prompt tool" on the market is a **CMS you migrate into**: your prompts move
@@ -112,6 +133,10 @@ Each run writes `.echostash/mcp-baseline.<server>.json`. **Commit it**, then gat
 echostash mcp audit <target> --check     # exit 1 when the score regresses
 ```
 
+Or drop in the [GitHub Action](actions/mcp-audit/README.md): it runs the same check, fails
+closed on any error, and posts a comment on the PR with the score delta and which tools changed
+(added, removed, description changed, schema changed).
+
 Code gets reviewed; prompts don't. This closes that gap. Selection-accuracy eval (synthetic
 **and** hand-written queries → a confusion matrix showing which tool steals which one's traffic)
 is [tracked in M7](https://github.com/GoReal-AI/echostash-oss/issues/93).
@@ -129,6 +154,7 @@ This is an early, in-progress build. Milestones:
 | **M4** | Datasets + eval matrix + scorers | 🔜 open |
 | **M5** | CI gate + GitHub App | 🔜 open |
 | **M6** | Docker images + seed + demo | 🔜 open |
+| **M7** | MCP tool surface: audit ✅ · CI gate action ✅ · selection eval 🔜 | 🚧 in progress |
 
 ### Contributing — start here
 
