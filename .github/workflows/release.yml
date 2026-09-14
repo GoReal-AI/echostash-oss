@@ -64,7 +64,13 @@ jobs:
           # Dependency order, so a package's workspace deps exist on the registry first.
           for dir in $(node scripts/release/publishable.mjs | awk '{print $2}'); do
             name=$(node -p "require('$dir/package.json').name")
-            echo "::group::npm publish $name"
+            version=$(node -p "require('$dir/package.json').version")
+            # Idempotent: a re-run after a partial failure skips what already made it.
+            if npm view "$name@$version" version >/dev/null 2>&1; then
+              echo "skip $name@$version: already on the registry"
+              continue
+            fi
+            echo "::group::npm publish $name@$version"
             (cd "$dir" && npm publish --provenance --access public)
             echo "::endgroup::"
           done
