@@ -1,6 +1,6 @@
 {
   "name": "@echostash/analyzer",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Deterministic checks and the Tool Surface Score for MCP tool definitions: confusable tools, undescribed params, thin descriptions, token budget. No model calls.",
   "keywords": [
     "echostash",

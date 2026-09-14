@@ -1,6 +1,6 @@
 {
   "name": "@echostash/scoring",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Isomorphic scorer engine for LLM evals: deterministic assertions (contains, regex, json-schema, ...) plus the scorer catalog shared by the runner and the UI.",
   "keywords": [
     "echostash",
