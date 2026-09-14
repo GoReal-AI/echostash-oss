@@ -1,0 +1,31 @@
+{
+  "serverId": "npx -y @modelcontextprotocol/server-sequential-thinking",
+  "serverName": "sequential-thinking-server",
+  "protocolVersion": null,
+  "toolCount": 1,
+  "score": 95,
+  "tokenBudget": {
+    "total": 989,
+    "perTool": [
+      {
+        "tool": "sequentialthinking",
+        "tokens": 989
+      }
+    ]
+  },
+  "findings": [
+    {
+      "check": "description-bloated",
+      "severity": "warn",
+      "tool": "sequentialthinking",
+      "message": "\"sequentialthinking\" spends ~696 tokens on its description",
+      "hint": "Every request pays this. Trim to the decision-relevant facts."
+    },
+    {
+      "check": "cache-hints-missing",
+      "severity": "info",
+      "message": "tools/list returned no ttlMs / cacheScope",
+      "hint": "The 2026-07-28 revision lets clients cache the tool surface — without hints they refetch."
+    }
+  ]
+}

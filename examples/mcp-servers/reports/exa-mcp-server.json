@@ -1,0 +1,49 @@
+{
+  "serverId": "npx -y exa-mcp-server",
+  "serverName": "exa-search-server",
+  "protocolVersion": null,
+  "toolCount": 2,
+  "score": 97.5,
+  "tokenBudget": {
+    "total": 438,
+    "perTool": [
+      {
+        "tool": "web_search_exa",
+        "tokens": 276
+      },
+      {
+        "tool": "web_fetch_exa",
+        "tokens": 162
+      }
+    ]
+  },
+  "findings": [
+    {
+      "check": "cache-hints-missing",
+      "severity": "info",
+      "message": "tools/list returned no ttlMs / cacheScope",
+      "hint": "The 2026-07-28 revision lets clients cache the tool surface — without hints they refetch."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "web_fetch_exa",
+      "message": "\"web_fetch_exa\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "web_search_exa",
+      "message": "\"web_search_exa\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "web_fetch_exa",
+      "message": "\"web_fetch_exa.urls\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    }
+  ]
+}

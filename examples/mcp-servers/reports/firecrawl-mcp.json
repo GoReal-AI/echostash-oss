@@ -1,0 +1,1504 @@
+{
+  "serverId": "npx -y firecrawl-mcp",
+  "serverName": "firecrawl-fastmcp",
+  "protocolVersion": null,
+  "toolCount": 25,
+  "score": 66.6,
+  "tokenBudget": {
+    "total": 8206,
+    "perTool": [
+      {
+        "tool": "firecrawl_search",
+        "tokens": 1375
+      },
+      {
+        "tool": "firecrawl_crawl",
+        "tokens": 937
+      },
+      {
+        "tool": "firecrawl_scrape",
+        "tokens": 915
+      },
+      {
+        "tool": "firecrawl_interact",
+        "tokens": 830
+      },
+      {
+        "tool": "firecrawl_parse",
+        "tokens": 638
+      },
+      {
+        "tool": "firecrawl_monitor_create",
+        "tokens": 366
+      },
+      {
+        "tool": "firecrawl_research_search_papers",
+        "tokens": 361
+      },
+      {
+        "tool": "firecrawl_developer_search",
+        "tokens": 254
+      },
+      {
+        "tool": "firecrawl_agent",
+        "tokens": 250
+      },
+      {
+        "tool": "firecrawl_map",
+        "tokens": 231
+      },
+      {
+        "tool": "firecrawl_monitor_check",
+        "tokens": 227
+      },
+      {
+        "tool": "firecrawl_research_related_papers",
+        "tokens": 226
+      },
+      {
+        "tool": "firecrawl_research_read_paper",
+        "tokens": 193
+      },
+      {
+        "tool": "firecrawl_extract",
+        "tokens": 173
+      },
+      {
+        "tool": "firecrawl_agent_status",
+        "tokens": 171
+      },
+      {
+        "tool": "firecrawl_monitor_checks",
+        "tokens": 151
+      },
+      {
+        "tool": "firecrawl_research_inspect_paper",
+        "tokens": 140
+      },
+      {
+        "tool": "firecrawl_monitor_update",
+        "tokens": 131
+      },
+      {
+        "tool": "firecrawl_research_search_github",
+        "tokens": 111
+      },
+      {
+        "tool": "firecrawl_monitor_list",
+        "tokens": 108
+      },
+      {
+        "tool": "firecrawl_check_crawl_status",
+        "tokens": 91
+      },
+      {
+        "tool": "firecrawl_monitor_run",
+        "tokens": 88
+      },
+      {
+        "tool": "firecrawl_interact_stop",
+        "tokens": 83
+      },
+      {
+        "tool": "firecrawl_monitor_delete",
+        "tokens": 80
+      },
+      {
+        "tool": "firecrawl_monitor_get",
+        "tokens": 76
+      }
+    ]
+  },
+  "findings": [
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "firecrawl_monitor_checks",
+      "relatedTool": "firecrawl_monitor_check",
+      "message": "\"firecrawl_monitor_checks\" and \"firecrawl_monitor_check\" have near-identical names (0.96 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_agent",
+      "message": "\"firecrawl_agent.prompt\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_agent_status",
+      "message": "\"firecrawl_agent_status.id\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_check_crawl_status",
+      "message": "\"firecrawl_check_crawl_status.id\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.url\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_extract",
+      "message": "\"firecrawl_extract.urls\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_interact_stop",
+      "message": "\"firecrawl_interact_stop.scrapeId\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_map",
+      "message": "\"firecrawl_map.url\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_monitor_check",
+      "message": "\"firecrawl_monitor_check.checkId\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_monitor_check",
+      "message": "\"firecrawl_monitor_check.id\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_monitor_checks",
+      "message": "\"firecrawl_monitor_checks.id\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_monitor_delete",
+      "message": "\"firecrawl_monitor_delete.id\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_monitor_get",
+      "message": "\"firecrawl_monitor_get.id\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_monitor_run",
+      "message": "\"firecrawl_monitor_run.id\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_monitor_update",
+      "message": "\"firecrawl_monitor_update.body\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_monitor_update",
+      "message": "\"firecrawl_monitor_update.id\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_research_read_paper",
+      "message": "\"firecrawl_research_read_paper.question\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_research_related_papers",
+      "message": "\"firecrawl_research_related_papers.intent\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_research_related_papers",
+      "message": "\"firecrawl_research_related_papers.seed_ids\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_research_search_github",
+      "message": "\"firecrawl_research_search_github.query\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.url\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "firecrawl_search",
+      "message": "\"firecrawl_search.query\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_extract",
+      "relatedTool": "firecrawl_interact",
+      "message": "\"firecrawl_extract\" and \"firecrawl_interact\" have near-identical names (0.83 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "relatedTool": "firecrawl_monitor_update",
+      "message": "\"firecrawl_monitor_create\" and \"firecrawl_monitor_update\" have near-identical names (0.88 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "relatedTool": "firecrawl_monitor_check",
+      "message": "\"firecrawl_monitor_create\" and \"firecrawl_monitor_check\" have near-identical names (0.83 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "relatedTool": "firecrawl_monitor_checks",
+      "message": "\"firecrawl_monitor_create\" and \"firecrawl_monitor_checks\" have near-identical names (0.83 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "relatedTool": "firecrawl_monitor_delete",
+      "message": "\"firecrawl_monitor_create\" and \"firecrawl_monitor_delete\" have near-identical names (0.83 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "relatedTool": "firecrawl_monitor_get",
+      "message": "\"firecrawl_monitor_create\" and \"firecrawl_monitor_get\" have near-identical names (0.83 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_get",
+      "relatedTool": "firecrawl_monitor_delete",
+      "message": "\"firecrawl_monitor_get\" and \"firecrawl_monitor_delete\" have near-identical names (0.83 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_get",
+      "relatedTool": "firecrawl_monitor_run",
+      "message": "\"firecrawl_monitor_get\" and \"firecrawl_monitor_run\" have near-identical names (0.86 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_get",
+      "relatedTool": "firecrawl_monitor_check",
+      "message": "\"firecrawl_monitor_get\" and \"firecrawl_monitor_check\" have near-identical names (0.83 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_list",
+      "relatedTool": "firecrawl_monitor_get",
+      "message": "\"firecrawl_monitor_list\" and \"firecrawl_monitor_get\" have near-identical names (0.86 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_list",
+      "relatedTool": "firecrawl_monitor_run",
+      "message": "\"firecrawl_monitor_list\" and \"firecrawl_monitor_run\" have near-identical names (0.82 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_update",
+      "relatedTool": "firecrawl_monitor_delete",
+      "message": "\"firecrawl_monitor_update\" and \"firecrawl_monitor_delete\" have near-identical names (0.83 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_research_inspect_paper",
+      "relatedTool": "firecrawl_research_read_paper",
+      "message": "\"firecrawl_research_inspect_paper\" and \"firecrawl_research_read_paper\" have near-identical names (0.81 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_research_related_papers",
+      "relatedTool": "firecrawl_research_read_paper",
+      "message": "\"firecrawl_research_related_papers\" and \"firecrawl_research_read_paper\" have near-identical names (0.88 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_research_search_papers",
+      "relatedTool": "firecrawl_research_related_papers",
+      "message": "\"firecrawl_research_search_papers\" and \"firecrawl_research_related_papers\" have near-identical names (0.85 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_research_search_papers",
+      "relatedTool": "firecrawl_research_read_paper",
+      "message": "\"firecrawl_research_search_papers\" and \"firecrawl_research_read_paper\" have near-identical names (0.84 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_research_search_papers",
+      "relatedTool": "firecrawl_research_search_github",
+      "message": "\"firecrawl_research_search_papers\" and \"firecrawl_research_search_github\" have near-identical names (0.81 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "relatedTool": "firecrawl_crawl",
+      "message": "\"firecrawl_scrape\" and \"firecrawl_crawl\" have near-identical names (0.81 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_agent",
+      "message": "\"firecrawl_agent.schema\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_agent",
+      "message": "\"firecrawl_agent.urls\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.allowExternalLinks\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.allowSubdomains\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.crawlEntireDomain\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.deduplicateSimilarURLs\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.delay\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.excludePaths\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.ignoreQueryParameters\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.includePaths\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.limit\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.maxConcurrency\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.maxDiscoveryDepth\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.prompt\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.scrapeOptions\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.sitemap\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.webhook\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.webhookHeaders\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_extract",
+      "message": "\"firecrawl_extract.allowExternalLinks\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_extract",
+      "message": "\"firecrawl_extract.enableWebSearch\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_extract",
+      "message": "\"firecrawl_extract.includeSubdomains\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_extract",
+      "message": "\"firecrawl_extract.prompt\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_extract",
+      "message": "\"firecrawl_extract.schema\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_interact",
+      "message": "\"firecrawl_interact.code\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_interact",
+      "message": "\"firecrawl_interact.language\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_interact",
+      "message": "\"firecrawl_interact.prompt\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_interact",
+      "message": "\"firecrawl_interact.scrapeId\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_interact",
+      "message": "\"firecrawl_interact.scrapeOptions\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_interact",
+      "message": "\"firecrawl_interact.timeout\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_interact",
+      "message": "\"firecrawl_interact.url\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_map",
+      "message": "\"firecrawl_map.ignoreQueryParameters\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_map",
+      "message": "\"firecrawl_map.includeSubdomains\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_map",
+      "message": "\"firecrawl_map.limit\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_map",
+      "message": "\"firecrawl_map.search\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_map",
+      "message": "\"firecrawl_map.sitemap\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_check",
+      "message": "\"firecrawl_monitor_check.limit\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_check",
+      "message": "\"firecrawl_monitor_check.pageStatus\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_check",
+      "message": "\"firecrawl_monitor_check.skip\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_checks",
+      "message": "\"firecrawl_monitor_checks.limit\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_checks",
+      "message": "\"firecrawl_monitor_checks.offset\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_checks",
+      "message": "\"firecrawl_monitor_checks.status\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.body\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.email\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.excludeDomains\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.goal\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.includeDiffs\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.includeDomains\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.maxResults\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.name\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.page\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.pages\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.queries\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.scheduleText\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.searchWindow\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.timezone\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.webhookUrl\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_list",
+      "message": "\"firecrawl_monitor_list.limit\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_list",
+      "message": "\"firecrawl_monitor_list.offset\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.excludeTags\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.formats\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.includeTags\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.jsonOptions\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.onlyMainContent\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.parsers\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.pdfOptions\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.proxy\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.queryOptions\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.redactPII\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.removeBase64Images\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.skipTlsVerification\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.storeInCache\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.zeroDataRetention\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_research_related_papers",
+      "message": "\"firecrawl_research_related_papers.k\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_research_related_papers",
+      "message": "\"firecrawl_research_related_papers.mode\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_research_search_github",
+      "message": "\"firecrawl_research_search_github.k\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.actions\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.excludeTags\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.formats\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.includeTags\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.jsonOptions\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.location\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.lockdown\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.maxAge\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.mobile\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.onlyMainContent\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.parsers\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.pdfOptions\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.profile\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.proxy\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.queryOptions\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.redactPII\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.removeBase64Images\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.screenshotOptions\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.skipTlsVerification\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.storeInCache\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.waitFor\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.zeroDataRetention\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_search",
+      "message": "\"firecrawl_search.enterprise\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_search",
+      "message": "\"firecrawl_search.excludeDomains\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_search",
+      "message": "\"firecrawl_search.filter\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_search",
+      "message": "\"firecrawl_search.includeDomains\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_search",
+      "message": "\"firecrawl_search.limit\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_search",
+      "message": "\"firecrawl_search.location\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_search",
+      "message": "\"firecrawl_search.scrapeOptions\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_search",
+      "message": "\"firecrawl_search.sources\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "firecrawl_search",
+      "message": "\"firecrawl_search.tbs\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "firecrawl_interact",
+      "message": "\"firecrawl_interact\" declares 7 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create\" declares 15 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "firecrawl_monitor_list",
+      "message": "\"firecrawl_monitor_list\" declares 2 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "cache-hints-missing",
+      "severity": "info",
+      "message": "tools/list returned no ttlMs / cacheScope",
+      "hint": "The 2026-07-28 revision lets clients cache the tool surface — without hints they refetch."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_agent",
+      "message": "\"firecrawl_agent\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_agent_status",
+      "message": "\"firecrawl_agent_status\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_check_crawl_status",
+      "message": "\"firecrawl_check_crawl_status\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_developer_search",
+      "message": "\"firecrawl_developer_search\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_extract",
+      "message": "\"firecrawl_extract\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_interact",
+      "message": "\"firecrawl_interact\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_interact_stop",
+      "message": "\"firecrawl_interact_stop\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_monitor_check",
+      "message": "\"firecrawl_monitor_check\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_monitor_checks",
+      "message": "\"firecrawl_monitor_checks\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_monitor_delete",
+      "message": "\"firecrawl_monitor_delete\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_monitor_get",
+      "message": "\"firecrawl_monitor_get\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_monitor_list",
+      "message": "\"firecrawl_monitor_list\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_monitor_run",
+      "message": "\"firecrawl_monitor_run\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_monitor_update",
+      "message": "\"firecrawl_monitor_update\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_research_inspect_paper",
+      "message": "\"firecrawl_research_inspect_paper\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_research_read_paper",
+      "message": "\"firecrawl_research_read_paper\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_research_related_papers",
+      "message": "\"firecrawl_research_related_papers\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_research_search_github",
+      "message": "\"firecrawl_research_search_github\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_research_search_papers",
+      "message": "\"firecrawl_research_search_papers\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "firecrawl_search",
+      "message": "\"firecrawl_search\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_agent",
+      "message": "\"firecrawl_agent.urls\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.excludePaths\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_crawl",
+      "message": "\"firecrawl_crawl.includePaths\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_extract",
+      "message": "\"firecrawl_extract.urls\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.excludeDomains\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.includeDomains\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.pages\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_monitor_create",
+      "message": "\"firecrawl_monitor_create.queries\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.excludeTags\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.formats\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.includeTags\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_parse",
+      "message": "\"firecrawl_parse.parsers\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_research_search_papers",
+      "message": "\"firecrawl_research_search_papers.authors\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_research_search_papers",
+      "message": "\"firecrawl_research_search_papers.categories\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.actions\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.excludeTags\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.formats\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.includeTags\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_scrape",
+      "message": "\"firecrawl_scrape.parsers\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_search",
+      "message": "\"firecrawl_search.categories\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_search",
+      "message": "\"firecrawl_search.enterprise\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_search",
+      "message": "\"firecrawl_search.excludeDomains\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_search",
+      "message": "\"firecrawl_search.includeDomains\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "firecrawl_search",
+      "message": "\"firecrawl_search.sources\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    }
+  ]
+}

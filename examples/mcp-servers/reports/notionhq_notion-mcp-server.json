@@ -1,0 +1,1464 @@
+{
+  "serverId": "npx -y @notionhq/notion-mcp-server",
+  "serverName": "Notion API",
+  "protocolVersion": null,
+  "toolCount": 24,
+  "score": 59.7,
+  "tokenBudget": {
+    "total": 18494,
+    "perTool": [
+      {
+        "tool": "API-update-page-markdown",
+        "tokens": 1441
+      },
+      {
+        "tool": "API-post-search",
+        "tokens": 1178
+      },
+      {
+        "tool": "API-patch-page",
+        "tokens": 950
+      },
+      {
+        "tool": "API-post-page",
+        "tokens": 868
+      },
+      {
+        "tool": "API-query-data-source",
+        "tokens": 806
+      },
+      {
+        "tool": "API-create-a-comment",
+        "tokens": 768
+      },
+      {
+        "tool": "API-update-a-block",
+        "tokens": 754
+      },
+      {
+        "tool": "API-retrieve-page-markdown",
+        "tokens": 753
+      },
+      {
+        "tool": "API-update-a-data-source",
+        "tokens": 752
+      },
+      {
+        "tool": "API-patch-block-children",
+        "tokens": 747
+      },
+      {
+        "tool": "API-retrieve-a-page-property",
+        "tokens": 745
+      },
+      {
+        "tool": "API-get-block-children",
+        "tokens": 734
+      },
+      {
+        "tool": "API-retrieve-a-comment",
+        "tokens": 730
+      },
+      {
+        "tool": "API-retrieve-a-page",
+        "tokens": 718
+      },
+      {
+        "tool": "API-create-a-data-source",
+        "tokens": 715
+      },
+      {
+        "tool": "API-get-users",
+        "tokens": 699
+      },
+      {
+        "tool": "API-list-data-source-templates",
+        "tokens": 671
+      },
+      {
+        "tool": "API-move-page",
+        "tokens": 659
+      },
+      {
+        "tool": "API-retrieve-a-data-source",
+        "tokens": 647
+      },
+      {
+        "tool": "API-retrieve-a-database",
+        "tokens": 643
+      },
+      {
+        "tool": "API-retrieve-a-block",
+        "tokens": 638
+      },
+      {
+        "tool": "API-delete-a-block",
+        "tokens": 637
+      },
+      {
+        "tool": "API-get-user",
+        "tokens": 624
+      },
+      {
+        "tool": "API-get-self",
+        "tokens": 617
+      }
+    ]
+  },
+  "findings": [
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-get-block-children",
+      "relatedTool": "API-retrieve-a-block",
+      "message": "\"API-get-block-children\" and \"API-retrieve-a-block\" have 84% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-get-block-children",
+      "relatedTool": "API-patch-block-children",
+      "message": "\"API-get-block-children\" and \"API-patch-block-children\" have near-identical names (0.83 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-get-user",
+      "relatedTool": "API-get-users",
+      "message": "\"API-get-user\" and \"API-get-users\" have near-identical names (0.92 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-post-page",
+      "relatedTool": "API-move-page",
+      "message": "\"API-post-page\" and \"API-move-page\" have 78% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-post-page",
+      "relatedTool": "API-create-a-comment",
+      "message": "\"API-post-page\" and \"API-create-a-comment\" have 75% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-query-data-source",
+      "relatedTool": "API-update-a-data-source",
+      "message": "\"API-query-data-source\" and \"API-update-a-data-source\" have 80% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-query-data-source",
+      "relatedTool": "API-create-a-data-source",
+      "message": "\"API-query-data-source\" and \"API-create-a-data-source\" have 79% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-query-data-source",
+      "relatedTool": "API-retrieve-a-data-source",
+      "message": "\"API-query-data-source\" and \"API-retrieve-a-data-source\" have 79% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-retrieve-a-block",
+      "relatedTool": "API-retrieve-a-page",
+      "message": "\"API-retrieve-a-block\" and \"API-retrieve-a-page\" have 78% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-retrieve-a-block",
+      "relatedTool": "API-delete-a-block",
+      "message": "\"API-retrieve-a-block\" and \"API-delete-a-block\" have 77% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-retrieve-a-block",
+      "relatedTool": "API-update-a-block",
+      "message": "\"API-retrieve-a-block\" and \"API-update-a-block\" have 77% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-retrieve-a-block",
+      "relatedTool": "API-retrieve-a-database",
+      "message": "\"API-retrieve-a-block\" and \"API-retrieve-a-database\" have 76% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-retrieve-a-data-source",
+      "relatedTool": "API-update-a-data-source",
+      "message": "\"API-retrieve-a-data-source\" and \"API-update-a-data-source\" have 79% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-retrieve-a-data-source",
+      "relatedTool": "API-create-a-data-source",
+      "message": "\"API-retrieve-a-data-source\" and \"API-create-a-data-source\" have 79% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-retrieve-a-page",
+      "relatedTool": "API-move-page",
+      "message": "\"API-retrieve-a-page\" and \"API-move-page\" have 79% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-retrieve-a-page",
+      "relatedTool": "API-retrieve-a-page-property",
+      "message": "\"API-retrieve-a-page\" and \"API-retrieve-a-page-property\" have 78% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-retrieve-a-page",
+      "relatedTool": "API-retrieve-a-database",
+      "message": "\"API-retrieve-a-page\" and \"API-retrieve-a-database\" have 77% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-retrieve-a-page",
+      "relatedTool": "API-post-page",
+      "message": "\"API-retrieve-a-page\" and \"API-post-page\" have 77% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-retrieve-a-page",
+      "relatedTool": "API-retrieve-a-comment",
+      "message": "\"API-retrieve-a-page\" and \"API-retrieve-a-comment\" have 75% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-retrieve-page-markdown",
+      "relatedTool": "API-update-page-markdown",
+      "message": "\"API-retrieve-page-markdown\" and \"API-update-page-markdown\" have 80% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-update-a-block",
+      "relatedTool": "API-delete-a-block",
+      "message": "\"API-update-a-block\" and \"API-delete-a-block\" have 78% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "API-update-a-data-source",
+      "relatedTool": "API-create-a-data-source",
+      "message": "\"API-update-a-data-source\" and \"API-create-a-data-source\" have near-identical names (0.88 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "API-create-a-comment",
+      "message": "\"API-create-a-comment.parent\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "API-create-a-comment",
+      "message": "\"API-create-a-comment.rich_text\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "API-create-a-data-source",
+      "message": "\"API-create-a-data-source.parent\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "API-create-a-data-source",
+      "message": "\"API-create-a-data-source.properties\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "API-get-user",
+      "message": "\"API-get-user.user_id\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "API-move-page",
+      "message": "\"API-move-page.parent\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "API-post-page",
+      "message": "\"API-post-page.parent\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "API-post-page",
+      "message": "\"API-post-page.properties\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-create-a-comment",
+      "relatedTool": "API-create-a-data-source",
+      "message": "\"API-create-a-comment\" and \"API-create-a-data-source\" have 68% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-create-a-comment",
+      "relatedTool": "API-move-page",
+      "message": "\"API-create-a-comment\" and \"API-move-page\" have 58% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-create-a-comment",
+      "relatedTool": "API-retrieve-a-database",
+      "message": "\"API-create-a-comment\" and \"API-retrieve-a-database\" have 56% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-create-a-data-source",
+      "relatedTool": "API-list-data-source-templates",
+      "message": "\"API-create-a-data-source\" and \"API-list-data-source-templates\" have 71% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-create-a-data-source",
+      "relatedTool": "API-retrieve-a-database",
+      "message": "\"API-create-a-data-source\" and \"API-retrieve-a-database\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-create-a-data-source",
+      "relatedTool": "API-move-page",
+      "message": "\"API-create-a-data-source\" and \"API-move-page\" have 56% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-delete-a-block",
+      "relatedTool": "API-post-page",
+      "message": "\"API-delete-a-block\" and \"API-post-page\" have 60% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-delete-a-block",
+      "relatedTool": "API-move-page",
+      "message": "\"API-delete-a-block\" and \"API-move-page\" have 60% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-delete-a-block",
+      "relatedTool": "API-retrieve-a-page",
+      "message": "\"API-delete-a-block\" and \"API-retrieve-a-page\" have 59% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-delete-a-block",
+      "relatedTool": "API-create-a-comment",
+      "message": "\"API-delete-a-block\" and \"API-create-a-comment\" have 58% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-delete-a-block",
+      "relatedTool": "API-retrieve-a-database",
+      "message": "\"API-delete-a-block\" and \"API-retrieve-a-database\" have 58% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-delete-a-block",
+      "relatedTool": "API-retrieve-a-comment",
+      "message": "\"API-delete-a-block\" and \"API-retrieve-a-comment\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-delete-a-block",
+      "relatedTool": "API-update-a-data-source",
+      "message": "\"API-delete-a-block\" and \"API-update-a-data-source\" have 55% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-block-children",
+      "relatedTool": "API-retrieve-a-page",
+      "message": "\"API-get-block-children\" and \"API-retrieve-a-page\" have 68% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-block-children",
+      "relatedTool": "API-retrieve-a-comment",
+      "message": "\"API-get-block-children\" and \"API-retrieve-a-comment\" have 67% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-block-children",
+      "relatedTool": "API-retrieve-a-database",
+      "message": "\"API-get-block-children\" and \"API-retrieve-a-database\" have 66% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-block-children",
+      "relatedTool": "API-delete-a-block",
+      "message": "\"API-get-block-children\" and \"API-delete-a-block\" have 65% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-block-children",
+      "relatedTool": "API-update-a-block",
+      "message": "\"API-get-block-children\" and \"API-update-a-block\" have 65% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-block-children",
+      "relatedTool": "API-retrieve-a-data-source",
+      "message": "\"API-get-block-children\" and \"API-retrieve-a-data-source\" have 62% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-block-children",
+      "relatedTool": "API-retrieve-a-page-property",
+      "message": "\"API-get-block-children\" and \"API-retrieve-a-page-property\" have 56% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-self",
+      "relatedTool": "API-retrieve-a-page",
+      "message": "\"API-get-self\" and \"API-retrieve-a-page\" have 62% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-self",
+      "relatedTool": "API-retrieve-a-block",
+      "message": "\"API-get-self\" and \"API-retrieve-a-block\" have 61% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-self",
+      "relatedTool": "API-retrieve-a-comment",
+      "message": "\"API-get-self\" and \"API-retrieve-a-comment\" have 61% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-self",
+      "relatedTool": "API-retrieve-a-database",
+      "message": "\"API-get-self\" and \"API-retrieve-a-database\" have 60% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-self",
+      "relatedTool": "API-retrieve-a-data-source",
+      "message": "\"API-get-self\" and \"API-retrieve-a-data-source\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-self",
+      "relatedTool": "API-get-block-children",
+      "message": "\"API-get-self\" and \"API-get-block-children\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-user",
+      "relatedTool": "API-get-self",
+      "message": "\"API-get-user\" and \"API-get-self\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-user",
+      "relatedTool": "API-retrieve-a-page",
+      "message": "\"API-get-user\" and \"API-retrieve-a-page\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-user",
+      "relatedTool": "API-retrieve-a-block",
+      "message": "\"API-get-user\" and \"API-retrieve-a-block\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-get-user",
+      "relatedTool": "API-retrieve-a-database",
+      "message": "\"API-get-user\" and \"API-retrieve-a-database\" have 56% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-patch-block-children",
+      "relatedTool": "API-update-a-block",
+      "message": "\"API-patch-block-children\" and \"API-update-a-block\" have 65% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-patch-block-children",
+      "relatedTool": "API-delete-a-block",
+      "message": "\"API-patch-block-children\" and \"API-delete-a-block\" have 65% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-patch-block-children",
+      "relatedTool": "API-retrieve-a-block",
+      "message": "\"API-patch-block-children\" and \"API-retrieve-a-block\" have 65% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-patch-page",
+      "relatedTool": "API-post-page",
+      "message": "\"API-patch-page\" and \"API-post-page\" have 67% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-patch-page",
+      "relatedTool": "API-move-page",
+      "message": "\"API-patch-page\" and \"API-move-page\" have 66% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-patch-page",
+      "relatedTool": "API-update-a-data-source",
+      "message": "\"API-patch-page\" and \"API-update-a-data-source\" have 62% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-patch-page",
+      "relatedTool": "API-retrieve-a-page-property",
+      "message": "\"API-patch-page\" and \"API-retrieve-a-page-property\" have 59% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-post-page",
+      "relatedTool": "API-create-a-data-source",
+      "message": "\"API-post-page\" and \"API-create-a-data-source\" have 71% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-post-page",
+      "relatedTool": "API-retrieve-a-page-property",
+      "message": "\"API-post-page\" and \"API-retrieve-a-page-property\" have 61% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-post-page",
+      "relatedTool": "API-retrieve-a-database",
+      "message": "\"API-post-page\" and \"API-retrieve-a-database\" have 59% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-post-page",
+      "relatedTool": "API-update-a-data-source",
+      "message": "\"API-post-page\" and \"API-update-a-data-source\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-post-page",
+      "relatedTool": "API-retrieve-a-comment",
+      "message": "\"API-post-page\" and \"API-retrieve-a-comment\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-post-search",
+      "relatedTool": "API-move-page",
+      "message": "\"API-post-search\" and \"API-move-page\" have 59% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-post-search",
+      "relatedTool": "API-post-page",
+      "message": "\"API-post-search\" and \"API-post-page\" have 58% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-post-search",
+      "relatedTool": "API-retrieve-a-page",
+      "message": "\"API-post-search\" and \"API-retrieve-a-page\" have 58% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-post-search",
+      "relatedTool": "API-update-a-block",
+      "message": "\"API-post-search\" and \"API-update-a-block\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-post-search",
+      "relatedTool": "API-delete-a-block",
+      "message": "\"API-post-search\" and \"API-delete-a-block\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-post-search",
+      "relatedTool": "API-create-a-comment",
+      "message": "\"API-post-search\" and \"API-create-a-comment\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-post-search",
+      "relatedTool": "API-retrieve-a-block",
+      "message": "\"API-post-search\" and \"API-retrieve-a-block\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-post-search",
+      "relatedTool": "API-retrieve-a-database",
+      "message": "\"API-post-search\" and \"API-retrieve-a-database\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-post-search",
+      "relatedTool": "API-retrieve-a-comment",
+      "message": "\"API-post-search\" and \"API-retrieve-a-comment\" have 56% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-query-data-source",
+      "relatedTool": "API-list-data-source-templates",
+      "message": "\"API-query-data-source\" and \"API-list-data-source-templates\" have 71% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-query-data-source",
+      "relatedTool": "API-retrieve-a-database",
+      "message": "\"API-query-data-source\" and \"API-retrieve-a-database\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-query-data-source",
+      "relatedTool": "API-move-page",
+      "message": "\"API-query-data-source\" and \"API-move-page\" have 55% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-block",
+      "relatedTool": "API-retrieve-a-comment",
+      "message": "\"API-retrieve-a-block\" and \"API-retrieve-a-comment\" have 75% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-block",
+      "relatedTool": "API-retrieve-a-data-source",
+      "message": "\"API-retrieve-a-block\" and \"API-retrieve-a-data-source\" have 70% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-block",
+      "relatedTool": "API-retrieve-a-page-property",
+      "message": "\"API-retrieve-a-block\" and \"API-retrieve-a-page-property\" have 63% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-block",
+      "relatedTool": "API-move-page",
+      "message": "\"API-retrieve-a-block\" and \"API-move-page\" have 61% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-block",
+      "relatedTool": "API-post-page",
+      "message": "\"API-retrieve-a-block\" and \"API-post-page\" have 59% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-block",
+      "relatedTool": "API-create-a-comment",
+      "message": "\"API-retrieve-a-block\" and \"API-create-a-comment\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-comment",
+      "relatedTool": "API-retrieve-a-database",
+      "message": "\"API-retrieve-a-comment\" and \"API-retrieve-a-database\" have 73% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-comment",
+      "relatedTool": "API-retrieve-a-data-source",
+      "message": "\"API-retrieve-a-comment\" and \"API-retrieve-a-data-source\" have 68% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-comment",
+      "relatedTool": "API-create-a-comment",
+      "message": "\"API-retrieve-a-comment\" and \"API-create-a-comment\" have 63% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-comment",
+      "relatedTool": "API-move-page",
+      "message": "\"API-retrieve-a-comment\" and \"API-move-page\" have 58% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-data-source",
+      "relatedTool": "API-retrieve-a-database",
+      "message": "\"API-retrieve-a-data-source\" and \"API-retrieve-a-database\" have 74% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-data-source",
+      "relatedTool": "API-list-data-source-templates",
+      "message": "\"API-retrieve-a-data-source\" and \"API-list-data-source-templates\" have 70% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-data-source",
+      "relatedTool": "API-move-page",
+      "message": "\"API-retrieve-a-data-source\" and \"API-move-page\" have 56% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-database",
+      "relatedTool": "API-move-page",
+      "message": "\"API-retrieve-a-database\" and \"API-move-page\" have 61% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-page",
+      "relatedTool": "API-retrieve-a-data-source",
+      "message": "\"API-retrieve-a-page\" and \"API-retrieve-a-data-source\" have 71% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-page",
+      "relatedTool": "API-patch-page",
+      "message": "\"API-retrieve-a-page\" and \"API-patch-page\" have 65% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-page",
+      "relatedTool": "API-create-a-comment",
+      "message": "\"API-retrieve-a-page\" and \"API-create-a-comment\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-page",
+      "relatedTool": "API-update-a-data-source",
+      "message": "\"API-retrieve-a-page\" and \"API-update-a-data-source\" have 55% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-page-property",
+      "relatedTool": "API-move-page",
+      "message": "\"API-retrieve-a-page-property\" and \"API-move-page\" have 63% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-page-property",
+      "relatedTool": "API-retrieve-a-database",
+      "message": "\"API-retrieve-a-page-property\" and \"API-retrieve-a-database\" have 62% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-page-property",
+      "relatedTool": "API-retrieve-a-comment",
+      "message": "\"API-retrieve-a-page-property\" and \"API-retrieve-a-comment\" have 61% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-retrieve-a-page-property",
+      "relatedTool": "API-retrieve-a-data-source",
+      "message": "\"API-retrieve-a-page-property\" and \"API-retrieve-a-data-source\" have 58% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-update-a-block",
+      "relatedTool": "API-update-a-data-source",
+      "message": "\"API-update-a-block\" and \"API-update-a-data-source\" have 70% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-update-a-block",
+      "relatedTool": "API-patch-page",
+      "message": "\"API-update-a-block\" and \"API-patch-page\" have 68% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-update-a-block",
+      "relatedTool": "API-post-page",
+      "message": "\"API-update-a-block\" and \"API-post-page\" have 61% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-update-a-block",
+      "relatedTool": "API-move-page",
+      "message": "\"API-update-a-block\" and \"API-move-page\" have 60% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-update-a-block",
+      "relatedTool": "API-create-a-comment",
+      "message": "\"API-update-a-block\" and \"API-create-a-comment\" have 59% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-update-a-block",
+      "relatedTool": "API-retrieve-a-page",
+      "message": "\"API-update-a-block\" and \"API-retrieve-a-page\" have 59% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-update-a-block",
+      "relatedTool": "API-retrieve-a-database",
+      "message": "\"API-update-a-block\" and \"API-retrieve-a-database\" have 59% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-update-a-block",
+      "relatedTool": "API-retrieve-a-comment",
+      "message": "\"API-update-a-block\" and \"API-retrieve-a-comment\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-update-a-block",
+      "relatedTool": "API-create-a-data-source",
+      "message": "\"API-update-a-block\" and \"API-create-a-data-source\" have 56% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-update-a-data-source",
+      "relatedTool": "API-list-data-source-templates",
+      "message": "\"API-update-a-data-source\" and \"API-list-data-source-templates\" have 72% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-update-a-data-source",
+      "relatedTool": "API-retrieve-a-database",
+      "message": "\"API-update-a-data-source\" and \"API-retrieve-a-database\" have 57% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "API-update-a-data-source",
+      "relatedTool": "API-move-page",
+      "message": "\"API-update-a-data-source\" and \"API-move-page\" have 56% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "param-should-enum",
+      "severity": "warn",
+      "tool": "API-post-page",
+      "message": "\"API-post-page.icon\" enumerates its options in prose but is an open string",
+      "hint": "Move the options into `enum` so invalid values are rejected, not just discouraged."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-create-a-data-source",
+      "message": "\"API-create-a-data-source.title\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-list-data-source-templates",
+      "message": "\"API-list-data-source-templates.page_size\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-list-data-source-templates",
+      "message": "\"API-list-data-source-templates.start_cursor\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-patch-page",
+      "message": "\"API-patch-page.archived\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-patch-page",
+      "message": "\"API-patch-page.cover\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-patch-page",
+      "message": "\"API-patch-page.icon\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-patch-page",
+      "message": "\"API-patch-page.properties\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-post-search",
+      "message": "\"API-post-search.filter\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-post-search",
+      "message": "\"API-post-search.sort\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-query-data-source",
+      "message": "\"API-query-data-source.archived\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-query-data-source",
+      "message": "\"API-query-data-source.filter\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-query-data-source",
+      "message": "\"API-query-data-source.in_trash\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-query-data-source",
+      "message": "\"API-query-data-source.page_size\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-query-data-source",
+      "message": "\"API-query-data-source.sorts\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-query-data-source",
+      "message": "\"API-query-data-source.start_cursor\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-update-a-block",
+      "message": "\"API-update-a-block.type\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-update-a-data-source",
+      "message": "\"API-update-a-data-source.description\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-update-a-data-source",
+      "message": "\"API-update-a-data-source.properties\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-update-a-data-source",
+      "message": "\"API-update-a-data-source.title\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-update-page-markdown",
+      "message": "\"API-update-page-markdown.insert_content\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-update-page-markdown",
+      "message": "\"API-update-page-markdown.replace_content\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-update-page-markdown",
+      "message": "\"API-update-page-markdown.replace_content_range\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "API-update-page-markdown",
+      "message": "\"API-update-page-markdown.update_content\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "API-get-users",
+      "message": "\"API-get-users\" declares 2 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "schema-no-required",
+      "severity": "warn",
+      "tool": "API-post-search",
+      "message": "\"API-post-search\" declares 5 parameter(s) but marks none required",
+      "hint": "If a parameter is mandatory, say so — otherwise the model may omit it."
+    },
+    {
+      "check": "token-budget",
+      "severity": "warn",
+      "message": "The tool surface costs ~18,494 tokens per request",
+      "hint": "Heaviest: API-update-page-markdown (~1441), API-post-search (~1178), API-patch-page (~950)"
+    },
+    {
+      "check": "cache-hints-missing",
+      "severity": "info",
+      "message": "tools/list returned no ttlMs / cacheScope",
+      "hint": "The 2026-07-28 revision lets clients cache the tool surface — without hints they refetch."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-create-a-comment",
+      "message": "\"API-create-a-comment\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-create-a-data-source",
+      "message": "\"API-create-a-data-source\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-delete-a-block",
+      "message": "\"API-delete-a-block\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-get-block-children",
+      "message": "\"API-get-block-children\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-get-self",
+      "message": "\"API-get-self\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-get-user",
+      "message": "\"API-get-user\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-get-users",
+      "message": "\"API-get-users\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-list-data-source-templates",
+      "message": "\"API-list-data-source-templates\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-move-page",
+      "message": "\"API-move-page\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-patch-block-children",
+      "message": "\"API-patch-block-children\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-patch-page",
+      "message": "\"API-patch-page\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-post-page",
+      "message": "\"API-post-page\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-post-search",
+      "message": "\"API-post-search\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-query-data-source",
+      "message": "\"API-query-data-source\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-retrieve-a-block",
+      "message": "\"API-retrieve-a-block\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-retrieve-a-comment",
+      "message": "\"API-retrieve-a-comment\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-retrieve-a-data-source",
+      "message": "\"API-retrieve-a-data-source\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-retrieve-a-database",
+      "message": "\"API-retrieve-a-database\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-retrieve-a-page",
+      "message": "\"API-retrieve-a-page\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-retrieve-a-page-property",
+      "message": "\"API-retrieve-a-page-property\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-retrieve-page-markdown",
+      "message": "\"API-retrieve-page-markdown\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-update-a-block",
+      "message": "\"API-update-a-block\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-update-a-data-source",
+      "message": "\"API-update-a-data-source\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "API-update-page-markdown",
+      "message": "\"API-update-page-markdown\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "API-create-a-comment",
+      "message": "\"API-create-a-comment.rich_text\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "API-create-a-data-source",
+      "message": "\"API-create-a-data-source.title\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "API-patch-block-children",
+      "message": "\"API-patch-block-children.children\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "API-post-page",
+      "message": "\"API-post-page.children\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "API-query-data-source",
+      "message": "\"API-query-data-source.filter_properties\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "API-query-data-source",
+      "message": "\"API-query-data-source.sorts\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "API-update-a-data-source",
+      "message": "\"API-update-a-data-source.description\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "API-update-a-data-source",
+      "message": "\"API-update-a-data-source.title\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    }
+  ]
+}

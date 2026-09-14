@@ -1,0 +1,615 @@
+{
+  "serverId": "npx -y chrome-devtools-mcp",
+  "serverName": "chrome_devtools",
+  "protocolVersion": null,
+  "toolCount": 29,
+  "score": 93,
+  "tokenBudget": {
+    "total": 5474,
+    "perTool": [
+      {
+        "tool": "emulate",
+        "tokens": 405
+      },
+      {
+        "tool": "list_console_messages",
+        "tokens": 351
+      },
+      {
+        "tool": "evaluate_script",
+        "tokens": 331
+      },
+      {
+        "tool": "list_network_requests",
+        "tokens": 283
+      },
+      {
+        "tool": "take_screenshot",
+        "tokens": 278
+      },
+      {
+        "tool": "navigate_page",
+        "tokens": 266
+      },
+      {
+        "tool": "fill_form",
+        "tokens": 265
+      },
+      {
+        "tool": "performance_start_trace",
+        "tokens": 254
+      },
+      {
+        "tool": "get_network_request",
+        "tokens": 248
+      },
+      {
+        "tool": "new_page",
+        "tokens": 221
+      },
+      {
+        "tool": "take_snapshot",
+        "tokens": 212
+      },
+      {
+        "tool": "lighthouse_audit",
+        "tokens": 196
+      },
+      {
+        "tool": "upload_file",
+        "tokens": 186
+      },
+      {
+        "tool": "performance_analyze_insight",
+        "tokens": 178
+      },
+      {
+        "tool": "press_key",
+        "tokens": 170
+      },
+      {
+        "tool": "fill",
+        "tokens": 168
+      },
+      {
+        "tool": "click",
+        "tokens": 142
+      },
+      {
+        "tool": "wait_for",
+        "tokens": 140
+      },
+      {
+        "tool": "drag",
+        "tokens": 136
+      },
+      {
+        "tool": "performance_stop_trace",
+        "tokens": 131
+      },
+      {
+        "tool": "handle_dialog",
+        "tokens": 124
+      },
+      {
+        "tool": "hover",
+        "tokens": 119
+      },
+      {
+        "tool": "take_heapsnapshot",
+        "tokens": 118
+      },
+      {
+        "tool": "type_text",
+        "tokens": 115
+      },
+      {
+        "tool": "get_console_message",
+        "tokens": 112
+      },
+      {
+        "tool": "resize_page",
+        "tokens": 103
+      },
+      {
+        "tool": "select_page",
+        "tokens": 102
+      },
+      {
+        "tool": "close_page",
+        "tokens": 79
+      },
+      {
+        "tool": "list_pages",
+        "tokens": 41
+      }
+    ]
+  },
+  "findings": [
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "get_console_message",
+      "relatedTool": "list_console_messages",
+      "message": "\"get_console_message\" and \"list_console_messages\" have near-identical names (0.81 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "get_network_request",
+      "relatedTool": "list_network_requests",
+      "message": "\"get_network_request\" and \"list_network_requests\" have near-identical names (0.81 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "confusable-tools",
+      "severity": "warn",
+      "tool": "performance_start_trace",
+      "relatedTool": "performance_stop_trace",
+      "message": "\"performance_start_trace\" and \"performance_stop_trace\" have near-identical names (0.87 similar)",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "click",
+      "message": "\"click\" has a 30-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "drag",
+      "message": "\"drag\" has a 36-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "description-thin",
+      "severity": "warn",
+      "tool": "hover",
+      "message": "\"hover\" has a 31-character description",
+      "hint": "Say what it does, what it returns, and when to use something else."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "click",
+      "message": "\"click\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "close_page",
+      "message": "\"close_page\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "drag",
+      "message": "\"drag\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "emulate",
+      "message": "\"emulate\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "evaluate_script",
+      "message": "\"evaluate_script\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "fill",
+      "message": "\"fill\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "fill_form",
+      "message": "\"fill_form\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "get_console_message",
+      "message": "\"get_console_message\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "get_network_request",
+      "message": "\"get_network_request\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "handle_dialog",
+      "message": "\"handle_dialog\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "hover",
+      "message": "\"hover\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "lighthouse_audit",
+      "message": "\"lighthouse_audit\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "list_console_messages",
+      "message": "\"list_console_messages\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "list_network_requests",
+      "message": "\"list_network_requests\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "list_pages",
+      "message": "\"list_pages\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "navigate_page",
+      "message": "\"navigate_page\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "new_page",
+      "message": "\"new_page\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "performance_analyze_insight",
+      "message": "\"performance_analyze_insight\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "performance_start_trace",
+      "message": "\"performance_start_trace\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "performance_stop_trace",
+      "message": "\"performance_stop_trace\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "press_key",
+      "message": "\"press_key\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "resize_page",
+      "message": "\"resize_page\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "select_page",
+      "message": "\"select_page\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "take_heapsnapshot",
+      "message": "\"take_heapsnapshot\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "take_screenshot",
+      "message": "\"take_screenshot\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "take_snapshot",
+      "message": "\"take_snapshot\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "type_text",
+      "message": "\"type_text\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "upload_file",
+      "message": "\"upload_file\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "schema-open",
+      "severity": "warn",
+      "tool": "wait_for",
+      "message": "\"wait_for\" allows additionalProperties",
+      "hint": "Close the schema so invalid arguments fail fast instead of silently passing through."
+    },
+    {
+      "check": "cache-hints-missing",
+      "severity": "info",
+      "message": "tools/list returned no ttlMs / cacheScope",
+      "hint": "The 2026-07-28 revision lets clients cache the tool surface — without hints they refetch."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "click",
+      "message": "\"click\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "close_page",
+      "message": "\"close_page\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "drag",
+      "message": "\"drag\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "emulate",
+      "message": "\"emulate\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "evaluate_script",
+      "message": "\"evaluate_script\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "fill",
+      "message": "\"fill\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "get_console_message",
+      "message": "\"get_console_message\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "get_network_request",
+      "message": "\"get_network_request\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "handle_dialog",
+      "message": "\"handle_dialog\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "hover",
+      "message": "\"hover\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "lighthouse_audit",
+      "message": "\"lighthouse_audit\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "list_console_messages",
+      "message": "\"list_console_messages\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "list_network_requests",
+      "message": "\"list_network_requests\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "list_pages",
+      "message": "\"list_pages\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "navigate_page",
+      "message": "\"navigate_page\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "new_page",
+      "message": "\"new_page\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "performance_analyze_insight",
+      "message": "\"performance_analyze_insight\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "performance_start_trace",
+      "message": "\"performance_start_trace\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "performance_stop_trace",
+      "message": "\"performance_stop_trace\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "press_key",
+      "message": "\"press_key\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "resize_page",
+      "message": "\"resize_page\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "select_page",
+      "message": "\"select_page\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "take_heapsnapshot",
+      "message": "\"take_heapsnapshot\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "take_screenshot",
+      "message": "\"take_screenshot\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "type_text",
+      "message": "\"type_text\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "upload_file",
+      "message": "\"upload_file\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "wait_for",
+      "message": "\"wait_for\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "evaluate_script",
+      "message": "\"evaluate_script.args\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "fill_form",
+      "message": "\"fill_form.elements\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "list_console_messages",
+      "message": "\"list_console_messages.types\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "list_network_requests",
+      "message": "\"list_network_requests.resourceTypes\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "upload_file",
+      "message": "\"upload_file.filePaths\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "wait_for",
+      "message": "\"wait_for.text\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    }
+  ]
+}

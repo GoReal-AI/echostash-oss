@@ -1,0 +1,322 @@
+{
+  "serverId": "npx -y @modelcontextprotocol/server-filesystem /tmp",
+  "serverName": "secure-filesystem-server",
+  "protocolVersion": null,
+  "toolCount": 14,
+  "score": 82.7,
+  "tokenBudget": {
+    "total": 1902,
+    "perTool": [
+      {
+        "tool": "read_text_file",
+        "tokens": 202
+      },
+      {
+        "tool": "edit_file",
+        "tokens": 173
+      },
+      {
+        "tool": "search_files",
+        "tokens": 173
+      },
+      {
+        "tool": "read_multiple_files",
+        "tokens": 164
+      },
+      {
+        "tool": "list_directory_with_sizes",
+        "tokens": 154
+      },
+      {
+        "tool": "directory_tree",
+        "tokens": 148
+      },
+      {
+        "tool": "move_file",
+        "tokens": 131
+      },
+      {
+        "tool": "create_directory",
+        "tokens": 118
+      },
+      {
+        "tool": "list_directory",
+        "tokens": 117
+      },
+      {
+        "tool": "get_file_info",
+        "tokens": 113
+      },
+      {
+        "tool": "read_file",
+        "tokens": 110
+      },
+      {
+        "tool": "write_file",
+        "tokens": 104
+      },
+      {
+        "tool": "read_media_file",
+        "tokens": 99
+      },
+      {
+        "tool": "list_allowed_directories",
+        "tokens": 96
+      }
+    ]
+  },
+  "findings": [
+    {
+      "check": "confusable-tools",
+      "severity": "error",
+      "tool": "list_directory",
+      "relatedTool": "list_directory_with_sizes",
+      "message": "\"list_directory\" and \"list_directory_with_sizes\" have 86% similar descriptions",
+      "hint": "State what each one is for and, explicitly, when to use the other instead."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "create_directory",
+      "message": "\"create_directory.path\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "directory_tree",
+      "message": "\"directory_tree.path\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "edit_file",
+      "message": "\"edit_file.edits\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "edit_file",
+      "message": "\"edit_file.path\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "get_file_info",
+      "message": "\"get_file_info.path\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "list_directory",
+      "message": "\"list_directory.path\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "list_directory_with_sizes",
+      "message": "\"list_directory_with_sizes.path\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "move_file",
+      "message": "\"move_file.destination\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "move_file",
+      "message": "\"move_file.source\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "read_file",
+      "message": "\"read_file.path\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "read_media_file",
+      "message": "\"read_media_file.path\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "read_text_file",
+      "message": "\"read_text_file.path\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "search_files",
+      "message": "\"search_files.path\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "search_files",
+      "message": "\"search_files.pattern\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "write_file",
+      "message": "\"write_file.content\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "error",
+      "tool": "write_file",
+      "message": "\"write_file.path\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "directory_tree",
+      "message": "\"directory_tree.excludePatterns\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "param-undescribed",
+      "severity": "warn",
+      "tool": "search_files",
+      "message": "\"search_files.excludePatterns\" has no description",
+      "hint": "The model fills this argument from the description alone."
+    },
+    {
+      "check": "cache-hints-missing",
+      "severity": "info",
+      "message": "tools/list returned no ttlMs / cacheScope",
+      "hint": "The 2026-07-28 revision lets clients cache the tool surface — without hints they refetch."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "create_directory",
+      "message": "\"create_directory\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "directory_tree",
+      "message": "\"directory_tree\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "edit_file",
+      "message": "\"edit_file\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "get_file_info",
+      "message": "\"get_file_info\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "list_allowed_directories",
+      "message": "\"list_allowed_directories\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "list_directory",
+      "message": "\"list_directory\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "list_directory_with_sizes",
+      "message": "\"list_directory_with_sizes\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "move_file",
+      "message": "\"move_file\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "read_media_file",
+      "message": "\"read_media_file\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "read_multiple_files",
+      "message": "\"read_multiple_files\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "read_text_file",
+      "message": "\"read_text_file\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "no-negative-guidance",
+      "severity": "info",
+      "tool": "write_file",
+      "message": "\"write_file\" never says when *not* to use it",
+      "hint": "A line like \"not for X — use Y instead\" is the cheapest disambiguation there is."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "directory_tree",
+      "message": "\"directory_tree.excludePatterns\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "edit_file",
+      "message": "\"edit_file.edits\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "read_multiple_files",
+      "message": "\"read_multiple_files.paths\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    },
+    {
+      "check": "param-unbounded-array",
+      "severity": "info",
+      "tool": "search_files",
+      "message": "\"search_files.excludePatterns\" is an array with no maxItems",
+      "hint": "Bound it so a model cannot request an unbounded amount of work."
+    }
+  ]
+}

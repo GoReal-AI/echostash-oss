@@ -1,0 +1,35 @@
+{
+  "serverId": "npx -y @upstash/context7-mcp",
+  "serverName": "Context7",
+  "protocolVersion": null,
+  "toolCount": 2,
+  "score": 97,
+  "tokenBudget": {
+    "total": 1127,
+    "perTool": [
+      {
+        "tool": "resolve-library-id",
+        "tokens": 712
+      },
+      {
+        "tool": "query-docs",
+        "tokens": 415
+      }
+    ]
+  },
+  "findings": [
+    {
+      "check": "description-bloated",
+      "severity": "warn",
+      "tool": "resolve-library-id",
+      "message": "\"resolve-library-id\" spends ~502 tokens on its description",
+      "hint": "Every request pays this. Trim to the decision-relevant facts."
+    },
+    {
+      "check": "cache-hints-missing",
+      "severity": "info",
+      "message": "tools/list returned no ttlMs / cacheScope",
+      "hint": "The 2026-07-28 revision lets clients cache the tool surface — without hints they refetch."
+    }
+  ]
+}
