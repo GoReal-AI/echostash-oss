@@ -1,6 +1,6 @@
 {
   "name": "@echostash/mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Read an MCP server's tools/list into a typed tool surface (stdio or HTTP), and diff it against a committed baseline.",
   "keywords": [
     "echostash",
