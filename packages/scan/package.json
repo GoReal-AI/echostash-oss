@@ -1,6 +1,6 @@
 {
   "name": "@echostash/scan",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Discovery-agnostic prompt manifest: hash prompt content, model and params, diff two manifests, and read or write baselines.",
   "keywords": ["echostash", "llm", "prompt", "eval", "manifest", "diff", "baseline", "regression"],
   "license": "MIT",

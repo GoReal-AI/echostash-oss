@@ -1,6 +1,6 @@
 {
   "name": "@echostash/shared",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Echostash's shared contract: zod schemas and types for prompts, MCP tool surfaces, audit reports, baselines and the server-runner eval protocol.",
   "keywords": ["echostash", "llm", "prompt", "eval", "zod", "schema", "mcp", "contract"],
   "license": "MIT",
