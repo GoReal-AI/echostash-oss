@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: GoReal-AI/echostash-oss/actions/mcp-audit@main
+      - uses: GoReal-AI/echostash-oss/actions/mcp-audit@v1
         with:
           server: 'npx -y @acme/mcp-server'   # or an http(s):// URL
 ```
@@ -39,7 +39,7 @@ jobs:
 Or audit a recorded `tools/list` payload instead of a live server:
 
 ```yaml
-      - uses: GoReal-AI/echostash-oss/actions/mcp-audit@main
+      - uses: GoReal-AI/echostash-oss/actions/mcp-audit@v1
         with:
           from-file: 'fixtures/tools-list.json'
 ```
@@ -56,7 +56,7 @@ When a drop is intentional, re-record the baseline in the same PR and the gate g
 | `dir` | Directory holding the committed baseline files | `.echostash` |
 | `comment` | Post (and keep updated) a PR comment with the score delta and per-tool diff | `true` |
 | `github-token` | Token used to post the PR comment | `${{ github.token }}` |
-| `cli` | Command that runs the Echostash CLI. Pinned so a CLI release cannot change a verdict without a PR | `npx -y @echostash/cli@0.1.0` |
+| `cli` | Command that runs the Echostash CLI. Pinned so a CLI release cannot change a verdict without a PR | `npx -y @echostash/cli@0.1.2` |
 
 One of `server` or `from-file` is required.
 

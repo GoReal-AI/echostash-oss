@@ -5,7 +5,8 @@ name: Release
 # matches the (lockstep) package versions. See CONTRIBUTING.md, "Releasing".
 on:
   push:
-    tags: ['v*']
+    # Only full versions. The moving `v1` tag on actions/mcp-audit must not trigger a release.
+    tags: ['v[0-9]+.[0-9]+.[0-9]+', 'v[0-9]+.[0-9]+.[0-9]+-*']
   workflow_dispatch:
     inputs:
       dry-run:

@@ -36,7 +36,7 @@ inputs:
       gate's verdict without a PR. Override with a local build (e.g. "node packages/cli/dist/cli.js")
       when testing from the monorepo.
     required: false
-    default: 'npx -y @echostash/cli@0.1.0'
+    default: 'npx -y @echostash/cli@0.1.2'
 
 outputs:
   score:

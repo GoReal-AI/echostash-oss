@@ -100,6 +100,9 @@ trusted publisher can be attached); after that the tag does everything.
 
 Only maintainers cut releases. Contributors never bump versions in PRs.
 
+The GitHub Action is versioned separately by a moving `v1` tag (`actions/mcp-audit@v1`). After a
+release that changes the action, move it: `git tag -f v1 <sha> && git push -f origin v1`.
+
 ## Picking up work
 
 1. Open [docs/ROADMAP.md](docs/ROADMAP.md) and find a task (look for `🟢` good-first-issues).
