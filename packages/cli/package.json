@@ -1,6 +1,6 @@
 {
   "name": "@echostash/cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Audit an MCP server's tool surface, scan your code for LLM prompts, and gate regressions in CI. No API key, no server, no model calls.",
   "keywords": [
     "echostash",
