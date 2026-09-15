@@ -1,0 +1,5 @@
+[
+  { "a": "search_docs", "b": "query_knowledge", "reason": "both search/query + docs/knowledge; wrong pick = wrong corpus" },
+  { "a": "delete_record", "b": "archive_record", "reason": "delete vs archive; high-severity wrong pick (side-effect mismatch)" },
+  { "a": "send_email", "b": "draft_email", "reason": "both mention email + recipients; wrong pick = premature send" }
+]

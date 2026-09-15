@@ -1,0 +1,5 @@
+[
+  { "a": "create_issue", "b": "file_bug", "reason": "create vs file + issue vs bug" },
+  { "a": "list_files", "b": "ls_workspace", "reason": "list/ls + path vs workspace" },
+  { "a": "get_user", "b": "fetch_user", "reason": "synonym verbs + identical args" }
+]
