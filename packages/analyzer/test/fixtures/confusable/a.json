@@ -1,0 +1,115 @@
+{
+  "serverId": "confusable-set-a",
+  "serverName": "confusable-set-a",
+  "protocolVersion": "2026-07-28",
+  "fetchedAt": "2026-07-28T10:00:00.000Z",
+  "ttlMs": 60000,
+  "cacheScope": "session",
+  "tools": [
+    {
+      "name": "get_user",
+      "description": "Return a user profile by user identifier. Returns the user profile fields for that identifier.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string", "description": "The user identifier." }
+        },
+        "required": ["userId"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "fetch_user",
+      "description": "Fetch a user profile by user identifier. Fetches the user profile fields for that identifier.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string", "description": "The user identifier." }
+        },
+        "required": ["userId"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "create_issue",
+      "description": "Open a tracker issue or bug report with a title and body text.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "description": "Issue title." },
+          "body": { "type": "string", "description": "Issue body text." }
+        },
+        "required": ["title", "body"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "file_bug",
+      "description": "File a tracker issue or bug report with a title and body text.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "description": "Bug title." },
+          "body": { "type": "string", "description": "Bug body text." }
+        },
+        "required": ["title", "body"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_files",
+      "description": "List files and directories under a workspace path.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string", "description": "Workspace path to list." }
+        },
+        "required": ["path"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "ls_workspace",
+      "description": "List files and directories under a workspace path, including nested dirs.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string", "description": "Workspace path to list." }
+        },
+        "required": ["path"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "render_chart",
+      "description": "Produce a PNG bar chart from a series of numeric datapoints.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": { "type": "number" },
+            "description": "Numeric series to plot."
+          },
+          "title": { "type": "string", "description": "Optional chart title." }
+        },
+        "required": ["values"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "convert_timezone",
+      "description": "Convert a timestamp from one IANA timezone to another and return the shifted clock time.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "timestamp": { "type": "string", "description": "ISO-8601 timestamp." },
+          "fromZone": { "type": "string", "description": "Source IANA timezone." },
+          "toZone": { "type": "string", "description": "Target IANA timezone." }
+        },
+        "required": ["timestamp", "fromZone", "toZone"],
+        "additionalProperties": false
+      }
+    }
+  ]
+}

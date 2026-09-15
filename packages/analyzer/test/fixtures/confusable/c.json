@@ -1,0 +1,129 @@
+{
+  "serverId": "confusable-set-c",
+  "serverName": "confusable-set-c",
+  "protocolVersion": "2026-07-28",
+  "fetchedAt": "2026-07-28T10:00:00.000Z",
+  "ttlMs": 60000,
+  "cacheScope": "session",
+  "tools": [
+    {
+      "name": "calendar_create_event",
+      "description": "Create a calendar event on a given date with a title, start time, and duration.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "description": "Event title." },
+          "startAt": { "type": "string", "description": "ISO-8601 start time." },
+          "durationMinutes": { "type": "number", "description": "Event length in minutes." }
+        },
+        "required": ["title", "startAt", "durationMinutes"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "calendar_create_recurring_event",
+      "description": "Create a recurring calendar event on a given date with a title, start time, and duration.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "description": "Event title." },
+          "startAt": { "type": "string", "description": "ISO-8601 start time of the first occurrence." },
+          "durationMinutes": { "type": "number", "description": "Event length in minutes." },
+          "rrule": { "type": "string", "description": "Recurrence rule, e.g. FREQ=WEEKLY;BYDAY=MO." }
+        },
+        "required": ["title", "startAt", "durationMinutes", "rrule"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "payments_get_balance",
+      "description": "Get the current payments account balance for a merchant. Returns the available balance amount.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "merchantId": { "type": "string", "description": "Merchant whose balance to read." }
+        },
+        "required": ["merchantId"],
+        "additionalProperties": false
+      },
+      "annotations": { "readOnlyHint": true }
+    },
+    {
+      "name": "payments_get_settlement_status",
+      "description": "Get the current payments settlement status for a merchant. Returns the available settlement amount.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "merchantId": { "type": "string", "description": "Merchant whose settlement to read." },
+          "payoutId": { "type": "string", "description": "Optional payout identifier." }
+        },
+        "required": ["merchantId"],
+        "additionalProperties": false
+      },
+      "annotations": { "readOnlyHint": true }
+    },
+    {
+      "name": "repo_open_pr",
+      "description": "Open a pull request on a repository branch with a title and body so reviewers can review the changes.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "repo": { "type": "string", "description": "Repository name." },
+          "head": { "type": "string", "description": "Branch containing the changes." },
+          "base": { "type": "string", "description": "Branch to merge into." },
+          "title": { "type": "string", "description": "Pull request title." },
+          "body": { "type": "string", "description": "Pull request body." }
+        },
+        "required": ["repo", "head", "base", "title"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "repo_request_review",
+      "description": "Request review on a pull request in a repository with reviewers so reviewers can review the changes.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "repo": { "type": "string", "description": "Repository name." },
+          "pullNumber": { "type": "number", "description": "Pull request number." },
+          "reviewers": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Reviewer usernames."
+          }
+        },
+        "required": ["repo", "pullNumber", "reviewers"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "weather_forecast",
+      "description": "Fetch a five-day weather forecast for a latitude and longitude pair.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "lat": { "type": "number", "description": "Latitude." },
+          "lon": { "type": "number", "description": "Longitude." }
+        },
+        "required": ["lat", "lon"],
+        "additionalProperties": false
+      },
+      "annotations": { "readOnlyHint": true, "openWorldHint": true }
+    },
+    {
+      "name": "unit_convert",
+      "description": "Convert a numeric quantity from one physical unit to another (metres, kilograms, celsius).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "value": { "type": "number", "description": "Quantity to convert." },
+          "from": { "type": "string", "description": "Source unit." },
+          "to": { "type": "string", "description": "Target unit." }
+        },
+        "required": ["value", "from", "to"],
+        "additionalProperties": false
+      },
+      "annotations": { "readOnlyHint": true, "idempotentHint": true }
+    }
+  ]
+}

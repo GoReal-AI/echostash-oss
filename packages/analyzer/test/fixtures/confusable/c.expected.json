@@ -1,0 +1,5 @@
+[
+  { "a": "calendar_create_event", "b": "calendar_create_recurring_event", "reason": "sibling steal: shortlist wins even when the prompt says every Monday" },
+  { "a": "payments_get_balance", "b": "payments_get_settlement_status", "reason": "sibling steal: balance selected when the user asked if the payment settled" },
+  { "a": "repo_open_pr", "b": "repo_request_review", "reason": "sibling steal: open-PR selected when the only missing step is requesting reviewers" }
+]

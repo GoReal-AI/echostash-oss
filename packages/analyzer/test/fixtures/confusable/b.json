@@ -1,0 +1,123 @@
+{
+  "serverId": "confusable-set-b",
+  "serverName": "confusable-set-b",
+  "protocolVersion": "2026-07-28",
+  "fetchedAt": "2026-07-28T10:00:00.000Z",
+  "ttlMs": 60000,
+  "cacheScope": "session",
+  "tools": [
+    {
+      "name": "send_email",
+      "description": "Send an email message to the listed recipients with a subject and body. Delivers the email immediately.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "to": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Recipient email addresses."
+          },
+          "subject": { "type": "string", "description": "Email subject." },
+          "body": { "type": "string", "description": "Email body." }
+        },
+        "required": ["to", "subject", "body"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "draft_email",
+      "description": "Draft an email message to the listed recipients with a subject and body. Saves the email for later send.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "to": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Recipient email addresses."
+          },
+          "subject": { "type": "string", "description": "Email subject." },
+          "body": { "type": "string", "description": "Email body." }
+        },
+        "required": ["to", "subject", "body"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "search_docs",
+      "description": "Search the product documentation knowledge base and return matching text snippets.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string", "description": "Search query." }
+        },
+        "required": ["query"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "query_knowledge",
+      "description": "Query the product documentation knowledge base and return matching text snippets.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string", "description": "Knowledge-base query." }
+        },
+        "required": ["query"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "delete_record",
+      "description": "Permanently delete a record by identifier, removing the record from the active view.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "recordId": { "type": "string", "description": "Record to delete." }
+        },
+        "required": ["recordId"],
+        "additionalProperties": false
+      },
+      "annotations": { "readOnlyHint": false, "destructiveHint": true }
+    },
+    {
+      "name": "archive_record",
+      "description": "Archive a record by identifier (soft-delete), removing the record from the active view.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "recordId": { "type": "string", "description": "Record to archive." }
+        },
+        "required": ["recordId"],
+        "additionalProperties": false
+      },
+      "annotations": { "readOnlyHint": false, "destructiveHint": false }
+    },
+    {
+      "name": "ping_uptime",
+      "description": "Probe a remote HTTP endpoint and return whether it answered within the timeout.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string", "description": "Endpoint to probe." },
+          "timeoutMs": { "type": "number", "description": "How long to wait." }
+        },
+        "required": ["url"],
+        "additionalProperties": false
+      },
+      "annotations": { "readOnlyHint": true }
+    },
+    {
+      "name": "hash_payload",
+      "description": "Compute a SHA-256 digest of a UTF-8 string and return the hex digest.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "payload": { "type": "string", "description": "Bytes to hash, as UTF-8 text." }
+        },
+        "required": ["payload"],
+        "additionalProperties": false
+      },
+      "annotations": { "readOnlyHint": true, "idempotentHint": true }
+    }
+  ]
+}
