@@ -1,0 +1,71 @@
+{
+  "serverId": "support-desk-demo",
+  "serverName": "support-desk-demo",
+  "protocolVersion": "2026-07-28",
+  "fetchedAt": "2026-09-16T09:00:00.000Z",
+  "ttlMs": 60000,
+  "cacheScope": "session",
+  "tools": [
+    {
+      "name": "get_ticket",
+      "description": "Retrieve one support ticket when the caller already has its ticket ID. If the ID isn't known, call search_tickets first.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "ticketId": { "type": "string", "description": "The ticket identifier." }
+        },
+        "required": ["ticketId"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "search_tickets",
+      "description": "Look up support tickets by customer email, status, or keyword when the exact ticket ID is unknown. Once you have an ID, switch to get_ticket for the full record.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Customer email or free-text keyword to search for."
+          },
+          "status": {
+            "type": "string",
+            "description": "Optional ticket status to filter by, e.g. open or closed."
+          }
+        },
+        "required": ["query"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "close_ticket",
+      "description": "Mark a support ticket as resolved and notify the customer that their issue is closed.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "ticketId": { "type": "string", "description": "The ticket identifier." },
+          "resolutionNote": {
+            "type": "string",
+            "description": "Note describing how it was resolved."
+          }
+        },
+        "required": ["ticketId", "resolutionNote"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "send_customer_email",
+      "description": "Send a free-form email to the customer associated with a ticket, outside of the ticket timeline.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "ticketId": { "type": "string", "description": "The ticket identifier." },
+          "subject": { "type": "string", "description": "Email subject line." },
+          "body": { "type": "string", "description": "Email body." }
+        },
+        "required": ["ticketId", "subject", "body"],
+        "additionalProperties": false
+      }
+    }
+  ]
+}

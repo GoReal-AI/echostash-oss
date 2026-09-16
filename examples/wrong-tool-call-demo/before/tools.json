@@ -1,0 +1,64 @@
+{
+  "serverId": "support-desk-demo",
+  "serverName": "support-desk-demo",
+  "protocolVersion": "2026-07-28",
+  "fetchedAt": "2026-09-16T09:00:00.000Z",
+  "ttlMs": 60000,
+  "cacheScope": "session",
+  "tools": [
+    {
+      "name": "get_ticket",
+      "description": "Get a support ticket by its ticket identifier. Gets the ticket fields for that identifier.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "ticketId": { "type": "string", "description": "The ticket identifier." }
+        },
+        "required": ["ticketId"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "fetch_ticket",
+      "description": "Fetch a support ticket by its ticket identifier. Fetches the ticket fields for that identifier.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "ticketId": { "type": "string", "description": "The ticket identifier." }
+        },
+        "required": ["ticketId"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "close_ticket",
+      "description": "Mark a support ticket as resolved and notify the customer that their issue is closed.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "ticketId": { "type": "string", "description": "The ticket identifier." },
+          "resolutionNote": {
+            "type": "string",
+            "description": "Note describing how it was resolved."
+          }
+        },
+        "required": ["ticketId", "resolutionNote"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "send_customer_email",
+      "description": "Send a free-form email to the customer associated with a ticket, outside of the ticket timeline.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "ticketId": { "type": "string", "description": "The ticket identifier." },
+          "subject": { "type": "string", "description": "Email subject line." },
+          "body": { "type": "string", "description": "Email body." }
+        },
+        "required": ["ticketId", "subject", "body"],
+        "additionalProperties": false
+      }
+    }
+  ]
+}
