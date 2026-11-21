@@ -51,14 +51,14 @@
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.30.0",
-    "zod": "^3.24.1"
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^3.25.76"
   },
   "optionalDependencies": {
     "@ai-sdk/anthropic": "^1.2.12",
-    "@ai-sdk/google": "^1.2.19",
-    "@ai-sdk/google-vertex": "^2.2.24",
-    "@ai-sdk/openai": "^1.3.23",
+    "@ai-sdk/google": "^1.2.22",
+    "@ai-sdk/google-vertex": "^2.2.27",
+    "@ai-sdk/openai": "^1.3.24",
     "@vscode/ripgrep": "^1.18.0",
     "ai": "^4.3.19"
   },
@@ -70,9 +70,9 @@
     "@echostash/mcp": "workspace:*",
     "@echostash/scan": "workspace:*",
     "@echostash/shared": "workspace:*",
-    "@types/node": "^22.10.2",
+    "@types/node": "^22.20.5",
     "tsup": "^8.5.1",
-    "typescript": "^5.7.2",
-    "vitest": "^4.1.11"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.12"
   }
 }

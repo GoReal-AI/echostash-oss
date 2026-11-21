@@ -18,25 +18,25 @@
   "dependencies": {
     "@echostash/scoring": "workspace:*",
     "@echostash/shared": "workspace:*",
-    "@fastify/cookie": "^10.0.0",
-    "@fastify/cors": "^10.0.1",
-    "@fastify/jwt": "^10.2.2",
-    "@fastify/rate-limit": "^10.1.1",
-    "@paralleldrive/cuid2": "^2.2.2",
-    "bullmq": "^5.80.1",
-    "drizzle-orm": "^0.45.2",
-    "fastify": "^5.12.5",
-    "fastify-plugin": "^5.0.1",
-    "pino-pretty": "^13.0.0",
-    "postgres": "^3.4.5",
-    "zod": "^3.24.1"
+    "@fastify/cookie": "^10.0.1",
+    "@fastify/cors": "^10.1.0",
+    "@fastify/jwt": "^10.2.8",
+    "@fastify/rate-limit": "^10.3.0",
+    "@paralleldrive/cuid2": "^2.3.1",
+    "bullmq": "^5.81.6",
+    "drizzle-orm": "^0.45.4",
+    "fastify": "^5.12.8",
+    "fastify-plugin": "^5.1.0",
+    "pino-pretty": "^13.2.0",
+    "postgres": "^3.4.9",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@types/node": "^22.10.2",
-    "drizzle-kit": "^0.31.10",
+    "@types/node": "^22.20.5",
+    "drizzle-kit": "^0.31.11",
     "tsup": "^8.5.1",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.2",
-    "vitest": "^4.1.11"
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.12"
   }
 }
